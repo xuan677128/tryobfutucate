@@ -155,11 +155,26 @@ sidebar.Position = UDim2.new(0, 0, 0, 50)
 sidebar.BackgroundColor3 = Color3.fromRGB(30, 25, 40)
 sidebar.BorderSizePixel = 0
 
+-- Main Tab Button
+local mainTab = Instance.new("TextButton", sidebar)
+mainTab.Size = UDim2.new(1, -10, 0, 35)
+mainTab.Position = UDim2.new(0, 5, 0, 10)
+mainTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+mainTab.Text = "⚡  Main"
+mainTab.TextColor3 = Color3.new(1,1,1)
+mainTab.Font = Enum.Font.GothamBold
+mainTab.TextSize = 14
+mainTab.TextXAlignment = Enum.TextXAlignment.Left
+mainTab.AutoButtonColor = false
+Instance.new("UICorner", mainTab).CornerRadius = UDim.new(0, 8)
+local mainPadding = Instance.new("UIPadding", mainTab)
+mainPadding.PaddingLeft = UDim.new(0, 10)
+
 -- Event Tab Button
 local eventTab = Instance.new("TextButton", sidebar)
 eventTab.Size = UDim2.new(1, -10, 0, 35)
-eventTab.Position = UDim2.new(0, 5, 0, 10)
-eventTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+eventTab.Position = UDim2.new(0, 5, 0, 50)
+eventTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 eventTab.Text = "✨  Event"
 eventTab.TextColor3 = Color3.new(1,1,1)
 eventTab.Font = Enum.Font.GothamBold
@@ -219,14 +234,47 @@ userName.TextSize = 11
 userName.TextXAlignment = Enum.TextXAlignment.Left
 userName.TextTruncate = Enum.TextTruncate.AtEnd
 
--- Content Area
-local content = Instance.new("Frame", mainFrame)
-content.Size = UDim2.new(1, -150, 1, -60)
-content.Position = UDim2.new(0, 145, 0, 55)
-content.BackgroundTransparency = 1
+-- Main Content Area
+local mainContent = Instance.new("Frame", mainFrame)
+mainContent.Size = UDim2.new(1, -150, 1, -60)
+mainContent.Position = UDim2.new(0, 145, 0, 55)
+mainContent.BackgroundTransparency = 1
+mainContent.Visible = true
+
+-- Auto Collect Money Section
+local moneyLabel = Instance.new("TextLabel", mainContent)
+moneyLabel.Size = UDim2.new(1, -20, 0, 30)
+moneyLabel.Position = UDim2.new(0, 10, 0, 10)
+moneyLabel.BackgroundTransparency = 1
+moneyLabel.Text = "Auto Collect Money"
+moneyLabel.TextColor3 = Color3.new(1,1,1)
+moneyLabel.Font = Enum.Font.GothamBold
+moneyLabel.TextSize = 16
+moneyLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local moneyToggle = Instance.new("TextButton", mainContent)
+moneyToggle.Size = UDim2.new(0, 50, 0, 24)
+moneyToggle.Position = UDim2.new(1, -65, 0, 13)
+moneyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+moneyToggle.Text = ""
+moneyToggle.AutoButtonColor = false
+Instance.new("UICorner", moneyToggle).CornerRadius = UDim.new(1, 0)
+
+local moneyCircle = Instance.new("Frame", moneyToggle)
+moneyCircle.Size = UDim2.new(0, 18, 0, 18)
+moneyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
+
+-- Event Content Area
+local eventContent = Instance.new("Frame", mainFrame)
+eventContent.Size = UDim2.new(1, -150, 1, -60)
+eventContent.Position = UDim2.new(0, 145, 0, 55)
+eventContent.BackgroundTransparency = 1
+eventContent.Visible = false
 
 -- Auto Collect Section
-local collectLabel = Instance.new("TextLabel", content)
+local collectLabel = Instance.new("TextLabel", eventContent)
 collectLabel.Size = UDim2.new(1, -20, 0, 30)
 collectLabel.Position = UDim2.new(0, 10, 0, 10)
 collectLabel.BackgroundTransparency = 1
@@ -236,7 +284,7 @@ collectLabel.Font = Enum.Font.GothamBold
 collectLabel.TextSize = 16
 collectLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local collectToggle = Instance.new("TextButton", content)
+local collectToggle = Instance.new("TextButton", eventContent)
 collectToggle.Size = UDim2.new(0, 50, 0, 24)
 collectToggle.Position = UDim2.new(1, -65, 0, 13)
 collectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
@@ -251,14 +299,14 @@ collectCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", collectCircle).CornerRadius = UDim.new(1, 0)
 
 -- Divider Line 1
-local divider1 = Instance.new("Frame", content)
+local divider1 = Instance.new("Frame", eventContent)
 divider1.Size = UDim2.new(1, -20, 0, 1)
 divider1.Position = UDim2.new(0, 10, 0, 47)
 divider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 divider1.BorderSizePixel = 0
 
 -- Auto Spin Section
-local spinLabel = Instance.new("TextLabel", content)
+local spinLabel = Instance.new("TextLabel", eventContent)
 spinLabel.Size = UDim2.new(1, -20, 0, 30)
 spinLabel.Position = UDim2.new(0, 10, 0, 55)
 spinLabel.BackgroundTransparency = 1
@@ -268,7 +316,7 @@ spinLabel.Font = Enum.Font.GothamBold
 spinLabel.TextSize = 16
 spinLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local spinToggle = Instance.new("TextButton", content)
+local spinToggle = Instance.new("TextButton", eventContent)
 spinToggle.Size = UDim2.new(0, 50, 0, 24)
 spinToggle.Position = UDim2.new(1, -65, 0, 58)
 spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
@@ -283,7 +331,7 @@ spinCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", spinCircle).CornerRadius = UDim.new(1, 0)
 
 -- Spin Delay Input
-local spinDelayLabel = Instance.new("TextLabel", content)
+local spinDelayLabel = Instance.new("TextLabel", eventContent)
 spinDelayLabel.Size = UDim2.new(0, 80, 0, 18)
 spinDelayLabel.Position = UDim2.new(0, 10, 0, 84)
 spinDelayLabel.BackgroundTransparency = 1
@@ -293,7 +341,7 @@ spinDelayLabel.Font = Enum.Font.Gotham
 spinDelayLabel.TextSize = 12
 spinDelayLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local spinDelayBox = Instance.new("TextBox", content)
+local spinDelayBox = Instance.new("TextBox", eventContent)
 spinDelayBox.Size = UDim2.new(0, 60, 0, 22)
 spinDelayBox.Position = UDim2.new(0, 90, 0, 82)
 spinDelayBox.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
@@ -307,14 +355,14 @@ spinDelayBox.ClearTextOnFocus = false
 Instance.new("UICorner", spinDelayBox).CornerRadius = UDim.new(0, 5)
 
 -- Divider Line 2
-local divider2 = Instance.new("Frame", content)
+local divider2 = Instance.new("Frame", eventContent)
 divider2.Size = UDim2.new(1, -20, 0, 1)
 divider2.Position = UDim2.new(0, 10, 0, 115)
 divider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 divider2.BorderSizePixel = 0
 
 -- Auto Obby Section
-local obbyLabel = Instance.new("TextLabel", content)
+local obbyLabel = Instance.new("TextLabel", eventContent)
 obbyLabel.Size = UDim2.new(1, -20, 0, 30)
 obbyLabel.Position = UDim2.new(0, 10, 0, 123)
 obbyLabel.BackgroundTransparency = 1
@@ -324,7 +372,7 @@ obbyLabel.Font = Enum.Font.GothamBold
 obbyLabel.TextSize = 16
 obbyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local obbyToggle = Instance.new("TextButton", content)
+local obbyToggle = Instance.new("TextButton", eventContent)
 obbyToggle.Size = UDim2.new(0, 50, 0, 24)
 obbyToggle.Position = UDim2.new(1, -65, 0, 126)
 obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
@@ -337,6 +385,21 @@ obbyCircle.Size = UDim2.new(0, 18, 0, 18)
 obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 obbyCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", obbyCircle).CornerRadius = UDim.new(1, 0)
+
+-- Tab Switching
+mainTab.MouseButton1Click:Connect(function()
+	mainTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+	eventTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+	mainContent.Visible = true
+	eventContent.Visible = false
+end)
+
+eventTab.MouseButton1Click:Connect(function()
+	mainTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+	eventTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+	mainContent.Visible = false
+	eventContent.Visible = true
+end)
 
 -- Button Interactions
 minimizeBtn.MouseButton1Click:Connect(function()
@@ -363,6 +426,7 @@ local HeightOffset = 3
 local active = false
 local spinning = false
 local autoObby = false
+local collectingMoney = false
 
 -- Character handler (safe)
 local function setupCharacter(char)
@@ -481,5 +545,38 @@ obbyToggle.MouseButton1Click:Connect(function()
 	else
 		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+end)
+
+-- Auto Collect Money logic
+task.spawn(function()
+	while true do
+		if collectingMoney then
+			for i = 1, 30 do
+				pcall(function()
+					local args = {
+						[1] = "Collect Money",
+						[2] = "{ce046437-b95c-44cb-b484-3a37d4f08bed}",
+						[3] = tostring(i)
+					}
+					game:GetService("ReplicatedStorage").Packages.Net:FindFirstChild("RF/Plot.PlotAction"):InvokeServer(unpack(args))
+				end)
+				task.wait(0.01)
+			end
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Money Button logic
+moneyToggle.MouseButton1Click:Connect(function()
+	collectingMoney = not collectingMoney
+	if collectingMoney then
+		moneyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		moneyCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		moneyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		moneyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
 end)
