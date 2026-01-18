@@ -46,14 +46,12 @@ miniStroke.Thickness = 2
 miniStroke.Transparency = 0.5
 
 -- Mini Icon
-local miniIcon = Instance.new("TextLabel", miniFrame)
-miniIcon.Size = UDim2.new(0, 45, 1, 0)
-miniIcon.Position = UDim2.new(0, 5, 0, 0)
+local miniIcon = Instance.new("ImageLabel", miniFrame)
+miniIcon.Size = UDim2.new(0, 35, 0, 35)
+miniIcon.Position = UDim2.new(0, 8, 0.5, -17)
 miniIcon.BackgroundTransparency = 1
-miniIcon.Text = "💮"
-miniIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-miniIcon.Font = Enum.Font.GothamBold
-miniIcon.TextSize = 24
+miniIcon.Image = "rbxassetid://114680894021538"
+miniIcon.ScaleType = Enum.ScaleType.Fit
 
 -- Mini Title
 local miniTitle = Instance.new("TextLabel", miniFrame)
@@ -92,14 +90,12 @@ headerGradient.Color = ColorSequence.new{
 }
 
 -- Logo Icon
-local logo = Instance.new("TextLabel", header)
-logo.Size = UDim2.new(0, 40, 0, 40)
-logo.Position = UDim2.new(0, 10, 0, 5)
+local logo = Instance.new("ImageLabel", header)
+logo.Size = UDim2.new(0, 35, 0, 35)
+logo.Position = UDim2.new(0, 8, 0, 8)
 logo.BackgroundTransparency = 1
-logo.Text = "💮"
-logo.TextColor3 = Color3.fromRGB(255, 255, 255)
-logo.Font = Enum.Font.GothamBold
-logo.TextSize = 22
+logo.Image = "rbxassetid://114680894021538" 
+logo.ScaleType = Enum.ScaleType.Fit
 
 -- Title
 local headerTitle = Instance.new("TextLabel", header)
@@ -177,16 +173,22 @@ profileFrame.BackgroundColor3 = Color3.fromRGB(25, 20, 35)
 profileFrame.BorderSizePixel = 0
 Instance.new("UICorner", profileFrame).CornerRadius = UDim.new(0, 8)
 
--- Avatar Icon
-local avatarIcon = Instance.new("TextLabel", profileFrame)
+-- Avatar Icon (Player Thumbnail)
+local avatarIcon = Instance.new("ImageLabel", profileFrame)
 avatarIcon.Size = UDim2.new(0, 40, 0, 40)
 avatarIcon.Position = UDim2.new(0, 8, 0, 10)
 avatarIcon.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
-avatarIcon.Text = "👤"
-avatarIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
-avatarIcon.Font = Enum.Font.GothamBold
-avatarIcon.TextSize = 20
+avatarIcon.BorderSizePixel = 0
 Instance.new("UICorner", avatarIcon).CornerRadius = UDim.new(1, 0)
+
+local success, thumbnailId = pcall(function()
+	return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
+end)
+if success then
+	avatarIcon.Image = thumbnailId
+else
+	avatarIcon.Image = "rbxasset://114680894021538"
+end
 
 -- Player Display Name
 local playerName = Instance.new("TextLabel", profileFrame)
@@ -280,7 +282,7 @@ local creditsTitle = Instance.new("TextLabel", credits)
 creditsTitle.Size = UDim2.new(1, -20, 0, 25)
 creditsTitle.Position = UDim2.new(0, 10, 0, 5)
 creditsTitle.BackgroundTransparency = 1
-creditsTitle.Text = "💮 Credits"
+creditsTitle.Text = "Credits"
 creditsTitle.TextColor3 = Color3.fromRGB(255, 182, 193)
 creditsTitle.Font = Enum.Font.GothamBold
 creditsTitle.TextSize = 14
