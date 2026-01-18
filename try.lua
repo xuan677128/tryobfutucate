@@ -459,13 +459,11 @@ task.spawn(function()
 	while true do
 		if autoObby then
 			pcall(function()
-				local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-				if hrp then
-					local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
-					firetouchinterest(hrp, obbyEnd, 0)
-					task.wait()
-					firetouchinterest(hrp, obbyEnd, 1)
-				end
+				local hrp = player.Character or player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart")
+				local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
+				firetouchinterest(hrp, obbyEnd, 0)
+				task.wait()
+				firetouchinterest(hrp, obbyEnd, 1)
 			end)
 			task.wait(0.5)
 		else
