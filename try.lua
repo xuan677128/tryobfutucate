@@ -49,9 +49,11 @@ miniStroke.Transparency = 0.5
 local miniIcon = Instance.new("ImageLabel", miniFrame)
 miniIcon.Size = UDim2.new(0, 35, 0, 35)
 miniIcon.Position = UDim2.new(0, 8, 0.5, -17)
-miniIcon.BackgroundTransparency = 1
-miniIcon.Image = "rbxassetid://114680894021538"
+miniIcon.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+miniIcon.BorderSizePixel = 0
+miniIcon.Image = "rbxassetid://103326199885496"
 miniIcon.ScaleType = Enum.ScaleType.Fit
+Instance.new("UICorner", miniIcon).CornerRadius = UDim.new(0.2, 0)
 
 -- Mini Title
 local miniTitle = Instance.new("TextLabel", miniFrame)
@@ -90,11 +92,12 @@ headerGradient.Color = ColorSequence.new{
 }
 
 -- Logo Icon
-local logo = Instance.new("ImageLabel", header)
+local logo = Instance.new("ImageLabel")
 logo.Size = UDim2.new(0, 35, 0, 35)
 logo.Position = UDim2.new(0, 8, 0, 8)
 logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://114680894021538" 
+logo.Parent = header
+logo.Image = "rbxassetid://103326199885496" 
 logo.ScaleType = Enum.ScaleType.Fit
 
 -- Title
@@ -187,7 +190,7 @@ end)
 if success then
 	avatarIcon.Image = thumbnailId
 else
-	avatarIcon.Image = "rbxassetid://114680894021538"
+	avatarIcon.Image = "rbxassetid://103326199885496"
 end
 
 -- Player Display Name
