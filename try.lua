@@ -50,8 +50,8 @@ local miniIcon = Instance.new("TextLabel", miniFrame)
 miniIcon.Size = UDim2.new(0, 45, 1, 0)
 miniIcon.Position = UDim2.new(0, 5, 0, 0)
 miniIcon.BackgroundTransparency = 1
-miniIcon.Text = "🌸"
-miniIcon.TextColor3 = Color3.fromRGB(255, 105, 180)
+miniIcon.Text = "💮"
+miniIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 miniIcon.Font = Enum.Font.GothamBold
 miniIcon.TextSize = 24
 
@@ -96,8 +96,8 @@ local logo = Instance.new("TextLabel", header)
 logo.Size = UDim2.new(0, 40, 0, 40)
 logo.Position = UDim2.new(0, 10, 0, 5)
 logo.BackgroundTransparency = 1
-logo.Text = "🌸"
-logo.TextColor3 = Color3.fromRGB(255, 182, 193)
+logo.Text = "💮"
+logo.TextColor3 = Color3.fromRGB(255, 255, 255)
 logo.Font = Enum.Font.GothamBold
 logo.TextSize = 22
 
@@ -159,7 +159,7 @@ local eventTab = Instance.new("TextButton", sidebar)
 eventTab.Size = UDim2.new(1, -10, 0, 35)
 eventTab.Position = UDim2.new(0, 5, 0, 10)
 eventTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-eventTab.Text = "Event"
+eventTab.Text = "✨  Event"
 eventTab.TextColor3 = Color3.new(1,1,1)
 eventTab.Font = Enum.Font.GothamBold
 eventTab.TextSize = 14
@@ -168,6 +168,49 @@ eventTab.AutoButtonColor = false
 Instance.new("UICorner", eventTab).CornerRadius = UDim.new(0, 8)
 local eventPadding = Instance.new("UIPadding", eventTab)
 eventPadding.PaddingLeft = UDim.new(0, 10)
+
+-- Player Profile Section
+local profileFrame = Instance.new("Frame", sidebar)
+profileFrame.Size = UDim2.new(1, -10, 0, 60)
+profileFrame.Position = UDim2.new(0, 5, 1, -65)
+profileFrame.BackgroundColor3 = Color3.fromRGB(25, 20, 35)
+profileFrame.BorderSizePixel = 0
+Instance.new("UICorner", profileFrame).CornerRadius = UDim.new(0, 8)
+
+-- Avatar Icon
+local avatarIcon = Instance.new("TextLabel", profileFrame)
+avatarIcon.Size = UDim2.new(0, 40, 0, 40)
+avatarIcon.Position = UDim2.new(0, 8, 0, 10)
+avatarIcon.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+avatarIcon.Text = "👤"
+avatarIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+avatarIcon.Font = Enum.Font.GothamBold
+avatarIcon.TextSize = 20
+Instance.new("UICorner", avatarIcon).CornerRadius = UDim.new(1, 0)
+
+-- Player Display Name
+local playerName = Instance.new("TextLabel", profileFrame)
+playerName.Size = UDim2.new(1, -60, 0, 20)
+playerName.Position = UDim2.new(0, 53, 0, 12)
+playerName.BackgroundTransparency = 1
+playerName.Text = player.DisplayName
+playerName.TextColor3 = Color3.new(1,1,1)
+playerName.Font = Enum.Font.GothamBold
+playerName.TextSize = 13
+playerName.TextXAlignment = Enum.TextXAlignment.Left
+playerName.TextTruncate = Enum.TextTruncate.AtEnd
+
+-- Player Username
+local userName = Instance.new("TextLabel", profileFrame)
+userName.Size = UDim2.new(1, -60, 0, 16)
+userName.Position = UDim2.new(0, 53, 0, 32)
+userName.BackgroundTransparency = 1
+userName.Text = "@" .. player.Name
+userName.TextColor3 = Color3.fromRGB(150, 150, 150)
+userName.Font = Enum.Font.Gotham
+userName.TextSize = 11
+userName.TextXAlignment = Enum.TextXAlignment.Left
+userName.TextTruncate = Enum.TextTruncate.AtEnd
 
 -- Content Area
 local content = Instance.new("Frame", mainFrame)
@@ -237,7 +280,7 @@ local creditsTitle = Instance.new("TextLabel", credits)
 creditsTitle.Size = UDim2.new(1, -20, 0, 25)
 creditsTitle.Position = UDim2.new(0, 10, 0, 5)
 creditsTitle.BackgroundTransparency = 1
-creditsTitle.Text = "Credits"
+creditsTitle.Text = "💮 Credits"
 creditsTitle.TextColor3 = Color3.fromRGB(255, 182, 193)
 creditsTitle.Font = Enum.Font.GothamBold
 creditsTitle.TextSize = 14
