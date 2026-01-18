@@ -187,7 +187,7 @@ end)
 if success then
 	avatarIcon.Image = thumbnailId
 else
-	avatarIcon.Image = "rbxasset://114680894021538"
+	avatarIcon.Image = "rbxassetid://114680894021538"
 end
 
 -- Player Display Name
