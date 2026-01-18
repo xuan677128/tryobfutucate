@@ -1,3 +1,308 @@
+Xuannn
+Xuannn
+zxuan677
++1
+•
+have 1k+ vouches
+
+Xuannn
+Xuannn
+
+ — 3:17 AM
+d nagana picture
+sakit
+Kai — 3:18 AM
+tingin ng ginawa
+Xuannn
+Xuannn
+
+ — 3:18 AM
+local success, thumbnailId = pcall(function()
+    return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
+end)
+if success then
+    avatarIcon.Image = thumbnailId
+else
+    avatarIcon.Image = "rbxassetid://114680894021538"
+end
+local logo = Instance.new("ImageLabel", header)
+logo.Size = UDim2.new(0, 35, 0, 35)
+logo.Position = UDim2.new(0, 8, 0, 8)
+logo.BackgroundTransparency = 1
+logo.Image = "rbxassetid://114680894021538" 
+logo.ScaleType = Enum.ScaleType.Fit
+Kai — 3:20 AM
+player image 'to ah
+Xuannn
+Xuannn
+
+ — 3:21 AM
+oonga
+mali ngani na send
+Xuannn
+Xuannn
+
+ — 3:21 AM
+eto
+Kai — 3:21 AM
+tanggalin mo header
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0, 35, 0, 35)
+logo.Position = UDim2.new(0, 8, 0, 8)
+logo.BackgroundTransparency = 1
+logo.Parent = header
+logo.Image = "rbxassetid://103326199885496" 
+logo.ScaleType = Enum.ScaleType.Fit 
+Xuannn
+Xuannn
+
+ — 3:24 AM
+ganon padin
+Kai — 3:25 AM
+nakaexist ba image?
+pa send nga link
+Xuannn
+Xuannn
+
+ — 3:26 AM
+Image
+luh not found nakalagay
+Kai — 3:27 AM
+.
+don't forget to add the parent
+Xuannn
+Xuannn
+
+ — 3:28 AM
+bat 96 nayan
+sayo yan noh
+Kai — 3:29 AM
+copy texture id not assetid
+Xuannn
+Xuannn
+
+ — 3:29 AM
+ay
+san makikita?
+Kai — 3:29 AM
+103326199885496
+Image
+Xuannn
+Xuannn
+
+ — 3:39 AM
+Image
+Image
+I'll make it my self nalang
+Thx kai
+Kai — 3:47 AM
+hmm add slider for the auto spin
+Xuannn
+Xuannn
+
+ — 3:47 AM
+User input ginawa ko
+😓
+Kai — 3:48 AM
+user input?
+remove others text at playerframe
+Xuannn
+Xuannn
+
+ — 3:48 AM
+Silamag lalagay
+Kai — 3:48 AM
+PlayerImage > playerusername
+Xuannn
+Xuannn
+
+ — 3:48 AM
+HAHAHAHAHA
+Bahala sila dyan
+Kai — 3:49 AM
+send player frame gui
+Xuannn
+Xuannn
+
+ — 3:49 AM
+Teka
+Kai — 3:49 AM
+send mo buong gui mo h'wag lang mga functions
+Xuannn
+Xuannn
+
+ — 3:50 AM
+-- ================= XUAN HUB GUI =================
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+pcall(function()
+	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
+Expand
+message.txt
+13 KB
+Yan gui
+Ung auto obby wala payan function
+Kai — 3:52 AM
+WIP 'yan
+brb, gonna edit at studio
+Kai — 3:52 AM
+eto function ng auto obby
+Xuannn
+Xuannn
+
+ — 3:53 AM
+Image
+Ganito na itsura nya
+Mali
+Na ss
+Kai — 3:54 AM
+HAHAH
+Xuannn
+Xuannn
+
+ — 3:54 AM
+Image
+Yan
+Kai — 3:55 AM
+ilan maximum ng spin delay at minimum?
+Xuannn
+Xuannn
+
+ — 3:56 AM
+Wala HAHAHAHHA
+Kai — 3:56 AM
+baliw
+Xuannn
+Xuannn
+
+ — 3:56 AM
+Nilagay ko lang validation
+Kai — 3:56 AM
+Bakit wala
+Xuannn
+Xuannn
+
+ — 3:56 AM
+If character ilagay nila nkaa default sa 0.5
+If not positive number default sa 0.5
+Ayon lang
+HAHAHAHAHHAHAHA
+Walang maximum at minimum
+Kai — 3:57 AM
+Dapat may minimum at maximum
+like if yung gagamit gusto ng 0 spin delay edi magagawa nila
+Xuannn
+Xuannn
+
+ — 3:58 AM
+Sabog ang device
+Ni test ko ung obby
+Napunta kng sya doon sa entrance ng obby
+Kai — 4:03 AM
+eto?
+Xuannn
+Xuannn
+
+ — 4:03 AM
+Oo
+Nilagay ko kasi sa script ko
+Kai — 4:04 AM
+check mo inven
+Xuannn
+Xuannn
+
+ — 4:04 AM
+Nung ni on ko nag teleport don
+Tas pag pumasok ako bumabalik sa entrance
+Ay
+Oonga
+Nakuha ung reward
+Nakalagay u got 5 radio active coin
+Kai — 4:06 AM
+HAHA
+Xuannn
+Xuannn
+
+ — 4:07 AM
+Lucky block daw binibigay eh
+Hindi coin
+Kai — 4:07 AM
+radioactive lucky block
+Xuannn
+Xuannn
+
+ — 4:08 AM
+Wala sakin
+Kai — 4:14 AM
+bulok
+sa'kin meron
+Xuannn
+Xuannn
+
+ — 4:14 AM
+task.spawn(function()
+    while true do
+        if autoObby then
+            pcall(function()
+                local hrp = player.Character or player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart")
+                local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
+                firetouchinterest(hrp, obbyEnd, 0)
+                task.wait()
+                firetouchinterest(hrp, obbyEnd, 1)
+            end)
+            task.wait(0.5)
+        else
+            task.wait(0.5)
+        end
+    end
+end)
+
+
+tama ba for button?
+Kai — 4:16 AM
+toggle or button?
+Xuannn
+Xuannn
+
+ — 4:16 AM
+toggle
+hahahaha
+Kai — 4:17 AM
+gagana kaya 'yan sa toggle? HAHA nawawala yung radioactive sa mapvariant eh
+Xuannn
+Xuannn
+
+ — 4:18 AM
+ayan ung function ko kanina kaso naka and pala hindi or
+ngayon d ko sure
+naka base lang yan sa code na binigay mo eh
+Kai — 4:19 AM
+gagana lang yung code na binigay 'ko sa'yo pag exist na yung radioactive
+Xuannn
+Xuannn
+
+ — 4:19 AM
+oonga
+tinry ko kanina
+napuna lang sa entrance ng obby
+Kai — 4:21 AM
+mapupunta talaga sa entrance ng obby, fire touch interest kasi
+parang magandang gawin jan is isang toggle tween to the end and instantly end
+like pipiliin ng player kung ano ang gusto
+execute mo nga 'to
+-- ================= XUAN HUB GUI =================
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+pcall(function()
+	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
+Expand
+message.txt
+13 KB
+﻿
+Kai
+kaiii583940
 -- ================= XUAN HUB GUI =================
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -180,11 +485,14 @@ Instance.new("UICorner", profileFrame).CornerRadius = UDim.new(0, 8)
 
 -- Avatar Icon (Player Thumbnail)
 local avatarIcon = Instance.new("ImageLabel", profileFrame)
-avatarIcon.Size = UDim2.new(0, 40, 0, 40)
-avatarIcon.Position = UDim2.new(0, 8, 0, 10)
+avatarIcon.Name = "avatarIcon"
 avatarIcon.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+avatarIcon.BorderColor3 = Color3.fromRGB(0, 0, 0)
 avatarIcon.BorderSizePixel = 0
-Instance.new("UICorner", avatarIcon).CornerRadius = UDim.new(1, 0)
+avatarIcon.Position = UDim2.new(0, 8, 0, 10)
+avatarIcon.Size = UDim2.new(0, 40, 0, 40)
+UICorner_2.CornerRadius = UDim.new(1, 0)
+UICorner_2.Parent = avatarIcon
 
 local success, thumbnailId = pcall(function()
 	return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
@@ -197,27 +505,19 @@ end
 
 -- Player Display Name
 local playerName = Instance.new("TextLabel", profileFrame)
-playerName.Size = UDim2.new(1, -60, 0, 20)
-playerName.Position = UDim2.new(0, 53, 0, 12)
-playerName.BackgroundTransparency = 1
-playerName.Text = player.DisplayName
-playerName.TextColor3 = Color3.new(1,1,1)
-playerName.Font = Enum.Font.GothamBold
-playerName.TextSize = 13
-playerName.TextXAlignment = Enum.TextXAlignment.Left
-playerName.TextTruncate = Enum.TextTruncate.AtEnd
-
--- Player Username
-local userName = Instance.new("TextLabel", profileFrame)
-userName.Size = UDim2.new(1, -60, 0, 16)
-userName.Position = UDim2.new(0, 53, 0, 32)
-userName.BackgroundTransparency = 1
-userName.Text = "@" .. player.Name
-userName.TextColor3 = Color3.fromRGB(150, 150, 150)
-userName.Font = Enum.Font.Gotham
-userName.TextSize = 11
-userName.TextXAlignment = Enum.TextXAlignment.Left
-userName.TextTruncate = Enum.TextTruncate.AtEnd
+playerUsername.Name = "playerUsername"
+playerUsername.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+playerUsername.BackgroundTransparency = 1.000
+playerUsername.BorderColor3 = Color3.fromRGB(0, 0, 0)
+playerUsername.BorderSizePixel = 0
+playerUsername.Position = UDim2.new(0, 54, 0, 20)
+playerUsername.Size = UDim2.new(1, -60, 0, 20)
+playerUsername.Font = Enum.Font.GothamBold
+playerUsername.Text = player.Name
+playerUsername.TextColor3 = Color3.fromRGB(255, 255, 255)
+playerUsername.TextSize = 13.000
+playerUsername.TextWrapped = true
+playerUsername.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Content Area
 local content = Instance.new("Frame", mainFrame)
@@ -230,7 +530,7 @@ local collectLabel = Instance.new("TextLabel", content)
 collectLabel.Size = UDim2.new(1, -20, 0, 30)
 collectLabel.Position = UDim2.new(0, 10, 0, 10)
 collectLabel.BackgroundTransparency = 1
-collectLabel.Text = "Auto Collect Radioactive Coins"
+collectLabel.Text = "Auto Collect"
 collectLabel.TextColor3 = Color3.new(1,1,1)
 collectLabel.Font = Enum.Font.GothamBold
 collectLabel.TextSize = 16
@@ -262,7 +562,7 @@ local spinLabel = Instance.new("TextLabel", content)
 spinLabel.Size = UDim2.new(1, -20, 0, 30)
 spinLabel.Position = UDim2.new(0, 10, 0, 55)
 spinLabel.BackgroundTransparency = 1
-spinLabel.Text = "Auto Spin Radioactive Wheel"
+spinLabel.Text = "Auto Spin"
 spinLabel.TextColor3 = Color3.new(1,1,1)
 spinLabel.Font = Enum.Font.GothamBold
 spinLabel.TextSize = 16
@@ -337,149 +637,5 @@ obbyCircle.Size = UDim2.new(0, 18, 0, 18)
 obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 obbyCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", obbyCircle).CornerRadius = UDim.new(1, 0)
-
--- Button Interactions
-minimizeBtn.MouseButton1Click:Connect(function()
-	mainFrame.Visible = false
-	miniFrame.Visible = true
-end)
-
-expandBtn.MouseButton1Click:Connect(function()
-	mainFrame.Visible = true
-	miniFrame.Visible = false
-end)
-
-closeBtn.MouseButton1Click:Connect(function()
-	gui:Destroy()
-end)
-
--- ================= FUNCTIONALITY LOGIC =================
-
-local character, humanoidRootPart
-local EventFolder = nil
-
-local PullDelay = 0.1
-local HeightOffset = 3
-local active = false
-local spinning = false
-local autoObby = false
-
--- Character handler (safe)
-local function setupCharacter(char)
-	character = char
-	humanoidRootPart = char:WaitForChild("HumanoidRootPart", 10)
-end
-
-if player.Character then
-	setupCharacter(player.Character)
-end
-player.CharacterAdded:Connect(setupCharacter)
-
--- Find EventParts WITHOUT BLOCKING GUI
-task.spawn(function()
-	while not EventFolder do
-		EventFolder = workspace:FindFirstChild("EventParts")
-		task.wait(1)
-	end
-end)
-
--- Model part
-local function getModelPart(model)
-	if model.PrimaryPart then return model.PrimaryPart end
-	for _, v in ipairs(model:GetDescendants()) do
-		if v:IsA("BasePart") then
-			model.PrimaryPart = v
-			return v
-		end
-	end
-end
-
--- Loop to pull models
-task.spawn(function()
-	while true do
-		if active and humanoidRootPart and EventFolder then
-			for _, model in ipairs(EventFolder:GetChildren()) do
-				if model:IsA("Model") then
-					local part = getModelPart(model)
-					if part then
-						model:SetPrimaryPartCFrame(
-							CFrame.new(humanoidRootPart.Position + Vector3.new(0, HeightOffset, 0))
-						)
-					end
-				end
-			end
-		end
-		task.wait(PullDelay)
-	end
-end)
-
--- Collect Button logic
-collectToggle.MouseButton1Click:Connect(function()
-	active = not active
-	if active then
-		collectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		collectCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		collectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		collectCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
-end)
-
--- Auto Spin logic
-task.spawn(function()
-	while true do
-		if spinning then
-			pcall(function()
-				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/WheelSpin.Roll"):InvokeServer()
-			end)
-			-- Get delay from input box with validation
-			local delayValue = tonumber(spinDelayBox.Text) or 0.5
-			if delayValue <= 0 then delayValue = 0.5 end
-			task.wait(delayValue)
-		else
-			task.wait(0.5)
-		end
-	end
-end)
-
--- Spin Button logic
-spinToggle.MouseButton1Click:Connect(function()
-	spinning = not spinning
-	if spinning then
-		spinToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		spinCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		spinCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
-end)
-
--- Auto Obby logic
-task.spawn(function()
-	while true do
-		if autoObby then
-			pcall(function()
-				local hrp = player.Character or player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart")
-				local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
-				firetouchinterest(hrp, obbyEnd, 0)
-				task.wait()
-				firetouchinterest(hrp, obbyEnd, 1)
-			end)
-			task.wait(0.5)
-		else
-			task.wait(0.5)
-		end
-	end
-end)
-
--- Obby Button logic
-obbyToggle.MouseButton1Click:Connect(function()
-	autoObby = not autoObby
-	if autoObby then
-		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
-end)
+message.txt
+13 KB
