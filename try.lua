@@ -53,7 +53,7 @@ miniIcon.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 miniIcon.BorderSizePixel = 0
 miniIcon.Image = "rbxassetid://103326199885496"
 miniIcon.ScaleType = Enum.ScaleType.Fit
-Instance.new("UICorner", miniIcon).CornerRadius = UDim.new(0.2, 0)
+Instance.new("UICorner", miniIcon).CornerRadius = UDim.new(1, 0)
 
 -- Mini Title
 local miniTitle = Instance.new("TextLabel", miniFrame)
@@ -95,10 +95,12 @@ headerGradient.Color = ColorSequence.new{
 local logo = Instance.new("ImageLabel")
 logo.Size = UDim2.new(0, 35, 0, 35)
 logo.Position = UDim2.new(0, 8, 0, 8)
-logo.BackgroundTransparency = 1
+logo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+logo.BorderSizePixel = 0
 logo.Parent = header
 logo.Image = "rbxassetid://103326199885496" 
 logo.ScaleType = Enum.ScaleType.Fit
+Instance.new("UICorner", logo).CornerRadius = UDim.new(1, 0)
 
 -- Title
 local headerTitle = Instance.new("TextLabel", header)
@@ -272,35 +274,6 @@ spinCircle.Size = UDim2.new(0, 18, 0, 18)
 spinCircle.Position = UDim2.new(0, 3, 0.5, -9)
 spinCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", spinCircle).CornerRadius = UDim.new(1, 0)
-
--- Credits Section
-local credits = Instance.new("Frame", content)
-credits.Size = UDim2.new(1, -20, 0, 80)
-credits.Position = UDim2.new(0, 10, 1, -90)
-credits.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
-credits.BorderSizePixel = 0
-Instance.new("UICorner", credits).CornerRadius = UDim.new(0, 10)
-
-local creditsTitle = Instance.new("TextLabel", credits)
-creditsTitle.Size = UDim2.new(1, -20, 0, 25)
-creditsTitle.Position = UDim2.new(0, 10, 0, 5)
-creditsTitle.BackgroundTransparency = 1
-creditsTitle.Text = "Credits"
-creditsTitle.TextColor3 = Color3.fromRGB(255, 182, 193)
-creditsTitle.Font = Enum.Font.GothamBold
-creditsTitle.TextSize = 14
-creditsTitle.TextXAlignment = Enum.TextXAlignment.Left
-
-local creditsText = Instance.new("TextLabel", credits)
-creditsText.Size = UDim2.new(1, -20, 0, 45)
-creditsText.Position = UDim2.new(0, 10, 0, 30)
-creditsText.BackgroundTransparency = 1
-creditsText.Text = "Made by Xuan\nJoin discord.gg/kaydensdens"
-creditsText.TextColor3 = Color3.fromRGB(180, 180, 180)
-creditsText.Font = Enum.Font.Gotham
-creditsText.TextSize = 11
-creditsText.TextXAlignment = Enum.TextXAlignment.Left
-creditsText.TextYAlignment = Enum.TextYAlignment.Top
 
 -- Button Interactions
 minimizeBtn.MouseButton1Click:Connect(function()
