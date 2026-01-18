@@ -1,7 +1,6 @@
 -- ================= XUAN HUB GUI =================
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local PlotController = require(game:GetService("ReplicatedStorage").Client.Controllers.PlotController)
 
 pcall(function()
 	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
@@ -550,15 +549,37 @@ obbyToggle.MouseButton1Click:Connect(function()
 end)
 
 -- Auto Collect Money logic
+local function findMyBase()
+	for _, base in ipairs(workspace:WaitForChild("Bases_NEW"):GetChildren()) do
+		if base:IsA("Model") then
+			local holder = base:GetAttribute("Holder")
+			if holder and holder == player.UserId then
+				return base
+			end
+		end
+	end
+	return nil
+end
+
 task.spawn(function()
 	while true do
 		if collectingMoney then
-			for i = 1, 30 do
-				pcall(function()
-					PlotController:CollectMoney(i)
-				end)
-				task.wait(0.01)
+			local myBase = findMyBase()
+			if myBase then
+				for i = 1, 30 do
+					pcall(function()
+						local args = {
+							"Collect Money",
+							myBase.Name,
+							tostring(i)
+						}
+						local PlotAction = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/Plot.PlotAction")
+						PlotAction:InvokeServer(unpack(args))
+					end)
+					task.wait(0.01)
+				end
 			end
+			task.wait(0.1)
 		else
 			task.wait(0.5)
 		end
