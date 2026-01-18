@@ -1,6 +1,7 @@
 -- ================= XUAN HUB GUI =================
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+local PlotController = require(game:GetService("ReplicatedStorage").Client.Controllers.PlotController)
 
 pcall(function()
 	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
@@ -554,12 +555,7 @@ task.spawn(function()
 		if collectingMoney then
 			for i = 1, 30 do
 				pcall(function()
-					local args = {
-						[1] = "Collect Money",
-						[2] = "{ce046437-b95c-44cb-b484-3a37d4f08bed}",
-						[3] = tostring(i)
-					}
-					game:GetService("ReplicatedStorage").Packages.Net:FindFirstChild("RF/Plot.PlotAction"):InvokeServer(unpack(args))
+					PlotController:CollectMoney(i)
 				end)
 				task.wait(0.01)
 			end
