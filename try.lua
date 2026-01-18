@@ -250,6 +250,13 @@ collectCircle.Position = UDim2.new(0, 3, 0.5, -9)
 collectCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", collectCircle).CornerRadius = UDim.new(1, 0)
 
+-- Divider Line 1
+local divider1 = Instance.new("Frame", content)
+divider1.Size = UDim2.new(1, -20, 0, 1)
+divider1.Position = UDim2.new(0, 10, 0, 47)
+divider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+divider1.BorderSizePixel = 0
+
 -- Auto Spin Section
 local spinLabel = Instance.new("TextLabel", content)
 spinLabel.Size = UDim2.new(1, -20, 0, 30)
@@ -275,6 +282,62 @@ spinCircle.Position = UDim2.new(0, 3, 0.5, -9)
 spinCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", spinCircle).CornerRadius = UDim.new(1, 0)
 
+-- Spin Delay Input
+local spinDelayLabel = Instance.new("TextLabel", content)
+spinDelayLabel.Size = UDim2.new(0, 80, 0, 18)
+spinDelayLabel.Position = UDim2.new(0, 10, 0, 84)
+spinDelayLabel.BackgroundTransparency = 1
+spinDelayLabel.Text = "Spin Delay:"
+spinDelayLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+spinDelayLabel.Font = Enum.Font.Gotham
+spinDelayLabel.TextSize = 12
+spinDelayLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local spinDelayBox = Instance.new("TextBox", content)
+spinDelayBox.Size = UDim2.new(0, 60, 0, 22)
+spinDelayBox.Position = UDim2.new(0, 90, 0, 82)
+spinDelayBox.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+spinDelayBox.BorderSizePixel = 0
+spinDelayBox.Text = "0.5"
+spinDelayBox.TextColor3 = Color3.new(1,1,1)
+spinDelayBox.Font = Enum.Font.Gotham
+spinDelayBox.TextSize = 12
+spinDelayBox.PlaceholderText = "0.5"
+spinDelayBox.ClearTextOnFocus = false
+Instance.new("UICorner", spinDelayBox).CornerRadius = UDim.new(0, 5)
+
+-- Divider Line 2
+local divider2 = Instance.new("Frame", content)
+divider2.Size = UDim2.new(1, -20, 0, 1)
+divider2.Position = UDim2.new(0, 10, 0, 115)
+divider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+divider2.BorderSizePixel = 0
+
+-- Auto Obby Section
+local obbyLabel = Instance.new("TextLabel", content)
+obbyLabel.Size = UDim2.new(1, -20, 0, 30)
+obbyLabel.Position = UDim2.new(0, 10, 0, 123)
+obbyLabel.BackgroundTransparency = 1
+obbyLabel.Text = "Auto Obby"
+obbyLabel.TextColor3 = Color3.new(1,1,1)
+obbyLabel.Font = Enum.Font.GothamBold
+obbyLabel.TextSize = 16
+obbyLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local obbyToggle = Instance.new("TextButton", content)
+obbyToggle.Size = UDim2.new(0, 50, 0, 24)
+obbyToggle.Position = UDim2.new(1, -65, 0, 126)
+obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+obbyToggle.Text = ""
+obbyToggle.AutoButtonColor = false
+Instance.new("UICorner", obbyToggle).CornerRadius = UDim.new(1, 0)
+
+local obbyCircle = Instance.new("Frame", obbyToggle)
+obbyCircle.Size = UDim2.new(0, 18, 0, 18)
+obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+obbyCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", obbyCircle).CornerRadius = UDim.new(1, 0)
+
 -- Button Interactions
 minimizeBtn.MouseButton1Click:Connect(function()
 	mainFrame.Visible = false
@@ -299,6 +362,7 @@ local PullDelay = 0.1
 local HeightOffset = 3
 local active = false
 local spinning = false
+local autoObby = false
 
 -- Character handler (safe)
 local function setupCharacter(char)
@@ -368,7 +432,10 @@ task.spawn(function()
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/WheelSpin.Roll"):InvokeServer()
 			end)
-			task.wait(1)
+			-- Get delay from input box with validation
+			local delayValue = tonumber(spinDelayBox.Text) or 0.5
+			if delayValue <= 0 then delayValue = 0.5 end
+			task.wait(delayValue)
 		else
 			task.wait(0.5)
 		end
@@ -384,5 +451,37 @@ spinToggle.MouseButton1Click:Connect(function()
 	else
 		spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		spinCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+end)
+
+-- Auto Obby logic
+task.spawn(function()
+	while true do
+		if autoObby then
+			pcall(function()
+				local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+				if hrp then
+					local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
+					firetouchinterest(hrp, obbyEnd, 0)
+					task.wait()
+					firetouchinterest(hrp, obbyEnd, 1)
+				end
+			end)
+			task.wait(0.5)
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Obby Button logic
+obbyToggle.MouseButton1Click:Connect(function()
+	autoObby = not autoObby
+	if autoObby then
+		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
 end)
