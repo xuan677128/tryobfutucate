@@ -185,12 +185,12 @@ Instance.new("UICorner", eventTab).CornerRadius = UDim.new(0, 8)
 local eventPadding = Instance.new("UIPadding", eventTab)
 eventPadding.PaddingLeft = UDim.new(0, 10)
 
--- AFK Tab Button
+-- Settings Tab Button
 local afkTab = Instance.new("TextButton", sidebar)
 afkTab.Size = UDim2.new(1, -10, 0, 35)
 afkTab.Position = UDim2.new(0, 5, 0, 90)
 afkTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-afkTab.Text = "💤  AFK"
+afkTab.Text = "⚙️  Settings"
 afkTab.TextColor3 = Color3.new(1,1,1)
 afkTab.Font = Enum.Font.GothamBold
 afkTab.TextSize = 14
@@ -445,7 +445,7 @@ local antiAfkLabel = Instance.new("TextLabel", afkContent)
 antiAfkLabel.Size = UDim2.new(1, -150, 0, 30)
 antiAfkLabel.Position = UDim2.new(0, 10, 0, 10)
 antiAfkLabel.BackgroundTransparency = 1
-antiAfkLabel.Text = "Anti-AFK (20 Min Auto Reconnect)"
+antiAfkLabel.Text = "Anti-AFK"
 antiAfkLabel.TextColor3 = Color3.new(1,1,1)
 antiAfkLabel.Font = Enum.Font.GothamBold
 antiAfkLabel.TextSize = 16
@@ -477,7 +477,7 @@ afkDropdown.AutoButtonColor = false
 Instance.new("UICorner", afkDropdown).CornerRadius = UDim.new(0, 6)
 
 local afkInfo = Instance.new("Frame", afkContent)
-afkInfo.Size = UDim2.new(1, -20, 0, 80)
+afkInfo.Size = UDim2.new(1, -20, 0, 60)
 afkInfo.Position = UDim2.new(0, 10, 0, 45)
 afkInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 afkInfo.BorderSizePixel = 0
@@ -488,7 +488,7 @@ local afkInfoText = Instance.new("TextLabel", afkInfo)
 afkInfoText.Size = UDim2.new(1, -10, 1, -10)
 afkInfoText.Position = UDim2.new(0, 5, 0, 5)
 afkInfoText.BackgroundTransparency = 1
-afkInfoText.Text = "Automatically reconnects you when disconnected. \n\nNote: It won't reconnect if 'Failed to reconnect' error appears."
+afkInfoText.Text = "Prevents Roblox from kicking you after 20 minutes of inactivity. Keeps you in the game."
 afkInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
 afkInfoText.Font = Enum.Font.Gotham
 afkInfoText.TextSize = 12
@@ -499,6 +499,115 @@ afkInfoText.TextYAlignment = Enum.TextYAlignment.Top
 afkDropdown.MouseButton1Click:Connect(function()
 	afkInfo.Visible = not afkInfo.Visible
 end)
+
+-- Divider Line
+local afkDivider = Instance.new("Frame", afkContent)
+afkDivider.Size = UDim2.new(1, -20, 0, 1)
+afkDivider.Position = UDim2.new(0, 10, 0, 115)
+afkDivider.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+afkDivider.BorderSizePixel = 0
+
+-- Auto Reconnect Section
+local reconnectLabel = Instance.new("TextLabel", afkContent)
+reconnectLabel.Size = UDim2.new(1, -150, 0, 30)
+reconnectLabel.Position = UDim2.new(0, 10, 0, 123)
+reconnectLabel.BackgroundTransparency = 1
+reconnectLabel.Text = "Auto Reconnect"
+reconnectLabel.TextColor3 = Color3.new(1,1,1)
+reconnectLabel.Font = Enum.Font.GothamBold
+reconnectLabel.TextSize = 16
+reconnectLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local reconnectToggle = Instance.new("TextButton", afkContent)
+reconnectToggle.Size = UDim2.new(0, 50, 0, 24)
+reconnectToggle.Position = UDim2.new(1, -65, 0, 126)
+reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+reconnectToggle.Text = ""
+reconnectToggle.AutoButtonColor = false
+Instance.new("UICorner", reconnectToggle).CornerRadius = UDim.new(1, 0)
+
+local reconnectCircle = Instance.new("Frame", reconnectToggle)
+reconnectCircle.Size = UDim2.new(0, 18, 0, 18)
+reconnectCircle.Position = UDim2.new(0, 3, 0.5, -9)
+reconnectCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", reconnectCircle).CornerRadius = UDim.new(1, 0)
+
+local reconnectDropdown = Instance.new("TextButton", afkContent)
+reconnectDropdown.Size = UDim2.new(0, 25, 0, 28)
+reconnectDropdown.Position = UDim2.new(1, -120, 0, 124)
+reconnectDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+reconnectDropdown.Text = "?"
+reconnectDropdown.TextColor3 = Color3.new(1,1,1)
+reconnectDropdown.Font = Enum.Font.GothamBold
+reconnectDropdown.TextSize = 14
+reconnectDropdown.AutoButtonColor = false
+Instance.new("UICorner", reconnectDropdown).CornerRadius = UDim.new(0, 6)
+
+local reconnectInfo = Instance.new("Frame", afkContent)
+reconnectInfo.Size = UDim2.new(1, -20, 0, 65)
+reconnectInfo.Position = UDim2.new(0, 10, 0, 158)
+reconnectInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+reconnectInfo.BorderSizePixel = 0
+reconnectInfo.Visible = false
+Instance.new("UICorner", reconnectInfo).CornerRadius = UDim.new(0, 6)
+
+local reconnectInfoText = Instance.new("TextLabel", reconnectInfo)
+reconnectInfoText.Size = UDim2.new(1, -10, 1, -10)
+reconnectInfoText.Position = UDim2.new(0, 5, 0, 5)
+reconnectInfoText.BackgroundTransparency = 1
+reconnectInfoText.Text = "Automatically rejoins the game when you get disconnected.\n\nNote: Won't reconnect if 'Failed to reconnect' error appears."
+reconnectInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
+reconnectInfoText.Font = Enum.Font.Gotham
+reconnectInfoText.TextSize = 12
+reconnectInfoText.TextWrapped = true
+reconnectInfoText.TextXAlignment = Enum.TextXAlignment.Left
+reconnectInfoText.TextYAlignment = Enum.TextYAlignment.Top
+
+reconnectDropdown.MouseButton1Click:Connect(function()
+	reconnectInfo.Visible = not reconnectInfo.Visible
+end)
+
+-- Divider Line 2
+local afkDivider2 = Instance.new("Frame", afkContent)
+afkDivider2.Size = UDim2.new(1, -20, 0, 1)
+afkDivider2.Position = UDim2.new(0, 10, 0, 233)
+afkDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+afkDivider2.BorderSizePixel = 0
+
+-- Server Actions Section
+local serverActionsLabel = Instance.new("TextLabel", afkContent)
+serverActionsLabel.Size = UDim2.new(1, -20, 0, 25)
+serverActionsLabel.Position = UDim2.new(0, 10, 0, 241)
+serverActionsLabel.BackgroundTransparency = 1
+serverActionsLabel.Text = "Server Actions"
+serverActionsLabel.TextColor3 = Color3.new(1,1,1)
+serverActionsLabel.Font = Enum.Font.GothamBold
+serverActionsLabel.TextSize = 16
+serverActionsLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Server Hop Button
+local serverHopButton = Instance.new("TextButton", afkContent)
+serverHopButton.Size = UDim2.new(0, 170, 0, 32)
+serverHopButton.Position = UDim2.new(0, 10, 0, 271)
+serverHopButton.BackgroundColor3 = Color3.fromRGB(100, 150, 255)
+serverHopButton.Text = "Server Hop"
+serverHopButton.TextColor3 = Color3.new(1,1,1)
+serverHopButton.Font = Enum.Font.GothamBold
+serverHopButton.TextSize = 14
+serverHopButton.AutoButtonColor = false
+Instance.new("UICorner", serverHopButton).CornerRadius = UDim.new(0, 6)
+
+-- Rejoin Button
+local rejoinButton = Instance.new("TextButton", afkContent)
+rejoinButton.Size = UDim2.new(0, 170, 0, 32)
+rejoinButton.Position = UDim2.new(1, -180, 0, 271)
+rejoinButton.BackgroundColor3 = Color3.fromRGB(120, 200, 100)
+rejoinButton.Text = "Rejoin"
+rejoinButton.TextColor3 = Color3.new(1,1,1)
+rejoinButton.Font = Enum.Font.GothamBold
+rejoinButton.TextSize = 14
+rejoinButton.AutoButtonColor = false
+Instance.new("UICorner", rejoinButton).CornerRadius = UDim.new(0, 6)
 
 -- Tab Switching
 mainTab.MouseButton1Click:Connect(function()
@@ -716,6 +825,16 @@ end)
 -- ================= ANTI-AFK & AUTO RECONNECT =================
 
 local antiAfkEnabled = false
+local autoReconnectEnabled = false
+
+-- Anti-AFK Logic (Prevents 20 min AFK kick)
+local VirtualUser = game:GetService("VirtualUser")
+player.Idled:Connect(function()
+	if antiAfkEnabled then
+		VirtualUser:CaptureController()
+		VirtualUser:ClickButton2(Vector2.new())
+	end
+end)
 
 -- Auto Reconnect on Disconnect (except "Failed to reconnect")
 do
@@ -728,7 +847,7 @@ do
 	end
 
 	for _, child in ipairs(PromptOverlay:GetChildren()) do
-		if child.Name == "ErrorPrompt" and antiAfkEnabled then
+		if child.Name == "ErrorPrompt" and autoReconnectEnabled then
 			-- Check if it's not "Failed to reconnect" error
 			task.spawn(function()
 				task.wait(0.1)
@@ -747,7 +866,7 @@ do
 	end
 
 	PromptOverlay.ChildAdded:Connect(function(child)
-		if child.Name == "ErrorPrompt" and antiAfkEnabled then
+		if child.Name == "ErrorPrompt" and autoReconnectEnabled then
 			-- Check if it's not "Failed to reconnect" error
 			task.spawn(function()
 				task.wait(0.1)
@@ -765,15 +884,6 @@ do
 	end)
 end
 
--- Anti-AFK Logic (Prevents 20 min AFK kick)
-local VirtualUser = game:GetService("VirtualUser")
-player.Idled:Connect(function()
-	if antiAfkEnabled then
-		VirtualUser:CaptureController()
-		VirtualUser:ClickButton2(Vector2.new())
-	end
-end)
-
 -- Anti-AFK Toggle Button logic
 antiAfkToggle.MouseButton1Click:Connect(function()
 	antiAfkEnabled = not antiAfkEnabled
@@ -784,4 +894,42 @@ antiAfkToggle.MouseButton1Click:Connect(function()
 		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+end)
+
+-- Auto Reconnect Toggle Button logic
+reconnectToggle.MouseButton1Click:Connect(function()
+	autoReconnectEnabled = not autoReconnectEnabled
+	if autoReconnectEnabled then
+		reconnectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		reconnectCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		reconnectCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+end)
+
+-- Server Hop Button logic
+serverHopButton.MouseButton1Click:Connect(function()
+	pcall(function()
+		local TeleportService = game:GetService("TeleportService")
+		local HttpService = game:GetService("HttpService")
+		local PlaceId = game.PlaceId
+		local JobId = game.JobId
+		
+		local servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
+		
+		for _, server in pairs(servers.data) do
+			if server.id ~= JobId and server.playing < server.maxPlayers then
+				TeleportService:TeleportToPlaceInstance(PlaceId, server.id, player)
+				break
+			end
+		end
+	end)
+end)
+
+-- Rejoin Button logic
+rejoinButton.MouseButton1Click:Connect(function()
+	pcall(function()
+		game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+	end)
 end)
