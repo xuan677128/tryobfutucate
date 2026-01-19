@@ -421,7 +421,7 @@ local obbyInfoText = Instance.new("TextLabel", obbyInfo)
 obbyInfoText.Size = UDim2.new(1, -10, 1, -10)
 obbyInfoText.Position = UDim2.new(0, 5, 0, 5)
 obbyInfoText.BackgroundTransparency = 1
-obbyInfoText.Text = "Click the button if the radioactive start and u will get instant random rewards from obby"
+obbyInfoText.Text = "Click the button if the radioactive start and u will get random reward from obby"
 obbyInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
 obbyInfoText.Font = Enum.Font.Gotham
 obbyInfoText.TextSize = 12
@@ -677,7 +677,7 @@ serverActionsLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Server Hop Button
 local serverHopButton = Instance.new("TextButton", serverActionsContainer)
-serverHopButton.Size = UDim2.new(0, 170, 0, 32)
+serverHopButton.Size = UDim2.new(0, 155, 0, 32)
 serverHopButton.Position = UDim2.new(0, 0, 0, 30)
 serverHopButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 serverHopButton.Text = "Server Hop"
@@ -689,8 +689,8 @@ Instance.new("UICorner", serverHopButton).CornerRadius = UDim.new(0, 6)
 
 -- Rejoin Button
 local rejoinButton = Instance.new("TextButton", serverActionsContainer)
-rejoinButton.Size = UDim2.new(0, 170, 0, 32)
-rejoinButton.Position = UDim2.new(1, -170, 0, 30)
+rejoinButton.Size = UDim2.new(0, 155, 0, 32)
+rejoinButton.Position = UDim2.new(1, -155, 0, 30)
 rejoinButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 rejoinButton.Text = "Rejoin"
 rejoinButton.TextColor3 = Color3.new(1,1,1)
