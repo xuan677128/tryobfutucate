@@ -888,6 +888,9 @@ collectToggle.MouseButton1Click:Connect(function()
 		collectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		collectCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+	-- Save the new state
+	savedSettings.autoCollectRadioactive = active
+	saveSettings(savedSettings)
 end)
 
 -- Auto Spin logic
@@ -917,6 +920,9 @@ spinToggle.MouseButton1Click:Connect(function()
 		spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		spinCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+	-- Save the new state
+	savedSettings.autoSpin = spinning
+	saveSettings(savedSettings)
 end)
 
 -- Obby Button logic (executes once per click)
@@ -985,6 +991,9 @@ moneyToggle.MouseButton1Click:Connect(function()
 		moneyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		moneyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+	-- Save the new state
+	savedSettings.autoCollectMoney = collectingMoney
+	saveSettings(savedSettings)
 end)
 
 -- ================= ANTI-AFK & AUTO RECONNECT =================
@@ -1059,6 +1068,9 @@ antiAfkToggle.MouseButton1Click:Connect(function()
 		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+	-- Save the new state
+	savedSettings.antiAfk = antiAfkEnabled
+	saveSettings(savedSettings)
 end)
 
 -- Auto Reconnect Toggle Button logic
@@ -1071,6 +1083,9 @@ reconnectToggle.MouseButton1Click:Connect(function()
 		reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		reconnectCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
+	-- Save the new state
+	savedSettings.autoReconnect = autoReconnectEnabled
+	saveSettings(savedSettings)
 end)
 
 -- Server Hop Button logic
@@ -1190,40 +1205,10 @@ task.spawn(function()
 	end
 end)
 
--- Update toggle handlers to save settings
-local originalMoneyToggle = moneyToggle.MouseButton1Click
-moneyToggle.MouseButton1Click:Connect(function()
-	savedSettings.autoCollectMoney = collectingMoney
-	saveSettings(savedSettings)
-end)
-
-local originalCollectToggle = collectToggle.MouseButton1Click
-collectToggle.MouseButton1Click:Connect(function()
-	savedSettings.autoCollectRadioactive = active
-	saveSettings(savedSettings)
-end)
-
-local originalSpinToggle = spinToggle.MouseButton1Click
-spinToggle.MouseButton1Click:Connect(function()
-	savedSettings.autoSpin = spinning
-	saveSettings(savedSettings)
-end)
-
+-- Save spin delay when changed
 spinDelayBox.FocusLost:Connect(function()
 	local delayValue = tonumber(spinDelayBox.Text) or 0.5
 	if delayValue <= 0 then delayValue = 0.5 end
 	savedSettings.spinDelay = delayValue
-	saveSettings(savedSettings)
-end)
-
-local originalAntiAfkToggle = antiAfkToggle.MouseButton1Click
-antiAfkToggle.MouseButton1Click:Connect(function()
-	savedSettings.antiAfk = antiAfkEnabled
-	saveSettings(savedSettings)
-end)
-
-local originalReconnectToggle = reconnectToggle.MouseButton1Click
-reconnectToggle.MouseButton1Click:Connect(function()
-	savedSettings.autoReconnect = autoReconnectEnabled
 	saveSettings(savedSettings)
 end)
