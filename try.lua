@@ -384,8 +384,8 @@ obbyButton.AutoButtonColor = false
 Instance.new("UICorner", obbyButton).CornerRadius = UDim.new(0, 6)
 
 local obbyDropdown = Instance.new("TextButton", eventContent)
-obbyDropdown.Size = UDim2.new(0, 20, 0, 28)
-obbyDropdown.Position = UDim2.new(1, -105, 0, 124)
+obbyDropdown.Size = UDim2.new(0, 25, 0, 28)
+obbyDropdown.Position = UDim2.new(1, -120, 0, 124)
 obbyDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 obbyDropdown.Text = "?"
 obbyDropdown.TextColor3 = Color3.new(1,1,1)
