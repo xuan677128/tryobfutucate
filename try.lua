@@ -518,34 +518,22 @@ spinToggle.MouseButton1Click:Connect(function()
 	end
 end)
 
--- Auto Obby logic
-task.spawn(function()
-	while true do
-		if autoObby then
-			pcall(function()
-				local hrp = player.Character or player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart")
-				local obbyEnd = workspace:WaitForChild("MapVariants"):WaitForChild("Radioactive"):WaitForChild("ObbyEnd")
-				firetouchinterest(hrp, obbyEnd, 0)
-				task.wait()
-				firetouchinterest(hrp, obbyEnd, 1)
-			end)
-			task.wait(0.5)
-		else
-			task.wait(0.5)
-		end
-	end
-end)
-
--- Obby Button logic
+-- Obby Button logic (executes once per click)
 obbyToggle.MouseButton1Click:Connect(function()
-	autoObby = not autoObby
-	if autoObby then
-		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
+	pcall(function()
+		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+		
+		local mapVariants = workspace:FindFirstChild("MapVariants")
+		local radioactive = mapVariants and mapVariants:FindFirstChild("Radioactive")
+		local obbyEnd = radioactive and radioactive:FindFirstChild("ObbyEnd")
+		
+		if obbyEnd then
+			firetouchinterest(hrp, obbyEnd, 0)
+			task.wait()
+			firetouchinterest(hrp, obbyEnd, 1)
+		end
+	end)
 end)
 
 -- Auto Collect Money logic
