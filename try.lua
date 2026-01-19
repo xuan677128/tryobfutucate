@@ -1,16 +1,97 @@
 -- ================= XUAN HUB GUI =================
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local TweenService = game:GetService("TweenService")
 
 pcall(function()
 	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
 end)
+
+-- ================= SETTINGS PERSISTENCE =================
+local settingsFileName = "XuanHubSettings.json"
+local defaultSettings = {
+	autoCollectMoney = false,
+	autoCollectRadioactive = false,
+	autoSpin = false,
+	spinDelay = 0.5,
+	antiAfk = false,
+	autoReconnect = false
+}
+
+local function loadSettings()
+	if not isfolder("XuanHub") then
+		makefolder("XuanHub")
+	end
+	
+	if isfile("XuanHub/" .. settingsFileName) then
+		local success, data = pcall(function()
+			return HttpService:JSONDecode(readfile("XuanHub/" .. settingsFileName))
+		end)
+		if success and data then
+			return data
+		end
+	end
+	return defaultSettings
+end
+
+local function saveSettings(settings)
+	pcall(function()
+		if not isfolder("XuanHub") then
+			makefolder("XuanHub")
+		end
+		writefile("XuanHub/" .. settingsFileName, HttpService:JSONEncode(settings))
+	end)
+end
+
+local savedSettings = loadSettings()
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "XuanHubUI"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.Parent = player:WaitForChild("PlayerGui")
+
+-- ================= LOADING SCREEN =================
+local loadingFrame = Instance.new("Frame")
+loadingFrame.Size = UDim2.new(1, 0, 1, 0)
+loadingFrame.Position = UDim2.new(0, 0, 0, 0)
+loadingFrame.BackgroundColor3 = Color3.fromRGB(20, 18, 28)
+loadingFrame.BorderSizePixel = 0
+loadingFrame.Parent = gui
+loadingFrame.ZIndex = 10
+
+local loadingIcon = Instance.new("ImageLabel", loadingFrame)
+loadingIcon.Size = UDim2.new(0, 120, 0, 120)
+loadingIcon.Position = UDim2.new(0.5, -60, 0.5, -80)
+loadingIcon.BackgroundTransparency = 1
+loadingIcon.Image = "rbxassetid://103326199885496"
+loadingIcon.ScaleType = Enum.ScaleType.Fit
+loadingIcon.ImageTransparency = 1
+loadingIcon.ZIndex = 11
+Instance.new("UICorner", loadingIcon).CornerRadius = UDim.new(1, 0)
+
+local loadingTitle = Instance.new("TextLabel", loadingFrame)
+loadingTitle.Size = UDim2.new(0, 300, 0, 50)
+loadingTitle.Position = UDim2.new(0.5, -150, 0.5, 50)
+loadingTitle.BackgroundTransparency = 1
+loadingTitle.Text = "Xuan Hub"
+loadingTitle.TextColor3 = Color3.fromRGB(255, 105, 180)
+loadingTitle.Font = Enum.Font.GothamBold
+loadingTitle.TextSize = 36
+loadingTitle.TextTransparency = 1
+loadingTitle.ZIndex = 11
+
+local loadingSubtitle = Instance.new("TextLabel", loadingFrame)
+loadingSubtitle.Size = UDim2.new(0, 300, 0, 30)
+loadingSubtitle.Position = UDim2.new(0.5, -150, 0.5, 100)
+loadingSubtitle.BackgroundTransparency = 1
+loadingSubtitle.Text = "Loading..."
+loadingSubtitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+loadingSubtitle.Font = Enum.Font.Gotham
+loadingSubtitle.TextSize = 16
+loadingSubtitle.TextTransparency = 1
+loadingSubtitle.ZIndex = 11
 
 -- Main Frame (Full UI)
 local mainFrame = Instance.new("Frame")
@@ -21,7 +102,7 @@ mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Parent = gui
-mainFrame.Visible = true
+mainFrame.Visible = false
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
 
 local mainStroke = Instance.new("UIStroke", mainFrame)
@@ -421,7 +502,7 @@ local obbyInfoText = Instance.new("TextLabel", obbyInfo)
 obbyInfoText.Size = UDim2.new(1, -10, 1, -10)
 obbyInfoText.Position = UDim2.new(0, 5, 0, 5)
 obbyInfoText.BackgroundTransparency = 1
-obbyInfoText.Text = "Click the button if the radioactive start and u will get random reward from obby"
+obbyInfoText.Text = "Click the button if the radioactive start and u will get instant lucky block from obby"
 obbyInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
 obbyInfoText.Font = Enum.Font.Gotham
 obbyInfoText.TextSize = 12
@@ -1022,4 +1103,141 @@ rejoinButton.MouseButton1Click:Connect(function()
 	pcall(function()
 		game:GetService("TeleportService"):Teleport(game.PlaceId, player)
 	end)
+end)
+
+-- ================= LOADING ANIMATION & SETTINGS APPLY =================
+
+-- Animate loading screen
+task.spawn(function()
+	-- Fade in icon
+	TweenService:Create(loadingIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		ImageTransparency = 0
+	}):Play()
+	
+	-- Fade in title
+	task.wait(0.2)
+	TweenService:Create(loadingTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		TextTransparency = 0
+	}):Play()
+	
+	-- Fade in subtitle
+	task.wait(0.2)
+	TweenService:Create(loadingSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		TextTransparency = 0
+	}):Play()
+	
+	-- Rotate icon
+	task.spawn(function()
+		while loadingFrame.Visible do
+			TweenService:Create(loadingIcon, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
+				Rotation = 360
+			}):Play()
+			task.wait(2)
+			loadingIcon.Rotation = 0
+		end
+	end)
+	
+	-- Wait 5 seconds total
+	task.wait(4)
+	
+	-- Fade out loading screen
+	local fadeOut = TweenService:Create(loadingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		BackgroundTransparency = 1
+	})
+	TweenService:Create(loadingIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		ImageTransparency = 1
+	}):Play()
+	TweenService:Create(loadingTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		TextTransparency = 1
+	}):Play()
+	TweenService:Create(loadingSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		TextTransparency = 1
+	}):Play()
+	fadeOut:Play()
+	
+	fadeOut.Completed:Connect(function()
+		loadingFrame:Destroy()
+		mainFrame.Visible = true
+	end)
+end)
+
+-- Apply saved settings
+task.spawn(function()
+	task.wait(0.5) -- Wait for GUI to fully load
+	
+	-- Apply Auto Collect Money
+	if savedSettings.autoCollectMoney then
+		collectingMoney = true
+		moneyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		moneyCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Collect Radioactive
+	if savedSettings.autoCollectRadioactive then
+		active = true
+		collectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		collectCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Spin
+	if savedSettings.autoSpin then
+		spinning = true
+		spinToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		spinCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Spin Delay
+	spinDelayBox.Text = tostring(savedSettings.spinDelay)
+	
+	-- Apply Anti-AFK
+	if savedSettings.antiAfk then
+		antiAfkEnabled = true
+		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		antiAfkCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Reconnect
+	if savedSettings.autoReconnect then
+		autoReconnectEnabled = true
+		reconnectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		reconnectCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+end)
+
+-- Update toggle handlers to save settings
+local originalMoneyToggle = moneyToggle.MouseButton1Click
+moneyToggle.MouseButton1Click:Connect(function()
+	savedSettings.autoCollectMoney = collectingMoney
+	saveSettings(savedSettings)
+end)
+
+local originalCollectToggle = collectToggle.MouseButton1Click
+collectToggle.MouseButton1Click:Connect(function()
+	savedSettings.autoCollectRadioactive = active
+	saveSettings(savedSettings)
+end)
+
+local originalSpinToggle = spinToggle.MouseButton1Click
+spinToggle.MouseButton1Click:Connect(function()
+	savedSettings.autoSpin = spinning
+	saveSettings(savedSettings)
+end)
+
+spinDelayBox.FocusLost:Connect(function()
+	local delayValue = tonumber(spinDelayBox.Text) or 0.5
+	if delayValue <= 0 then delayValue = 0.5 end
+	savedSettings.spinDelay = delayValue
+	saveSettings(savedSettings)
+end)
+
+local originalAntiAfkToggle = antiAfkToggle.MouseButton1Click
+antiAfkToggle.MouseButton1Click:Connect(function()
+	savedSettings.antiAfk = antiAfkEnabled
+	saveSettings(savedSettings)
+end)
+
+local originalReconnectToggle = reconnectToggle.MouseButton1Click
+reconnectToggle.MouseButton1Click:Connect(function()
+	savedSettings.autoReconnect = autoReconnectEnabled
+	saveSettings(savedSettings)
 end)
