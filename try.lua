@@ -54,16 +54,21 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- ================= LOADING SCREEN =================
 local loadingFrame = Instance.new("Frame")
-loadingFrame.Size = UDim2.new(1, 0, 1, 0)
-loadingFrame.Position = UDim2.new(0, 0, 0, 0)
-loadingFrame.BackgroundColor3 = Color3.fromRGB(20, 18, 28)
+loadingFrame.Size = UDim2.new(0, 300, 0, 200)
+loadingFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+loadingFrame.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
 loadingFrame.BorderSizePixel = 0
 loadingFrame.Parent = gui
 loadingFrame.ZIndex = 10
+Instance.new("UICorner", loadingFrame).CornerRadius = UDim.new(0, 12)
+
+local loadingStroke = Instance.new("UIStroke", loadingFrame)
+loadingStroke.Color = Color3.fromRGB(255, 105, 180)
+loadingStroke.Thickness = 2
 
 local loadingIcon = Instance.new("ImageLabel", loadingFrame)
-loadingIcon.Size = UDim2.new(0, 120, 0, 120)
-loadingIcon.Position = UDim2.new(0.5, -60, 0.5, -80)
+loadingIcon.Size = UDim2.new(0, 100, 0, 100)
+loadingIcon.Position = UDim2.new(0.5, -50, 0, 30)
 loadingIcon.BackgroundTransparency = 1
 loadingIcon.Image = "rbxassetid://103326199885496"
 loadingIcon.ScaleType = Enum.ScaleType.Fit
@@ -72,26 +77,15 @@ loadingIcon.ZIndex = 11
 Instance.new("UICorner", loadingIcon).CornerRadius = UDim.new(1, 0)
 
 local loadingTitle = Instance.new("TextLabel", loadingFrame)
-loadingTitle.Size = UDim2.new(0, 300, 0, 50)
-loadingTitle.Position = UDim2.new(0.5, -150, 0.5, 50)
+loadingTitle.Size = UDim2.new(1, -20, 0, 40)
+loadingTitle.Position = UDim2.new(0, 10, 0, 140)
 loadingTitle.BackgroundTransparency = 1
 loadingTitle.Text = "Xuan Hub"
 loadingTitle.TextColor3 = Color3.fromRGB(255, 105, 180)
 loadingTitle.Font = Enum.Font.GothamBold
-loadingTitle.TextSize = 36
+loadingTitle.TextSize = 28
 loadingTitle.TextTransparency = 1
 loadingTitle.ZIndex = 11
-
-local loadingSubtitle = Instance.new("TextLabel", loadingFrame)
-loadingSubtitle.Size = UDim2.new(0, 300, 0, 30)
-loadingSubtitle.Position = UDim2.new(0.5, -150, 0.5, 100)
-loadingSubtitle.BackgroundTransparency = 1
-loadingSubtitle.Text = "Loading..."
-loadingSubtitle.TextColor3 = Color3.fromRGB(200, 200, 200)
-loadingSubtitle.Font = Enum.Font.Gotham
-loadingSubtitle.TextSize = 16
-loadingSubtitle.TextTransparency = 1
-loadingSubtitle.ZIndex = 11
 
 -- Main Frame (Full UI)
 local mainFrame = Instance.new("Frame")
@@ -1109,48 +1103,40 @@ end)
 
 -- Animate loading screen
 task.spawn(function()
+	-- Fade in frame
+	TweenService:Create(loadingFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		BackgroundTransparency = 0
+	}):Play()
+	TweenService:Create(loadingStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Transparency = 0
+	}):Play()
+	
 	-- Fade in icon
-	TweenService:Create(loadingIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+	task.wait(0.1)
+	TweenService:Create(loadingIcon, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 		ImageTransparency = 0
 	}):Play()
 	
 	-- Fade in title
 	task.wait(0.2)
-	TweenService:Create(loadingTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+	TweenService:Create(loadingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 		TextTransparency = 0
 	}):Play()
 	
-	-- Fade in subtitle
-	task.wait(0.2)
-	TweenService:Create(loadingSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		TextTransparency = 0
-	}):Play()
-	
-	-- Rotate icon
-	task.spawn(function()
-		while loadingFrame.Visible do
-			TweenService:Create(loadingIcon, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
-				Rotation = 360
-			}):Play()
-			task.wait(2)
-			loadingIcon.Rotation = 0
-		end
-	end)
-	
-	-- Wait 5 seconds total
-	task.wait(4)
+	-- Wait 5 seconds total (including fade in time)
+	task.wait(4.3)
 	
 	-- Fade out loading screen
-	local fadeOut = TweenService:Create(loadingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+	local fadeOut = TweenService:Create(loadingFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
 		BackgroundTransparency = 1
 	})
-	TweenService:Create(loadingIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+	TweenService:Create(loadingStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		Transparency = 1
+	}):Play()
+	TweenService:Create(loadingIcon, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
 		ImageTransparency = 1
 	}):Play()
-	TweenService:Create(loadingTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-		TextTransparency = 1
-	}):Play()
-	TweenService:Create(loadingSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+	TweenService:Create(loadingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
 		TextTransparency = 1
 	}):Play()
 	fadeOut:Play()
