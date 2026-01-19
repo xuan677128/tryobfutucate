@@ -185,6 +185,21 @@ Instance.new("UICorner", eventTab).CornerRadius = UDim.new(0, 8)
 local eventPadding = Instance.new("UIPadding", eventTab)
 eventPadding.PaddingLeft = UDim.new(0, 10)
 
+-- AFK Tab Button
+local afkTab = Instance.new("TextButton", sidebar)
+afkTab.Size = UDim2.new(1, -10, 0, 35)
+afkTab.Position = UDim2.new(0, 5, 0, 90)
+afkTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+afkTab.Text = "💤  AFK"
+afkTab.TextColor3 = Color3.new(1,1,1)
+afkTab.Font = Enum.Font.GothamBold
+afkTab.TextSize = 14
+afkTab.TextXAlignment = Enum.TextXAlignment.Left
+afkTab.AutoButtonColor = false
+Instance.new("UICorner", afkTab).CornerRadius = UDim.new(0, 8)
+local afkPadding = Instance.new("UIPadding", afkTab)
+afkPadding.PaddingLeft = UDim.new(0, 10)
+
 -- Player Profile Section
 local profileFrame = Instance.new("Frame", sidebar)
 profileFrame.Size = UDim2.new(1, -10, 0, 60)
@@ -418,19 +433,99 @@ obbyDropdown.MouseButton1Click:Connect(function()
 	obbyInfo.Visible = not obbyInfo.Visible
 end)
 
+-- AFK Content Area
+local afkContent = Instance.new("Frame", mainFrame)
+afkContent.Size = UDim2.new(1, -150, 1, -60)
+afkContent.Position = UDim2.new(0, 145, 0, 55)
+afkContent.BackgroundTransparency = 1
+afkContent.Visible = false
+
+-- Anti-AFK Section
+local antiAfkLabel = Instance.new("TextLabel", afkContent)
+antiAfkLabel.Size = UDim2.new(1, -150, 0, 30)
+antiAfkLabel.Position = UDim2.new(0, 10, 0, 10)
+antiAfkLabel.BackgroundTransparency = 1
+antiAfkLabel.Text = "Anti-AFK (20 Min Auto Reconnect)"
+antiAfkLabel.TextColor3 = Color3.new(1,1,1)
+antiAfkLabel.Font = Enum.Font.GothamBold
+antiAfkLabel.TextSize = 16
+antiAfkLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local antiAfkToggle = Instance.new("TextButton", afkContent)
+antiAfkToggle.Size = UDim2.new(0, 50, 0, 24)
+antiAfkToggle.Position = UDim2.new(1, -65, 0, 13)
+antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+antiAfkToggle.Text = ""
+antiAfkToggle.AutoButtonColor = false
+Instance.new("UICorner", antiAfkToggle).CornerRadius = UDim.new(1, 0)
+
+local antiAfkCircle = Instance.new("Frame", antiAfkToggle)
+antiAfkCircle.Size = UDim2.new(0, 18, 0, 18)
+antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
+antiAfkCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", antiAfkCircle).CornerRadius = UDim.new(1, 0)
+
+local afkDropdown = Instance.new("TextButton", afkContent)
+afkDropdown.Size = UDim2.new(0, 25, 0, 28)
+afkDropdown.Position = UDim2.new(1, -120, 0, 11)
+afkDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+afkDropdown.Text = "?"
+afkDropdown.TextColor3 = Color3.new(1,1,1)
+afkDropdown.Font = Enum.Font.GothamBold
+afkDropdown.TextSize = 14
+afkDropdown.AutoButtonColor = false
+Instance.new("UICorner", afkDropdown).CornerRadius = UDim.new(0, 6)
+
+local afkInfo = Instance.new("Frame", afkContent)
+afkInfo.Size = UDim2.new(1, -20, 0, 80)
+afkInfo.Position = UDim2.new(0, 10, 0, 45)
+afkInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+afkInfo.BorderSizePixel = 0
+afkInfo.Visible = false
+Instance.new("UICorner", afkInfo).CornerRadius = UDim.new(0, 6)
+
+local afkInfoText = Instance.new("TextLabel", afkInfo)
+afkInfoText.Size = UDim2.new(1, -10, 1, -10)
+afkInfoText.Position = UDim2.new(0, 5, 0, 5)
+afkInfoText.BackgroundTransparency = 1
+afkInfoText.Text = "Automatically reconnects you when disconnected. \n\nNote: It won't reconnect if 'Failed to reconnect' error appears."
+afkInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
+afkInfoText.Font = Enum.Font.Gotham
+afkInfoText.TextSize = 12
+afkInfoText.TextWrapped = true
+afkInfoText.TextXAlignment = Enum.TextXAlignment.Left
+afkInfoText.TextYAlignment = Enum.TextYAlignment.Top
+
+afkDropdown.MouseButton1Click:Connect(function()
+	afkInfo.Visible = not afkInfo.Visible
+end)
+
 -- Tab Switching
 mainTab.MouseButton1Click:Connect(function()
 	mainTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 	eventTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+	afkTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 	mainContent.Visible = true
 	eventContent.Visible = false
+	afkContent.Visible = false
 end)
 
 eventTab.MouseButton1Click:Connect(function()
 	mainTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 	eventTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+	afkTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 	mainContent.Visible = false
 	eventContent.Visible = true
+	afkContent.Visible = false
+end)
+
+afkTab.MouseButton1Click:Connect(function()
+	mainTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+	eventTab.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+	afkTab.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+	mainContent.Visible = false
+	eventContent.Visible = false
+	afkContent.Visible = true
 end)
 
 -- Button Interactions
@@ -615,5 +710,78 @@ moneyToggle.MouseButton1Click:Connect(function()
 	else
 		moneyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		moneyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+end)
+
+-- ================= ANTI-AFK & AUTO RECONNECT =================
+
+local antiAfkEnabled = false
+
+-- Auto Reconnect on Disconnect (except "Failed to reconnect")
+do
+	local PromptOverlay = game.CoreGui:WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
+	local function reconnect()
+		task.wait(0.01)
+		pcall(function()
+			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+		end)
+	end
+
+	for _, child in ipairs(PromptOverlay:GetChildren()) do
+		if child.Name == "ErrorPrompt" and antiAfkEnabled then
+			-- Check if it's not "Failed to reconnect" error
+			task.spawn(function()
+				task.wait(0.1)
+				local errorText = ""
+				for _, desc in ipairs(child:GetDescendants()) do
+					if desc:IsA("TextLabel") then
+						errorText = errorText .. desc.Text:lower()
+					end
+				end
+				if not errorText:find("failed to reconnect") then
+					reconnect()
+				end
+			end)
+			break
+		end
+	end
+
+	PromptOverlay.ChildAdded:Connect(function(child)
+		if child.Name == "ErrorPrompt" and antiAfkEnabled then
+			-- Check if it's not "Failed to reconnect" error
+			task.spawn(function()
+				task.wait(0.1)
+				local errorText = ""
+				for _, desc in ipairs(child:GetDescendants()) do
+					if desc:IsA("TextLabel") then
+						errorText = errorText .. desc.Text:lower()
+					end
+				end
+				if not errorText:find("failed to reconnect") then
+					reconnect()
+				end
+			end)
+		end
+	end)
+end
+
+-- Anti-AFK Logic (Prevents 20 min AFK kick)
+local VirtualUser = game:GetService("VirtualUser")
+player.Idled:Connect(function()
+	if antiAfkEnabled then
+		VirtualUser:CaptureController()
+		VirtualUser:ClickButton2(Vector2.new())
+	end
+end)
+
+-- Anti-AFK Toggle Button logic
+antiAfkToggle.MouseButton1Click:Connect(function()
+	antiAfkEnabled = not antiAfkEnabled
+	if antiAfkEnabled then
+		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		antiAfkCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
 	end
 end)
