@@ -459,13 +459,33 @@ afkContent.BackgroundTransparency = 1
 afkContent.BorderSizePixel = 0
 afkContent.ScrollBarThickness = 6
 afkContent.ScrollBarImageColor3 = Color3.fromRGB(255, 105, 180)
-afkContent.CanvasSize = UDim2.new(0, 0, 0, 320)
+afkContent.CanvasSize = UDim2.new(0, 0, 0, 200)
 afkContent.Visible = false
 
+local afkListLayout = Instance.new("UIListLayout", afkContent)
+afkListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+afkListLayout.Padding = UDim.new(0, 5)
+
+local afkPadding = Instance.new("UIPadding", afkContent)
+afkPadding.PaddingLeft = UDim.new(0, 10)
+afkPadding.PaddingRight = UDim.new(0, 10)
+afkPadding.PaddingTop = UDim.new(0, 10)
+afkPadding.PaddingBottom = UDim.new(0, 10)
+
+-- Update canvas size when layout changes
+afkListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	afkContent.CanvasSize = UDim2.new(0, 0, 0, afkListLayout.AbsoluteContentSize.Y + 20)
+end)
+
 -- Anti-AFK Section
-local antiAfkLabel = Instance.new("TextLabel", afkContent)
-antiAfkLabel.Size = UDim2.new(1, -150, 0, 30)
-antiAfkLabel.Position = UDim2.new(0, 10, 0, 10)
+local antiAfkContainer = Instance.new("Frame", afkContent)
+antiAfkContainer.Size = UDim2.new(1, -20, 0, 35)
+antiAfkContainer.BackgroundTransparency = 1
+antiAfkContainer.LayoutOrder = 1
+
+local antiAfkLabel = Instance.new("TextLabel", antiAfkContainer)
+antiAfkLabel.Size = UDim2.new(1, -150, 1, 0)
+antiAfkLabel.Position = UDim2.new(0, 0, 0, 0)
 antiAfkLabel.BackgroundTransparency = 1
 antiAfkLabel.Text = "Anti-AFK"
 antiAfkLabel.TextColor3 = Color3.new(1,1,1)
@@ -473,9 +493,9 @@ antiAfkLabel.Font = Enum.Font.GothamBold
 antiAfkLabel.TextSize = 16
 antiAfkLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local antiAfkToggle = Instance.new("TextButton", afkContent)
+local antiAfkToggle = Instance.new("TextButton", antiAfkContainer)
 antiAfkToggle.Size = UDim2.new(0, 50, 0, 24)
-antiAfkToggle.Position = UDim2.new(1, -65, 0, 13)
+antiAfkToggle.Position = UDim2.new(1, -55, 0.5, -12)
 antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 antiAfkToggle.Text = ""
 antiAfkToggle.AutoButtonColor = false
@@ -487,9 +507,9 @@ antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
 antiAfkCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", antiAfkCircle).CornerRadius = UDim.new(1, 0)
 
-local afkDropdown = Instance.new("TextButton", afkContent)
+local afkDropdown = Instance.new("TextButton", antiAfkContainer)
 afkDropdown.Size = UDim2.new(0, 25, 0, 28)
-afkDropdown.Position = UDim2.new(1, -120, 0, 11)
+afkDropdown.Position = UDim2.new(1, -110, 0.5, -14)
 afkDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 afkDropdown.Text = "?"
 afkDropdown.TextColor3 = Color3.new(1,1,1)
@@ -499,11 +519,12 @@ afkDropdown.AutoButtonColor = false
 Instance.new("UICorner", afkDropdown).CornerRadius = UDim.new(0, 6)
 
 local afkInfo = Instance.new("Frame", afkContent)
-afkInfo.Size = UDim2.new(1, -20, 0, 60)
-afkInfo.Position = UDim2.new(0, 10, 0, 45)
+afkInfo.Size = UDim2.new(1, -20, 0, 0)
 afkInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 afkInfo.BorderSizePixel = 0
 afkInfo.Visible = false
+afkInfo.ClipsDescendants = true
+afkInfo.LayoutOrder = 2
 Instance.new("UICorner", afkInfo).CornerRadius = UDim.new(0, 6)
 
 local afkInfoText = Instance.new("TextLabel", afkInfo)
@@ -543,14 +564,19 @@ end)
 -- Divider Line
 local afkDivider = Instance.new("Frame", afkContent)
 afkDivider.Size = UDim2.new(1, -20, 0, 1)
-afkDivider.Position = UDim2.new(0, 10, 0, 50)
 afkDivider.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 afkDivider.BorderSizePixel = 0
+afkDivider.LayoutOrder = 3
 
 -- Auto Reconnect Section
-local reconnectLabel = Instance.new("TextLabel", afkContent)
-reconnectLabel.Size = UDim2.new(1, -150, 0, 30)
-reconnectLabel.Position = UDim2.new(0, 10, 0, 58)
+local reconnectContainer = Instance.new("Frame", afkContent)
+reconnectContainer.Size = UDim2.new(1, -20, 0, 35)
+reconnectContainer.BackgroundTransparency = 1
+reconnectContainer.LayoutOrder = 4
+
+local reconnectLabel = Instance.new("TextLabel", reconnectContainer)
+reconnectLabel.Size = UDim2.new(1, -150, 1, 0)
+reconnectLabel.Position = UDim2.new(0, 0, 0, 0)
 reconnectLabel.BackgroundTransparency = 1
 reconnectLabel.Text = "Auto Reconnect"
 reconnectLabel.TextColor3 = Color3.new(1,1,1)
@@ -558,9 +584,9 @@ reconnectLabel.Font = Enum.Font.GothamBold
 reconnectLabel.TextSize = 16
 reconnectLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local reconnectToggle = Instance.new("TextButton", afkContent)
+local reconnectToggle = Instance.new("TextButton", reconnectContainer)
 reconnectToggle.Size = UDim2.new(0, 50, 0, 24)
-reconnectToggle.Position = UDim2.new(1, -65, 0, 61)
+reconnectToggle.Position = UDim2.new(1, -55, 0.5, -12)
 reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 reconnectToggle.Text = ""
 reconnectToggle.AutoButtonColor = false
@@ -572,9 +598,9 @@ reconnectCircle.Position = UDim2.new(0, 3, 0.5, -9)
 reconnectCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", reconnectCircle).CornerRadius = UDim.new(1, 0)
 
-local reconnectDropdown = Instance.new("TextButton", afkContent)
+local reconnectDropdown = Instance.new("TextButton", reconnectContainer)
 reconnectDropdown.Size = UDim2.new(0, 25, 0, 28)
-reconnectDropdown.Position = UDim2.new(1, -120, 0, 59)
+reconnectDropdown.Position = UDim2.new(1, -110, 0.5, -14)
 reconnectDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 reconnectDropdown.Text = "?"
 reconnectDropdown.TextColor3 = Color3.new(1,1,1)
@@ -585,11 +611,11 @@ Instance.new("UICorner", reconnectDropdown).CornerRadius = UDim.new(0, 6)
 
 local reconnectInfo = Instance.new("Frame", afkContent)
 reconnectInfo.Size = UDim2.new(1, -20, 0, 0)
-reconnectInfo.Position = UDim2.new(0, 10, 0, 93)
 reconnectInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 reconnectInfo.BorderSizePixel = 0
 reconnectInfo.Visible = false
 reconnectInfo.ClipsDescendants = true
+reconnectInfo.LayoutOrder = 5
 Instance.new("UICorner", reconnectInfo).CornerRadius = UDim.new(0, 6)
 
 local reconnectInfoText = Instance.new("TextLabel", reconnectInfo)
@@ -629,14 +655,19 @@ end)
 -- Divider Line 2
 local afkDivider2 = Instance.new("Frame", afkContent)
 afkDivider2.Size = UDim2.new(1, -20, 0, 1)
-afkDivider2.Position = UDim2.new(0, 10, 0, 103)
 afkDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 afkDivider2.BorderSizePixel = 0
+afkDivider2.LayoutOrder = 6
 
 -- Server Actions Section
-local serverActionsLabel = Instance.new("TextLabel", afkContent)
-serverActionsLabel.Size = UDim2.new(1, -20, 0, 25)
-serverActionsLabel.Position = UDim2.new(0, 10, 0, 111)
+local serverActionsContainer = Instance.new("Frame", afkContent)
+serverActionsContainer.Size = UDim2.new(1, -20, 0, 70)
+serverActionsContainer.BackgroundTransparency = 1
+serverActionsContainer.LayoutOrder = 7
+
+local serverActionsLabel = Instance.new("TextLabel", serverActionsContainer)
+serverActionsLabel.Size = UDim2.new(1, 0, 0, 25)
+serverActionsLabel.Position = UDim2.new(0, 0, 0, 0)
 serverActionsLabel.BackgroundTransparency = 1
 serverActionsLabel.Text = "Server Actions"
 serverActionsLabel.TextColor3 = Color3.new(1,1,1)
@@ -645,10 +676,10 @@ serverActionsLabel.TextSize = 16
 serverActionsLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Server Hop Button
-local serverHopButton = Instance.new("TextButton", afkContent)
+local serverHopButton = Instance.new("TextButton", serverActionsContainer)
 serverHopButton.Size = UDim2.new(0, 170, 0, 32)
-serverHopButton.Position = UDim2.new(0, 10, 0, 141)
-serverHopButton.BackgroundColor3 = Color3.fromRGB(100, 150, 255)
+serverHopButton.Position = UDim2.new(0, 0, 0, 30)
+serverHopButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 serverHopButton.Text = "Server Hop"
 serverHopButton.TextColor3 = Color3.new(1,1,1)
 serverHopButton.Font = Enum.Font.GothamBold
@@ -657,10 +688,10 @@ serverHopButton.AutoButtonColor = false
 Instance.new("UICorner", serverHopButton).CornerRadius = UDim.new(0, 6)
 
 -- Rejoin Button
-local rejoinButton = Instance.new("TextButton", afkContent)
+local rejoinButton = Instance.new("TextButton", serverActionsContainer)
 rejoinButton.Size = UDim2.new(0, 170, 0, 32)
-rejoinButton.Position = UDim2.new(1, -180, 0, 141)
-rejoinButton.BackgroundColor3 = Color3.fromRGB(120, 200, 100)
+rejoinButton.Position = UDim2.new(1, -170, 0, 30)
+rejoinButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 rejoinButton.Text = "Rejoin"
 rejoinButton.TextColor3 = Color3.new(1,1,1)
 rejoinButton.Font = Enum.Font.GothamBold
