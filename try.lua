@@ -430,14 +430,36 @@ obbyInfoText.TextXAlignment = Enum.TextXAlignment.Left
 obbyInfoText.TextYAlignment = Enum.TextYAlignment.Top
 
 obbyDropdown.MouseButton1Click:Connect(function()
-	obbyInfo.Visible = not obbyInfo.Visible
+	local TweenService = game:GetService("TweenService")
+	local isVisible = obbyInfo.Visible
+	
+	if not isVisible then
+		obbyInfo.Visible = true
+		obbyInfo.Size = UDim2.new(1, -20, 0, 0)
+		local tween = TweenService:Create(obbyInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(1, -20, 0, 60)
+		})
+		tween:Play()
+	else
+		local tween = TweenService:Create(obbyInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			Size = UDim2.new(1, -20, 0, 0)
+		})
+		tween:Play()
+		tween.Completed:Connect(function()
+			obbyInfo.Visible = false
+		end)
+	end
 end)
 
--- AFK Content Area
-local afkContent = Instance.new("Frame", mainFrame)
+-- AFK Content Area (with scrolling)
+local afkContent = Instance.new("ScrollingFrame", mainFrame)
 afkContent.Size = UDim2.new(1, -150, 1, -60)
 afkContent.Position = UDim2.new(0, 145, 0, 55)
 afkContent.BackgroundTransparency = 1
+afkContent.BorderSizePixel = 0
+afkContent.ScrollBarThickness = 6
+afkContent.ScrollBarImageColor3 = Color3.fromRGB(255, 105, 180)
+afkContent.CanvasSize = UDim2.new(0, 0, 0, 320)
 afkContent.Visible = false
 
 -- Anti-AFK Section
@@ -497,20 +519,38 @@ afkInfoText.TextXAlignment = Enum.TextXAlignment.Left
 afkInfoText.TextYAlignment = Enum.TextYAlignment.Top
 
 afkDropdown.MouseButton1Click:Connect(function()
-	afkInfo.Visible = not afkInfo.Visible
+	local TweenService = game:GetService("TweenService")
+	local isVisible = afkInfo.Visible
+	
+	if not isVisible then
+		afkInfo.Visible = true
+		afkInfo.Size = UDim2.new(1, -20, 0, 0)
+		local tween = TweenService:Create(afkInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(1, -20, 0, 60)
+		})
+		tween:Play()
+	else
+		local tween = TweenService:Create(afkInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			Size = UDim2.new(1, -20, 0, 0)
+		})
+		tween:Play()
+		tween.Completed:Connect(function()
+			afkInfo.Visible = false
+		end)
+	end
 end)
 
 -- Divider Line
 local afkDivider = Instance.new("Frame", afkContent)
 afkDivider.Size = UDim2.new(1, -20, 0, 1)
-afkDivider.Position = UDim2.new(0, 10, 0, 115)
+afkDivider.Position = UDim2.new(0, 10, 0, 50)
 afkDivider.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 afkDivider.BorderSizePixel = 0
 
 -- Auto Reconnect Section
 local reconnectLabel = Instance.new("TextLabel", afkContent)
 reconnectLabel.Size = UDim2.new(1, -150, 0, 30)
-reconnectLabel.Position = UDim2.new(0, 10, 0, 123)
+reconnectLabel.Position = UDim2.new(0, 10, 0, 58)
 reconnectLabel.BackgroundTransparency = 1
 reconnectLabel.Text = "Auto Reconnect"
 reconnectLabel.TextColor3 = Color3.new(1,1,1)
@@ -520,7 +560,7 @@ reconnectLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 local reconnectToggle = Instance.new("TextButton", afkContent)
 reconnectToggle.Size = UDim2.new(0, 50, 0, 24)
-reconnectToggle.Position = UDim2.new(1, -65, 0, 126)
+reconnectToggle.Position = UDim2.new(1, -65, 0, 61)
 reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 reconnectToggle.Text = ""
 reconnectToggle.AutoButtonColor = false
@@ -534,7 +574,7 @@ Instance.new("UICorner", reconnectCircle).CornerRadius = UDim.new(1, 0)
 
 local reconnectDropdown = Instance.new("TextButton", afkContent)
 reconnectDropdown.Size = UDim2.new(0, 25, 0, 28)
-reconnectDropdown.Position = UDim2.new(1, -120, 0, 124)
+reconnectDropdown.Position = UDim2.new(1, -120, 0, 59)
 reconnectDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 reconnectDropdown.Text = "?"
 reconnectDropdown.TextColor3 = Color3.new(1,1,1)
@@ -544,15 +584,16 @@ reconnectDropdown.AutoButtonColor = false
 Instance.new("UICorner", reconnectDropdown).CornerRadius = UDim.new(0, 6)
 
 local reconnectInfo = Instance.new("Frame", afkContent)
-reconnectInfo.Size = UDim2.new(1, -20, 0, 65)
-reconnectInfo.Position = UDim2.new(0, 10, 0, 158)
+reconnectInfo.Size = UDim2.new(1, -20, 0, 0)
+reconnectInfo.Position = UDim2.new(0, 10, 0, 93)
 reconnectInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 reconnectInfo.BorderSizePixel = 0
 reconnectInfo.Visible = false
+reconnectInfo.ClipsDescendants = true
 Instance.new("UICorner", reconnectInfo).CornerRadius = UDim.new(0, 6)
 
 local reconnectInfoText = Instance.new("TextLabel", reconnectInfo)
-reconnectInfoText.Size = UDim2.new(1, -10, 1, -10)
+reconnectInfoText.Size = UDim2.new(1, -10, 0, 65)
 reconnectInfoText.Position = UDim2.new(0, 5, 0, 5)
 reconnectInfoText.BackgroundTransparency = 1
 reconnectInfoText.Text = "Automatically rejoins the game when you get disconnected.\n\nNote: Won't reconnect if 'Failed to reconnect' error appears."
@@ -564,20 +605,38 @@ reconnectInfoText.TextXAlignment = Enum.TextXAlignment.Left
 reconnectInfoText.TextYAlignment = Enum.TextYAlignment.Top
 
 reconnectDropdown.MouseButton1Click:Connect(function()
-	reconnectInfo.Visible = not reconnectInfo.Visible
+	local TweenService = game:GetService("TweenService")
+	local isVisible = reconnectInfo.Visible
+	
+	if not isVisible then
+		reconnectInfo.Visible = true
+		reconnectInfo.Size = UDim2.new(1, -20, 0, 0)
+		local tween = TweenService:Create(reconnectInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(1, -20, 0, 75)
+		})
+		tween:Play()
+	else
+		local tween = TweenService:Create(reconnectInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			Size = UDim2.new(1, -20, 0, 0)
+		})
+		tween:Play()
+		tween.Completed:Connect(function()
+			reconnectInfo.Visible = false
+		end)
+	end
 end)
 
 -- Divider Line 2
 local afkDivider2 = Instance.new("Frame", afkContent)
 afkDivider2.Size = UDim2.new(1, -20, 0, 1)
-afkDivider2.Position = UDim2.new(0, 10, 0, 233)
+afkDivider2.Position = UDim2.new(0, 10, 0, 103)
 afkDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 afkDivider2.BorderSizePixel = 0
 
 -- Server Actions Section
 local serverActionsLabel = Instance.new("TextLabel", afkContent)
 serverActionsLabel.Size = UDim2.new(1, -20, 0, 25)
-serverActionsLabel.Position = UDim2.new(0, 10, 0, 241)
+serverActionsLabel.Position = UDim2.new(0, 10, 0, 111)
 serverActionsLabel.BackgroundTransparency = 1
 serverActionsLabel.Text = "Server Actions"
 serverActionsLabel.TextColor3 = Color3.new(1,1,1)
@@ -588,7 +647,7 @@ serverActionsLabel.TextXAlignment = Enum.TextXAlignment.Left
 -- Server Hop Button
 local serverHopButton = Instance.new("TextButton", afkContent)
 serverHopButton.Size = UDim2.new(0, 170, 0, 32)
-serverHopButton.Position = UDim2.new(0, 10, 0, 271)
+serverHopButton.Position = UDim2.new(0, 10, 0, 141)
 serverHopButton.BackgroundColor3 = Color3.fromRGB(100, 150, 255)
 serverHopButton.Text = "Server Hop"
 serverHopButton.TextColor3 = Color3.new(1,1,1)
@@ -600,7 +659,7 @@ Instance.new("UICorner", serverHopButton).CornerRadius = UDim.new(0, 6)
 -- Rejoin Button
 local rejoinButton = Instance.new("TextButton", afkContent)
 rejoinButton.Size = UDim2.new(0, 170, 0, 32)
-rejoinButton.Position = UDim2.new(1, -180, 0, 271)
+rejoinButton.Position = UDim2.new(1, -180, 0, 141)
 rejoinButton.BackgroundColor3 = Color3.fromRGB(120, 200, 100)
 rejoinButton.Text = "Rejoin"
 rejoinButton.TextColor3 = Color3.new(1,1,1)
