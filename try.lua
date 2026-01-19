@@ -199,6 +199,17 @@ discordLink.Font = Enum.Font.Gotham
 discordLink.TextSize = 11
 discordLink.TextXAlignment = Enum.TextXAlignment.Left
 
+-- Version Label
+local versionLabel = Instance.new("TextLabel", header)
+versionLabel.Size = UDim2.new(0, 80, 0, 25)
+versionLabel.Position = UDim2.new(1, -170, 0, 13)
+versionLabel.BackgroundTransparency = 1
+versionLabel.Text = "Ver: " .. tostring(game.PlaceVersion)
+versionLabel.TextColor3 = Color3.fromRGB(255, 105, 180)
+versionLabel.Font = Enum.Font.GothamBold
+versionLabel.TextSize = 13
+versionLabel.TextXAlignment = Enum.TextXAlignment.Center
+
 -- Minimize Button
 local minimizeBtn = Instance.new("TextButton", header)
 minimizeBtn.Size = UDim2.new(0, 35, 0, 35)
