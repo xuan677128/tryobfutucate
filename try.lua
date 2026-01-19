@@ -363,7 +363,7 @@ divider2.BorderSizePixel = 0
 
 -- Auto Obby Section
 local obbyLabel = Instance.new("TextLabel", eventContent)
-obbyLabel.Size = UDim2.new(1, -20, 0, 30)
+obbyLabel.Size = UDim2.new(1, -100, 0, 30)
 obbyLabel.Position = UDim2.new(0, 10, 0, 123)
 obbyLabel.BackgroundTransparency = 1
 obbyLabel.Text = "Auto Obby"
@@ -372,19 +372,51 @@ obbyLabel.Font = Enum.Font.GothamBold
 obbyLabel.TextSize = 16
 obbyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local obbyToggle = Instance.new("TextButton", eventContent)
-obbyToggle.Size = UDim2.new(0, 50, 0, 24)
-obbyToggle.Position = UDim2.new(1, -65, 0, 126)
-obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-obbyToggle.Text = ""
-obbyToggle.AutoButtonColor = false
-Instance.new("UICorner", obbyToggle).CornerRadius = UDim.new(1, 0)
+local obbyButton = Instance.new("TextButton", eventContent)
+obbyButton.Size = UDim2.new(0, 80, 0, 28)
+obbyButton.Position = UDim2.new(1, -90, 0, 124)
+obbyButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+obbyButton.Text = "Click"
+obbyButton.TextColor3 = Color3.new(1,1,1)
+obbyButton.Font = Enum.Font.GothamBold
+obbyButton.TextSize = 14
+obbyButton.AutoButtonColor = false
+Instance.new("UICorner", obbyButton).CornerRadius = UDim.new(0, 6)
 
-local obbyCircle = Instance.new("Frame", obbyToggle)
-obbyCircle.Size = UDim2.new(0, 18, 0, 18)
-obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
-obbyCircle.BackgroundColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", obbyCircle).CornerRadius = UDim.new(1, 0)
+local obbyDropdown = Instance.new("TextButton", eventContent)
+obbyDropdown.Size = UDim2.new(0, 20, 0, 28)
+obbyDropdown.Position = UDim2.new(1, -105, 0, 124)
+obbyDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+obbyDropdown.Text = "?"
+obbyDropdown.TextColor3 = Color3.new(1,1,1)
+obbyDropdown.Font = Enum.Font.GothamBold
+obbyDropdown.TextSize = 14
+obbyDropdown.AutoButtonColor = false
+Instance.new("UICorner", obbyDropdown).CornerRadius = UDim.new(0, 6)
+
+local obbyInfo = Instance.new("Frame", eventContent)
+obbyInfo.Size = UDim2.new(1, -20, 0, 60)
+obbyInfo.Position = UDim2.new(0, 10, 0, 157)
+obbyInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+obbyInfo.BorderSizePixel = 0
+obbyInfo.Visible = false
+Instance.new("UICorner", obbyInfo).CornerRadius = UDim.new(0, 6)
+
+local obbyInfoText = Instance.new("TextLabel", obbyInfo)
+obbyInfoText.Size = UDim2.new(1, -10, 1, -10)
+obbyInfoText.Position = UDim2.new(0, 5, 0, 5)
+obbyInfoText.BackgroundTransparency = 1
+obbyInfoText.Text = "Click the button if the radioactive start and u will get instant luck block from obby"
+obbyInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
+obbyInfoText.Font = Enum.Font.Gotham
+obbyInfoText.TextSize = 12
+obbyInfoText.TextWrapped = true
+obbyInfoText.TextXAlignment = Enum.TextXAlignment.Left
+obbyInfoText.TextYAlignment = Enum.TextYAlignment.Top
+
+obbyDropdown.MouseButton1Click:Connect(function()
+	obbyInfo.Visible = not obbyInfo.Visible
+end)
 
 -- Tab Switching
 mainTab.MouseButton1Click:Connect(function()
@@ -519,7 +551,7 @@ spinToggle.MouseButton1Click:Connect(function()
 end)
 
 -- Obby Button logic (executes once per click)
-obbyToggle.MouseButton1Click:Connect(function()
+obbyButton.MouseButton1Click:Connect(function()
 	pcall(function()
 		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
