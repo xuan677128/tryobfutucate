@@ -4,6 +4,12 @@ local player = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
 
+-- Singleton Protection: Prevent multiple instances
+if game.CoreGui:FindFirstChild("XuanHubUI") then
+	warn("XuanHub is already running!")
+	return
+end
+
 pcall(function()
 	player.PlayerGui:FindFirstChild("XuanHubUI"):Destroy()
 end)
@@ -16,7 +22,8 @@ local defaultSettings = {
 	autoSpin = false,
 	spinDelay = 0.5,
 	antiAfk = false,
-	autoReconnect = false
+	autoReconnect = false,
+	autoUpgradeBase = false
 }
 
 local function loadSettings()
@@ -366,6 +373,153 @@ moneyCircle.Size = UDim2.new(0, 18, 0, 18)
 moneyCircle.Position = UDim2.new(0, 3, 0.5, -9)
 moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
+
+-- Divider Line 1
+local mainDivider1 = Instance.new("Frame", mainContent)
+mainDivider1.Size = UDim2.new(1, -20, 0, 1)
+mainDivider1.Position = UDim2.new(0, 10, 0, 47)
+mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider1.BorderSizePixel = 0
+
+-- Sell All Button Section
+local sellAllLabel = Instance.new("TextLabel", mainContent)
+sellAllLabel.Size = UDim2.new(1, -100, 0, 30)
+sellAllLabel.Position = UDim2.new(0, 10, 0, 55)
+sellAllLabel.BackgroundTransparency = 1
+sellAllLabel.Text = "Sell All Pets"
+sellAllLabel.TextColor3 = Color3.new(1,1,1)
+sellAllLabel.Font = Enum.Font.GothamBold
+sellAllLabel.TextSize = 16
+sellAllLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local sellAllButton = Instance.new("TextButton", mainContent)
+sellAllButton.Size = UDim2.new(0, 80, 0, 28)
+sellAllButton.Position = UDim2.new(1, -90, 0, 56)
+sellAllButton.BackgroundColor3 = Color3.fromRGB(200, 50, 80)
+sellAllButton.Text = "Sell All"
+sellAllButton.TextColor3 = Color3.new(1,1,1)
+sellAllButton.Font = Enum.Font.GothamBold
+sellAllButton.TextSize = 14
+sellAllButton.AutoButtonColor = false
+Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
+
+-- Divider Line 2
+local mainDivider2 = Instance.new("Frame", mainContent)
+mainDivider2.Size = UDim2.new(1, -20, 0, 1)
+mainDivider2.Position = UDim2.new(0, 10, 0, 92)
+mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider2.BorderSizePixel = 0
+
+-- Sell Held Tool Button Section
+local sellHeldLabel = Instance.new("TextLabel", mainContent)
+sellHeldLabel.Size = UDim2.new(1, -100, 0, 30)
+sellHeldLabel.Position = UDim2.new(0, 10, 0, 100)
+sellHeldLabel.BackgroundTransparency = 1
+sellHeldLabel.Text = "Sell Held Tool"
+sellHeldLabel.TextColor3 = Color3.new(1,1,1)
+sellHeldLabel.Font = Enum.Font.GothamBold
+sellHeldLabel.TextSize = 16
+sellHeldLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local sellHeldButton = Instance.new("TextButton", mainContent)
+sellHeldButton.Size = UDim2.new(0, 80, 0, 28)
+sellHeldButton.Position = UDim2.new(1, -90, 0, 101)
+sellHeldButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+sellHeldButton.Text = "Sell"
+sellHeldButton.TextColor3 = Color3.new(1,1,1)
+sellHeldButton.Font = Enum.Font.GothamBold
+sellHeldButton.TextSize = 14
+sellHeldButton.AutoButtonColor = false
+Instance.new("UICorner", sellHeldButton).CornerRadius = UDim.new(0, 6)
+
+-- Divider Line 3
+local mainDivider3 = Instance.new("Frame", mainContent)
+mainDivider3.Size = UDim2.new(1, -20, 0, 1)
+mainDivider3.Position = UDim2.new(0, 10, 0, 137)
+mainDivider3.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider3.BorderSizePixel = 0
+
+-- Auto Upgrade Base Section
+local upgradeBaseLabel = Instance.new("TextLabel", mainContent)
+upgradeBaseLabel.Size = UDim2.new(1, -20, 0, 30)
+upgradeBaseLabel.Position = UDim2.new(0, 10, 0, 145)
+upgradeBaseLabel.BackgroundTransparency = 1
+upgradeBaseLabel.Text = "Auto Upgrade Base"
+upgradeBaseLabel.TextColor3 = Color3.new(1,1,1)
+upgradeBaseLabel.Font = Enum.Font.GothamBold
+upgradeBaseLabel.TextSize = 16
+upgradeBaseLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local upgradeBaseToggle = Instance.new("TextButton", mainContent)
+upgradeBaseToggle.Size = UDim2.new(0, 50, 0, 24)
+upgradeBaseToggle.Position = UDim2.new(1, -65, 0, 148)
+upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+upgradeBaseToggle.Text = ""
+upgradeBaseToggle.AutoButtonColor = false
+Instance.new("UICorner", upgradeBaseToggle).CornerRadius = UDim.new(1, 0)
+
+local upgradeBaseCircle = Instance.new("Frame", upgradeBaseToggle)
+upgradeBaseCircle.Size = UDim2.new(0, 18, 0, 18)
+upgradeBaseCircle.Position = UDim2.new(0, 3, 0.5, -9)
+upgradeBaseCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", upgradeBaseCircle).CornerRadius = UDim.new(1, 0)
+
+-- Confirmation Dialog for Sell All
+local confirmDialog = Instance.new("Frame", gui)
+confirmDialog.Size = UDim2.new(0, 320, 0, 140)
+confirmDialog.Position = UDim2.new(0.5, -160, 0.5, -70)
+confirmDialog.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
+confirmDialog.BorderSizePixel = 0
+confirmDialog.Visible = false
+confirmDialog.ZIndex = 100
+Instance.new("UICorner", confirmDialog).CornerRadius = UDim.new(0, 12)
+
+local confirmStroke = Instance.new("UIStroke", confirmDialog)
+confirmStroke.Color = Color3.fromRGB(200, 50, 80)
+confirmStroke.Thickness = 2
+
+local confirmTitle = Instance.new("TextLabel", confirmDialog)
+confirmTitle.Size = UDim2.new(1, -20, 0, 30)
+confirmTitle.Position = UDim2.new(0, 10, 0, 10)
+confirmTitle.BackgroundTransparency = 1
+confirmTitle.Text = "⚠️ Warning"
+confirmTitle.TextColor3 = Color3.fromRGB(255, 105, 180)
+confirmTitle.Font = Enum.Font.GothamBold
+confirmTitle.TextSize = 18
+confirmTitle.TextXAlignment = Enum.TextXAlignment.Center
+
+local confirmText = Instance.new("TextLabel", confirmDialog)
+confirmText.Size = UDim2.new(1, -20, 0, 40)
+confirmText.Position = UDim2.new(0, 10, 0, 45)
+confirmText.BackgroundTransparency = 1
+confirmText.Text = "This will sell ALL your pets!\nAre you sure?"
+confirmText.TextColor3 = Color3.new(1,1,1)
+confirmText.Font = Enum.Font.Gotham
+confirmText.TextSize = 14
+confirmText.TextWrapped = true
+confirmText.TextXAlignment = Enum.TextXAlignment.Center
+
+local confirmYesBtn = Instance.new("TextButton", confirmDialog)
+confirmYesBtn.Size = UDim2.new(0, 130, 0, 35)
+confirmYesBtn.Position = UDim2.new(0, 15, 1, -45)
+confirmYesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 80)
+confirmYesBtn.Text = "Sell All"
+confirmYesBtn.TextColor3 = Color3.new(1,1,1)
+confirmYesBtn.Font = Enum.Font.GothamBold
+confirmYesBtn.TextSize = 14
+confirmYesBtn.AutoButtonColor = false
+Instance.new("UICorner", confirmYesBtn).CornerRadius = UDim.new(0, 8)
+
+local confirmNoBtn = Instance.new("TextButton", confirmDialog)
+confirmNoBtn.Size = UDim2.new(0, 130, 0, 35)
+confirmNoBtn.Position = UDim2.new(1, -145, 1, -45)
+confirmNoBtn.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+confirmNoBtn.Text = "Cancel"
+confirmNoBtn.TextColor3 = Color3.new(1,1,1)
+confirmNoBtn.Font = Enum.Font.GothamBold
+confirmNoBtn.TextSize = 14
+confirmNoBtn.AutoButtonColor = false
+Instance.new("UICorner", confirmNoBtn).CornerRadius = UDim.new(0, 8)
 
 -- Event Content Area
 local eventContent = Instance.new("Frame", mainFrame)
@@ -825,10 +979,21 @@ expandBtn.MouseButton1Click:Connect(function()
 end)
 
 closeBtn.MouseButton1Click:Connect(function()
+	-- Stop all running functions
+	scriptRunning = false
+	active = false
+	spinning = false
+	collectingMoney = false
+	autoUpgradeBase = false
+	
+	-- Destroy GUI
 	gui:Destroy()
 end)
 
 -- ================= FUNCTIONALITY LOGIC =================
+
+-- Script running flag (to stop all loops when GUI is closed)
+local scriptRunning = true
 
 local character, humanoidRootPart
 local EventFolder = nil
@@ -839,6 +1004,7 @@ local active = false
 local spinning = false
 local autoObby = false
 local collectingMoney = false
+local autoUpgradeBase = false
 
 -- Character handler (safe)
 local function setupCharacter(char)
@@ -853,7 +1019,7 @@ player.CharacterAdded:Connect(setupCharacter)
 
 -- Find EventParts WITHOUT BLOCKING GUI
 task.spawn(function()
-	while not EventFolder do
+	while not EventFolder and scriptRunning do
 		EventFolder = workspace:FindFirstChild("EventParts")
 		task.wait(1)
 	end
@@ -872,7 +1038,7 @@ end
 
 -- Loop to pull models
 task.spawn(function()
-	while true do
+	while scriptRunning do
 		if active and humanoidRootPart and EventFolder then
 			for _, model in ipairs(EventFolder:GetChildren()) do
 				if model:IsA("Model") then
@@ -906,7 +1072,7 @@ end)
 
 -- Auto Spin logic
 task.spawn(function()
-	while true do
+	while scriptRunning do
 		if spinning then
 			pcall(function()
 				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/WheelSpin.Roll"):InvokeServer()
@@ -968,7 +1134,7 @@ local function findMyBase()
 end
 
 task.spawn(function()
-	while true do
+	while scriptRunning do
 		if collectingMoney then
 			local myBase = findMyBase()
 			if myBase then
@@ -988,6 +1154,58 @@ task.spawn(function()
 			task.wait(0.1)
 		else
 			task.wait(0.5)
+		end
+	end
+end)
+
+-- Sell All Button logic (with confirmation)
+sellAllButton.MouseButton1Click:Connect(function()
+	confirmDialog.Visible = true
+end)
+
+confirmYesBtn.MouseButton1Click:Connect(function()
+	confirmDialog.Visible = false
+	pcall(function()
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
+	end)
+end)
+
+confirmNoBtn.MouseButton1Click:Connect(function()
+	confirmDialog.Visible = false
+end)
+
+-- Sell Held Tool Button logic
+sellHeldButton.MouseButton1Click:Connect(function()
+	pcall(function()
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellTool"):InvokeServer()
+	end)
+end)
+
+-- Auto Upgrade Base Toggle logic
+upgradeBaseToggle.MouseButton1Click:Connect(function()
+	autoUpgradeBase = not autoUpgradeBase
+	if autoUpgradeBase then
+		upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeBaseCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		upgradeBaseCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+	-- Save the new state
+	savedSettings.autoUpgradeBase = autoUpgradeBase
+	saveSettings(savedSettings)
+end)
+
+-- Auto Upgrade Base Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeBase then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/Plot.UpgradeBase"):FireServer()
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
 		end
 	end
 end)
@@ -1147,6 +1365,13 @@ task.spawn(function()
 	
 	-- Apply Spin Delay
 	spinDelayBox.Text = tostring(savedSettings.spinDelay)
+	
+	-- Apply Auto Upgrade Base
+	if savedSettings.autoUpgradeBase then
+		autoUpgradeBase = true
+		upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeBaseCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
 	
 	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
 end)
