@@ -372,6 +372,13 @@ mainListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function(
 	mainContent.CanvasSize = UDim2.new(0, 0, 0, mainListLayout.AbsoluteContentSize.Y + 20)
 end)
 
+-- Hide dropdown when scrolling
+mainContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+	if speedDropdownMenu.Visible then
+		speedDropdownMenu.Visible = false
+	end
+end)
+
 -- Auto Collect Money Section
 local moneyContainer = Instance.new("Frame", mainContent)
 moneyContainer.Size = UDim2.new(1, -20, 0, 35)
@@ -1485,8 +1492,9 @@ speedAmountDropdown.MouseButton1Click:Connect(function()
 	local isVisible = not speedDropdownMenu.Visible
 	speedDropdownMenu.Visible = isVisible
 	if isVisible then
-		-- Position dropdown below the button
+		-- Position dropdown below the button, accounting for scroll position
 		local btnPos = speedAmountDropdown.AbsolutePosition
+		local scrollOffset = mainContent.CanvasPosition.Y
 		speedDropdownMenu.Position = UDim2.new(0, btnPos.X, 0, btnPos.Y + 24)
 	end
 end)
