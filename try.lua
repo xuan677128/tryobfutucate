@@ -671,7 +671,14 @@ speedOption10.ZIndex = 101
 local speedOption10Corner = Instance.new("UICorner", speedOption10)
 speedOption10Corner.CornerRadius = UDim.new(0, 4)
 
--- Divider Line 6
+-- Hide dropdown when scrolling or dragging
+mainContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+	speedDropdownMenu.Visible = false
+end)
+
+mainFrame:GetPropertyChangedSignal("Position"):Connect(function()
+	speedDropdownMenu.Visible = false
+end)
 local mainDivider6 = Instance.new("Frame", mainContent)
 mainDivider6.Size = UDim2.new(1, -20, 0, 1)
 mainDivider6.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
