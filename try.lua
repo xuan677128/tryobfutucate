@@ -418,9 +418,6 @@ sellAllContainer.LayoutOrder = 3
 local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
 sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
 sellAllLabel.Position = UDim2.new(0, 0, 0, 0)
-local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
-sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
-sellAllLabel.Position = UDim2.new(0, 0, 0, 0)
 sellAllLabel.BackgroundTransparency = 1
 sellAllLabel.Text = "Sell All Pets"
 sellAllLabel.TextColor3 = Color3.new(1,1,1)
@@ -599,7 +596,7 @@ local speedAmountDropdown = Instance.new("TextButton", upgradeSpeedContainer)
 speedAmountDropdown.Size = UDim2.new(0, 60, 0, 22)
 speedAmountDropdown.Position = UDim2.new(0, 70, 0, 32)
 speedAmountDropdown.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
-speedAmountDropdown.Text = "1"
+speedAmountDropdown.Text = "1 ▼"
 speedAmountDropdown.TextColor3 = Color3.new(1,1,1)
 speedAmountDropdown.Font = Enum.Font.Gotham
 speedAmountDropdown.TextSize = 12
@@ -616,6 +613,10 @@ speedDropdownMenu.Visible = false
 speedDropdownMenu.ZIndex = 100
 Instance.new("UICorner", speedDropdownMenu).CornerRadius = UDim.new(0, 5)
 
+local speedDropStroke = Instance.new("UIStroke", speedDropdownMenu)
+speedDropStroke.Color = Color3.fromRGB(255, 105, 180)
+speedDropStroke.Thickness = 1
+
 local speedOption1 = Instance.new("TextButton", speedDropdownMenu)
 speedOption1.Size = UDim2.new(1, 0, 0, 22)
 speedOption1.Position = UDim2.new(0, 0, 0, 0)
@@ -626,6 +627,8 @@ speedOption1.Font = Enum.Font.Gotham
 speedOption1.TextSize = 12
 speedOption1.AutoButtonColor = false
 speedOption1.ZIndex = 101
+local speedOption1Corner = Instance.new("UICorner", speedOption1)
+speedOption1Corner.CornerRadius = UDim.new(0, 4)
 
 local speedOption5 = Instance.new("TextButton", speedDropdownMenu)
 speedOption5.Size = UDim2.new(1, 0, 0, 22)
@@ -638,6 +641,9 @@ speedOption5.TextSize = 12
 speedOption5.AutoButtonColor = false
 speedOption5.ZIndex = 101
 
+local speedOption5Corner = Instance.new("UICorner", speedOption5)
+speedOption5Corner.CornerRadius = UDim.new(0, 4)
+
 local speedOption10 = Instance.new("TextButton", speedDropdownMenu)
 speedOption10.Size = UDim2.new(1, 0, 0, 22)
 speedOption10.Position = UDim2.new(0, 0, 0, 44)
@@ -648,6 +654,8 @@ speedOption10.Font = Enum.Font.Gotham
 speedOption10.TextSize = 12
 speedOption10.AutoButtonColor = false
 speedOption10.ZIndex = 101
+local speedOption10Corner = Instance.new("UICorner", speedOption10)
+speedOption10Corner.CornerRadius = UDim.new(0, 4)
 
 -- Divider Line 6
 local mainDivider6 = Instance.new("Frame", mainContent)
@@ -1479,12 +1487,34 @@ speedAmountDropdown.MouseButton1Click:Connect(function()
 	if isVisible then
 		-- Position dropdown below the button
 		local btnPos = speedAmountDropdown.AbsolutePosition
-		speedDropdownMenu.Position = UDim2.new(0, btnPos.X, 0, btnPos.Y + 22)
+		speedDropdownMenu.Position = UDim2.new(0, btnPos.X, 0, btnPos.Y + 24)
 	end
 end)
 
+-- Hover effects for dropdown options
+speedOption1.MouseEnter:Connect(function()
+	speedOption1.BackgroundColor3 = Color3.fromRGB(70, 65, 80)
+end)
+speedOption1.MouseLeave:Connect(function()
+	speedOption1.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+end)
+
+speedOption5.MouseEnter:Connect(function()
+	speedOption5.BackgroundColor3 = Color3.fromRGB(70, 65, 80)
+end)
+speedOption5.MouseLeave:Connect(function()
+	speedOption5.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+end)
+
+speedOption10.MouseEnter:Connect(function()
+	speedOption10.BackgroundColor3 = Color3.fromRGB(70, 65, 80)
+end)
+speedOption10.MouseLeave:Connect(function()
+	speedOption10.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+end)
+
 speedOption1.MouseButton1Click:Connect(function()
-	speedAmountDropdown.Text = "1"
+	speedAmountDropdown.Text = "1 ▼"
 	upgradeSpeedAmount = 1
 	speedDropdownMenu.Visible = false
 	savedSettings.upgradeSpeedAmount = 1
@@ -1492,7 +1522,7 @@ speedOption1.MouseButton1Click:Connect(function()
 end)
 
 speedOption5.MouseButton1Click:Connect(function()
-	speedAmountDropdown.Text = "5"
+	speedAmountDropdown.Text = "5 ▼"
 	upgradeSpeedAmount = 5
 	speedDropdownMenu.Visible = false
 	savedSettings.upgradeSpeedAmount = 5
@@ -1500,7 +1530,7 @@ speedOption5.MouseButton1Click:Connect(function()
 end)
 
 speedOption10.MouseButton1Click:Connect(function()
-	speedAmountDropdown.Text = "10"
+	speedAmountDropdown.Text = "10 ▼"
 	upgradeSpeedAmount = 10
 	speedDropdownMenu.Visible = false
 	savedSettings.upgradeSpeedAmount = 10
@@ -1746,7 +1776,7 @@ task.spawn(function()
 	-- Apply Upgrade Speed Amount
 	if savedSettings.upgradeSpeedAmount then
 		upgradeSpeedAmount = savedSettings.upgradeSpeedAmount
-		speedAmountDropdown.Text = tostring(savedSettings.upgradeSpeedAmount)
+		speedAmountDropdown.Text = tostring(savedSettings.upgradeSpeedAmount) .. " ▼"
 	end
 	
 	-- Apply Auto Rebirth
