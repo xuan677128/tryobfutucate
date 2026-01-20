@@ -110,6 +110,13 @@ mainFrame.Parent = gui
 mainFrame.Visible = false
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
 
+-- Hide dropdown when frame is dragged
+mainFrame:GetPropertyChangedSignal("Position"):Connect(function()
+	if speedDropdownMenu then
+		speedDropdownMenu.Visible = false
+	end
+end)
+
 local mainStroke = Instance.new("UIStroke", mainFrame)
 mainStroke.Color = Color3.fromRGB(255, 105, 180)
 mainStroke.Thickness = 2
@@ -426,7 +433,7 @@ local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
 sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
 sellAllLabel.Position = UDim2.new(0, 0, 0, 0)
 sellAllLabel.BackgroundTransparency = 1
-sellAllLabel.Text = "Sell All Pets"
+sellAllLabel.Text = "Sell All Inventory"
 sellAllLabel.TextColor3 = Color3.new(1,1,1)
 sellAllLabel.Font = Enum.Font.GothamBold
 sellAllLabel.TextSize = 16
@@ -730,7 +737,7 @@ local confirmText = Instance.new("TextLabel", confirmDialog)
 confirmText.Size = UDim2.new(1, -20, 0, 40)
 confirmText.Position = UDim2.new(0, 10, 0, 45)
 confirmText.BackgroundTransparency = 1
-confirmText.Text = "This will sell ALL your pets!\nAre you sure?"
+confirmText.Text = "This will sell ALL your inventory!\nAre you sure?"
 confirmText.TextColor3 = Color3.new(1,1,1)
 confirmText.Font = Enum.Font.Gotham
 confirmText.TextSize = 14
