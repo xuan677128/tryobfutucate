@@ -775,15 +775,25 @@ local collectLabel = Instance.new("TextLabel", eventContent)
 collectLabel.Size = UDim2.new(1, -20, 0, 30)
 collectLabel.Position = UDim2.new(0, 10, 0, 10)
 collectLabel.BackgroundTransparency = 1
-collectLabel.Text = "Auto Collect Radioactive Coins \n\n(Patched, it will still collect but not many)"
+collectLabel.Text = "Auto Collect Radioactive Coins"
 collectLabel.TextColor3 = Color3.new(1,1,1)
 collectLabel.Font = Enum.Font.GothamBold
 collectLabel.TextSize = 16
 collectLabel.TextXAlignment = Enum.TextXAlignment.Left
 
+local collectNote = Instance.new("TextLabel", eventContent)
+collectNote.Size = UDim2.new(1, -20, 0, 15)
+collectNote.Position = UDim2.new(0, 10, 0, 35)
+collectNote.BackgroundTransparency = 1
+collectNote.Text = "(Patched, it will still collect but not many)"
+collectNote.TextColor3 = Color3.fromRGB(180, 180, 180)
+collectNote.Font = Enum.Font.Gotham
+collectNote.TextSize = 12
+collectNote.TextXAlignment = Enum.TextXAlignment.Left
+
 local collectToggle = Instance.new("TextButton", eventContent)
 collectToggle.Size = UDim2.new(0, 50, 0, 24)
-collectToggle.Position = UDim2.new(1, -65, 0, 13)
+collectToggle.Position = UDim2.new(1, -65, 0, 28)
 collectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 collectToggle.Text = ""
 collectToggle.AutoButtonColor = false
@@ -798,14 +808,14 @@ Instance.new("UICorner", collectCircle).CornerRadius = UDim.new(1, 0)
 -- Divider Line 1
 local divider1 = Instance.new("Frame", eventContent)
 divider1.Size = UDim2.new(1, -20, 0, 1)
-divider1.Position = UDim2.new(0, 10, 0, 47)
+divider1.Position = UDim2.new(0, 10, 0, 62)
 divider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 divider1.BorderSizePixel = 0
 
 -- Auto Spin Section
 local spinLabel = Instance.new("TextLabel", eventContent)
 spinLabel.Size = UDim2.new(1, -20, 0, 30)
-spinLabel.Position = UDim2.new(0, 10, 0, 55)
+spinLabel.Position = UDim2.new(0, 10, 0, 70)
 spinLabel.BackgroundTransparency = 1
 spinLabel.Text = "Auto Spin Radioactive Wheel"
 spinLabel.TextColor3 = Color3.new(1,1,1)
@@ -815,7 +825,7 @@ spinLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 local spinToggle = Instance.new("TextButton", eventContent)
 spinToggle.Size = UDim2.new(0, 50, 0, 24)
-spinToggle.Position = UDim2.new(1, -65, 0, 58)
+spinToggle.Position = UDim2.new(1, -65, 0, 73)
 spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 spinToggle.Text = ""
 spinToggle.AutoButtonColor = false
@@ -830,7 +840,7 @@ Instance.new("UICorner", spinCircle).CornerRadius = UDim.new(1, 0)
 -- Spin Delay Input
 local spinDelayLabel = Instance.new("TextLabel", eventContent)
 spinDelayLabel.Size = UDim2.new(0, 80, 0, 18)
-spinDelayLabel.Position = UDim2.new(0, 10, 0, 84)
+spinDelayLabel.Position = UDim2.new(0, 10, 0, 99)
 spinDelayLabel.BackgroundTransparency = 1
 spinDelayLabel.Text = "Spin Delay:"
 spinDelayLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -840,7 +850,7 @@ spinDelayLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 local spinDelayBox = Instance.new("TextBox", eventContent)
 spinDelayBox.Size = UDim2.new(0, 60, 0, 22)
-spinDelayBox.Position = UDim2.new(0, 90, 0, 82)
+spinDelayBox.Position = UDim2.new(0, 90, 0, 97)
 spinDelayBox.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 spinDelayBox.BorderSizePixel = 0
 spinDelayBox.Text = "0.5"
@@ -854,14 +864,14 @@ Instance.new("UICorner", spinDelayBox).CornerRadius = UDim.new(0, 5)
 -- Divider Line 2
 local divider2 = Instance.new("Frame", eventContent)
 divider2.Size = UDim2.new(1, -20, 0, 1)
-divider2.Position = UDim2.new(0, 10, 0, 115)
+divider2.Position = UDim2.new(0, 10, 0, 130)
 divider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 divider2.BorderSizePixel = 0
 
 -- Auto Obby Section
 local obbyLabel = Instance.new("TextLabel", eventContent)
 obbyLabel.Size = UDim2.new(1, -20, 0, 30)
-obbyLabel.Position = UDim2.new(0, 10, 0, 123)
+obbyLabel.Position = UDim2.new(0, 10, 0, 138)
 obbyLabel.BackgroundTransparency = 1
 obbyLabel.Text = "Auto Obby"
 obbyLabel.TextColor3 = Color3.new(1,1,1)
@@ -871,7 +881,7 @@ obbyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 local obbyToggle = Instance.new("TextButton", eventContent)
 obbyToggle.Size = UDim2.new(0, 50, 0, 24)
-obbyToggle.Position = UDim2.new(1, -65, 0, 126)
+obbyToggle.Position = UDim2.new(1, -65, 0, 141)
 obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 obbyToggle.Text = ""
 obbyToggle.AutoButtonColor = false
@@ -1296,6 +1306,8 @@ collectToggle.MouseButton1Click:Connect(function()
 	savedSettings.autoCollectRadioactive = active
 	saveSettings(savedSettings)
 end)
+
+-- (Patched, it will still collect but not many)
 
 -- Auto Spin logic
 task.spawn(function()
