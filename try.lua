@@ -1335,37 +1335,6 @@ obbyToggle.MouseButton1Click:Connect(function()
 	if autoObby then
 		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
-		
-		-- Start the auto obby detection (runs once per event activation)
-		task.spawn(function()
-			local mapVariants = workspace:WaitForChild("MapVariants")
-			
-			local function runOnce(radioactive)
-				if not autoObby or not humanoidRootPart then return end
-				local obbyEnd = radioactive:WaitForChild("ObbyEnd", 5)
-				if obbyEnd then
-					firetouchinterest(humanoidRootPart, obbyEnd, 0)
-					task.wait()
-					firetouchinterest(humanoidRootPart, obbyEnd, 1)
-				end
-			end
-			
-			local existing = mapVariants:FindFirstChild("Radioactive")
-			if existing then
-				runOnce(existing)
-			end
-			
-			local connection
-			connection = mapVariants.ChildAdded:Connect(function(child)
-				if not autoObby then
-					connection:Disconnect()
-					return
-				end
-				if child.Name == "Radioactive" then
-					runOnce(child)
-				end
-			end)
-		end)
 	else
 		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
@@ -1806,6 +1775,22 @@ task.spawn(function()
 		autoObby = true
 		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
+		
+		-- Check for existing obby on script load
+		task.spawn(function()
+			local mapVariants = workspace:FindFirstChild("MapVariants")
+			if mapVariants then
+				local existing = mapVariants:FindFirstChild("Radioactive")
+				if existing then
+					local obbyEnd = existing:WaitForChild("ObbyEnd", 5)
+					if obbyEnd and humanoidRootPart then
+						firetouchinterest(humanoidRootPart, obbyEnd, 0)
+						task.wait()
+						firetouchinterest(humanoidRootPart, obbyEnd, 1)
+					end
+				end
+			end
+		end)
 	end
 	
 	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
