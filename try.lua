@@ -1216,6 +1216,34 @@ if player.Character then
 end
 player.CharacterAdded:Connect(setupCharacter)
 
+-- Global Auto Obby logic (runs whenever obby activates and toggle is on)
+task.spawn(function()
+	local mapVariants = workspace:WaitForChild("MapVariants")
+	
+	local function runOnce(radioactive)
+		if not autoObby or not humanoidRootPart then return end
+		local obbyEnd = radioactive:WaitForChild("ObbyEnd", 5)
+		if obbyEnd then
+			firetouchinterest(humanoidRootPart, obbyEnd, 0)
+			task.wait()
+			firetouchinterest(humanoidRootPart, obbyEnd, 1)
+		end
+	end
+	
+	-- Check for existing on script start
+	local existing = mapVariants:FindFirstChild("Radioactive")
+	if existing and autoObby then
+		runOnce(existing)
+	end
+	
+	-- Listen for new activations
+	mapVariants.ChildAdded:Connect(function(child)
+		if child.Name == "Radioactive" and autoObby then
+			runOnce(child)
+		end
+	end)
+end)
+
 -- Find EventParts WITHOUT BLOCKING GUI
 task.spawn(function()
 	while not EventFolder and scriptRunning do
