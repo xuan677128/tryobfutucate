@@ -201,10 +201,10 @@ discordLink.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Version Label
 local versionLabel = Instance.new("TextLabel", header)
-versionLabel.Size = UDim2.new(0, 80, 0, 25)
-versionLabel.Position = UDim2.new(1, -170, 0, 13)
+versionLabel.Size = UDim2.new(0, 100, 0, 25)
+versionLabel.Position = UDim2.new(1, -190, 0, 13)
 versionLabel.BackgroundTransparency = 1
-versionLabel.Text = " Server: " .. tostring(game.PlaceVersion)
+versionLabel.Text = "Server: " .. tostring(game.PlaceVersion) .. "!"
 versionLabel.TextColor3 = Color3.fromRGB(255, 105, 180)
 versionLabel.Font = Enum.Font.GothamBold
 versionLabel.TextSize = 13
@@ -1009,94 +1009,41 @@ end)
 
 -- ================= ANTI-AFK & AUTO RECONNECT =================
 
-local antiAfkEnabled = false
-local autoReconnectEnabled = false
-
--- Anti-AFK Logic (Prevents 20 min AFK kick)
-local VirtualUser = game:GetService("VirtualUser")
+-- Anti-AFK (Always Enabled - Prevents 20 min AFK kick)
+local antiAfkEnabled = true
+local vu = game:GetService("VirtualUser")
 player.Idled:Connect(function()
-	if antiAfkEnabled then
-		VirtualUser:CaptureController()
-		VirtualUser:ClickButton2(Vector2.new())
-	end
+	vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+	task.wait(1)
+	vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
 end)
 
--- Auto Reconnect on Disconnect (except "Failed to reconnect")
-do
-	local PromptOverlay = game.CoreGui:WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
-	local function reconnect()
-		task.wait(0.01)
-		pcall(function()
-			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
-		end)
-	end
-
-	for _, child in ipairs(PromptOverlay:GetChildren()) do
-		if child.Name == "ErrorPrompt" and autoReconnectEnabled then
-			-- Check if it's not "Failed to reconnect" error
-			task.spawn(function()
-				task.wait(0.1)
-				local errorText = ""
-				for _, desc in ipairs(child:GetDescendants()) do
-					if desc:IsA("TextLabel") then
-						errorText = errorText .. desc.Text:lower()
-					end
-				end
-				if not errorText:find("failed to reconnect") then
-					reconnect()
-				end
-			end)
-			break
-		end
-	end
-
-	PromptOverlay.ChildAdded:Connect(function(child)
-		if child.Name == "ErrorPrompt" and autoReconnectEnabled then
-			-- Check if it's not "Failed to reconnect" error
-			task.spawn(function()
-				task.wait(0.1)
-				local errorText = ""
-				for _, desc in ipairs(child:GetDescendants()) do
-					if desc:IsA("TextLabel") then
-						errorText = errorText .. desc.Text:lower()
-					end
-				end
-				if not errorText:find("failed to reconnect") then
-					reconnect()
-				end
-			end)
+-- Auto Reconnect (Always Enabled)
+local autoReconnectEnabled = true
+pcall(function()
+	game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+		if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+			game:GetService("TeleportService"):Teleport(game.PlaceId, player)
 		end
 	end)
-end
-
--- Anti-AFK Toggle Button logic
-antiAfkToggle.MouseButton1Click:Connect(function()
-	antiAfkEnabled = not antiAfkEnabled
-	if antiAfkEnabled then
-		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		antiAfkCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		antiAfkCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
-	-- Save the new state
-	savedSettings.antiAfk = antiAfkEnabled
-	saveSettings(savedSettings)
 end)
 
--- Auto Reconnect Toggle Button logic
+-- Anti-AFK Toggle (Always Enabled - Non-functional)
+antiAfkToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+antiAfkCircle.Position = UDim2.new(1, -21, 0.5, -9)
+antiAfkLabel.Text = "Anti-AFK (Always On)"
+
+antiAfkToggle.MouseButton1Click:Connect(function()
+	-- Always enabled - do nothing
+end)
+
+-- Auto Reconnect Toggle (Always Enabled - Non-functional)
+reconnectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+reconnectCircle.Position = UDim2.new(1, -21, 0.5, -9)
+reconnectLabel.Text = "Auto Reconnect (Always On)"
+
 reconnectToggle.MouseButton1Click:Connect(function()
-	autoReconnectEnabled = not autoReconnectEnabled
-	if autoReconnectEnabled then
-		reconnectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		reconnectCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	else
-		reconnectToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-		reconnectCircle.Position = UDim2.new(0, 3, 0.5, -9)
-	end
-	-- Save the new state
-	savedSettings.autoReconnect = autoReconnectEnabled
-	saveSettings(savedSettings)
+	-- Always enabled - do nothing
 end)
 
 -- Server Hop Button logic
@@ -1201,19 +1148,7 @@ task.spawn(function()
 	-- Apply Spin Delay
 	spinDelayBox.Text = tostring(savedSettings.spinDelay)
 	
-	-- Apply Anti-AFK
-	if savedSettings.antiAfk then
-		antiAfkEnabled = true
-		antiAfkToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		antiAfkCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	end
-	
-	-- Apply Auto Reconnect
-	if savedSettings.autoReconnect then
-		autoReconnectEnabled = true
-		reconnectToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-		reconnectCircle.Position = UDim2.new(1, -21, 0.5, -9)
-	end
+	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
 end)
 
 -- Save spin delay when changed
