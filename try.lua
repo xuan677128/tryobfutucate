@@ -27,7 +27,8 @@ local defaultSettings = {
 	autoUpgradeCarry = false,
 	autoUpgradeSpeed = false,
 	upgradeSpeedAmount = 1,
-	autoRebirth = false
+	autoRebirth = false,
+	autoObby = false
 }
 
 local function loadSettings()
@@ -109,13 +110,6 @@ mainFrame.Draggable = true
 mainFrame.Parent = gui
 mainFrame.Visible = false
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
-
--- Hide dropdown when frame is dragged
-mainFrame:GetPropertyChangedSignal("Position"):Connect(function()
-	if speedDropdownMenu then
-		speedDropdownMenu.Visible = false
-	end
-end)
 
 local mainStroke = Instance.new("UIStroke", mainFrame)
 mainStroke.Color = Color3.fromRGB(255, 105, 180)
@@ -377,13 +371,6 @@ mainPaddingLayout.PaddingBottom = UDim.new(0, 10)
 -- Update canvas size when layout changes
 mainListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	mainContent.CanvasSize = UDim2.new(0, 0, 0, mainListLayout.AbsoluteContentSize.Y + 20)
-end)
-
--- Hide dropdown when scrolling
-mainContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
-	if speedDropdownMenu.Visible then
-		speedDropdownMenu.Visible = false
-	end
 end)
 
 -- Auto Collect Money Section
@@ -873,7 +860,7 @@ divider2.BorderSizePixel = 0
 
 -- Auto Obby Section
 local obbyLabel = Instance.new("TextLabel", eventContent)
-obbyLabel.Size = UDim2.new(1, -100, 0, 30)
+obbyLabel.Size = UDim2.new(1, -20, 0, 30)
 obbyLabel.Position = UDim2.new(0, 10, 0, 123)
 obbyLabel.BackgroundTransparency = 1
 obbyLabel.Text = "Auto Obby"
@@ -882,69 +869,19 @@ obbyLabel.Font = Enum.Font.GothamBold
 obbyLabel.TextSize = 16
 obbyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local obbyButton = Instance.new("TextButton", eventContent)
-obbyButton.Size = UDim2.new(0, 80, 0, 28)
-obbyButton.Position = UDim2.new(1, -90, 0, 124)
-obbyButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-obbyButton.Text = "Click"
-obbyButton.TextColor3 = Color3.new(1,1,1)
-obbyButton.Font = Enum.Font.GothamBold
-obbyButton.TextSize = 14
-obbyButton.AutoButtonColor = false
-Instance.new("UICorner", obbyButton).CornerRadius = UDim.new(0, 6)
+local obbyToggle = Instance.new("TextButton", eventContent)
+obbyToggle.Size = UDim2.new(0, 50, 0, 24)
+obbyToggle.Position = UDim2.new(1, -65, 0, 126)
+obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+obbyToggle.Text = ""
+obbyToggle.AutoButtonColor = false
+Instance.new("UICorner", obbyToggle).CornerRadius = UDim.new(1, 0)
 
-local obbyDropdown = Instance.new("TextButton", eventContent)
-obbyDropdown.Size = UDim2.new(0, 25, 0, 28)
-obbyDropdown.Position = UDim2.new(1, -120, 0, 124)
-obbyDropdown.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-obbyDropdown.Text = "?"
-obbyDropdown.TextColor3 = Color3.new(1,1,1)
-obbyDropdown.Font = Enum.Font.GothamBold
-obbyDropdown.TextSize = 14
-obbyDropdown.AutoButtonColor = false
-Instance.new("UICorner", obbyDropdown).CornerRadius = UDim.new(0, 6)
-
-local obbyInfo = Instance.new("Frame", eventContent)
-obbyInfo.Size = UDim2.new(1, -20, 0, 60)
-obbyInfo.Position = UDim2.new(0, 10, 0, 157)
-obbyInfo.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
-obbyInfo.BorderSizePixel = 0
-obbyInfo.Visible = false
-Instance.new("UICorner", obbyInfo).CornerRadius = UDim.new(0, 6)
-
-local obbyInfoText = Instance.new("TextLabel", obbyInfo)
-obbyInfoText.Size = UDim2.new(1, -10, 1, -10)
-obbyInfoText.Position = UDim2.new(0, 5, 0, 5)
-obbyInfoText.BackgroundTransparency = 1
-obbyInfoText.Text = "Click the button if the radioactive start and u will get instant lucky block from obby"
-obbyInfoText.TextColor3 = Color3.fromRGB(200, 200, 200)
-obbyInfoText.Font = Enum.Font.Gotham
-obbyInfoText.TextSize = 12
-obbyInfoText.TextWrapped = true
-obbyInfoText.TextXAlignment = Enum.TextXAlignment.Left
-obbyInfoText.TextYAlignment = Enum.TextYAlignment.Top
-
-obbyDropdown.MouseButton1Click:Connect(function()
-	local TweenService = game:GetService("TweenService")
-	local isVisible = obbyInfo.Visible
-	
-	if not isVisible then
-		obbyInfo.Visible = true
-		obbyInfo.Size = UDim2.new(1, -20, 0, 0)
-		local tween = TweenService:Create(obbyInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			Size = UDim2.new(1, -20, 0, 60)
-		})
-		tween:Play()
-	else
-		local tween = TweenService:Create(obbyInfo, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-			Size = UDim2.new(1, -20, 0, 0)
-		})
-		tween:Play()
-		tween.Completed:Connect(function()
-			obbyInfo.Visible = false
-		end)
-	end
-end)
+local obbyCircle = Instance.new("Frame", obbyToggle)
+obbyCircle.Size = UDim2.new(0, 18, 0, 18)
+obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+obbyCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", obbyCircle).CornerRadius = UDim.new(1, 0)
 
 -- AFK Content Area (with scrolling)
 local afkContent = Instance.new("ScrollingFrame", mainFrame)
@@ -1364,22 +1301,50 @@ spinToggle.MouseButton1Click:Connect(function()
 	saveSettings(savedSettings)
 end)
 
--- Obby Button logic (executes once per click)
-obbyButton.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if not hrp then return end
+-- Obby Toggle logic (updated to use event-based detection)
+obbyToggle.MouseButton1Click:Connect(function()
+	autoObby = not autoObby
+	if autoObby then
+		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
 		
-		local mapVariants = workspace:FindFirstChild("MapVariants")
-		local radioactive = mapVariants and mapVariants:FindFirstChild("Radioactive")
-		local obbyEnd = radioactive and radioactive:FindFirstChild("ObbyEnd")
-		
-		if obbyEnd then
-			firetouchinterest(hrp, obbyEnd, 0)
-			task.wait()
-			firetouchinterest(hrp, obbyEnd, 1)
-		end
-	end)
+		-- Start the auto obby detection (runs once per event activation)
+		task.spawn(function()
+			local mapVariants = workspace:WaitForChild("MapVariants")
+			
+			local function runOnce(radioactive)
+				if not autoObby or not humanoidRootPart then return end
+				local obbyEnd = radioactive:WaitForChild("ObbyEnd", 5)
+				if obbyEnd then
+					firetouchinterest(humanoidRootPart, obbyEnd, 0)
+					task.wait()
+					firetouchinterest(humanoidRootPart, obbyEnd, 1)
+				end
+			end
+			
+			local existing = mapVariants:FindFirstChild("Radioactive")
+			if existing then
+				runOnce(existing)
+			end
+			
+			local connection
+			connection = mapVariants.ChildAdded:Connect(function(child)
+				if not autoObby then
+					connection:Disconnect()
+					return
+				end
+				if child.Name == "Radioactive" then
+					runOnce(child)
+				end
+			end)
+		end)
+	else
+		obbyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		obbyCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+	-- Save the new state
+	savedSettings.autoObby = autoObby
+	saveSettings(savedSettings)
 end)
 
 -- Auto Collect Money logic
@@ -1806,6 +1771,13 @@ task.spawn(function()
 		autoRebirth = true
 		rebirthToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		rebirthCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Obby
+	if savedSettings.autoObby then
+		autoObby = true
+		obbyToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		obbyCircle.Position = UDim2.new(1, -21, 0.5, -9)
 	end
 	
 	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
