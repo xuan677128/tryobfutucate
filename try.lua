@@ -487,6 +487,7 @@ confirmTitle.TextColor3 = Color3.fromRGB(255, 105, 180)
 confirmTitle.Font = Enum.Font.GothamBold
 confirmTitle.TextSize = 18
 confirmTitle.TextXAlignment = Enum.TextXAlignment.Center
+confirmTitle.ZIndex = 101
 
 local confirmText = Instance.new("TextLabel", confirmDialog)
 confirmText.Size = UDim2.new(1, -20, 0, 40)
@@ -498,6 +499,7 @@ confirmText.Font = Enum.Font.Gotham
 confirmText.TextSize = 14
 confirmText.TextWrapped = true
 confirmText.TextXAlignment = Enum.TextXAlignment.Center
+confirmText.ZIndex = 101
 
 local confirmYesBtn = Instance.new("TextButton", confirmDialog)
 confirmYesBtn.Size = UDim2.new(0, 130, 0, 35)
@@ -508,6 +510,7 @@ confirmYesBtn.TextColor3 = Color3.new(1,1,1)
 confirmYesBtn.Font = Enum.Font.GothamBold
 confirmYesBtn.TextSize = 14
 confirmYesBtn.AutoButtonColor = false
+confirmYesBtn.ZIndex = 101
 Instance.new("UICorner", confirmYesBtn).CornerRadius = UDim.new(0, 8)
 
 local confirmNoBtn = Instance.new("TextButton", confirmDialog)
@@ -519,6 +522,7 @@ confirmNoBtn.TextColor3 = Color3.new(1,1,1)
 confirmNoBtn.Font = Enum.Font.GothamBold
 confirmNoBtn.TextSize = 14
 confirmNoBtn.AutoButtonColor = false
+confirmNoBtn.ZIndex = 101
 Instance.new("UICorner", confirmNoBtn).CornerRadius = UDim.new(0, 8)
 
 -- Event Content Area
