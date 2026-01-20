@@ -23,7 +23,11 @@ local defaultSettings = {
 	spinDelay = 0.5,
 	antiAfk = false,
 	autoReconnect = false,
-	autoUpgradeBase = false
+	autoUpgradeBase = false,
+	autoUpgradeCarry = false,
+	autoUpgradeSpeed = false,
+	upgradeSpeedAmount = 1,
+	autoRebirth = false
 }
 
 local function loadSettings()
@@ -463,6 +467,167 @@ upgradeBaseCircle.Size = UDim2.new(0, 18, 0, 18)
 upgradeBaseCircle.Position = UDim2.new(0, 3, 0.5, -9)
 upgradeBaseCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", upgradeBaseCircle).CornerRadius = UDim.new(1, 0)
+
+-- Divider Line 4
+local mainDivider4 = Instance.new("Frame", mainContent)
+mainDivider4.Size = UDim2.new(1, -20, 0, 1)
+mainDivider4.Position = UDim2.new(0, 10, 0, 182)
+mainDivider4.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider4.BorderSizePixel = 0
+
+-- Auto Upgrade Carry Section
+local upgradeCarryLabel = Instance.new("TextLabel", mainContent)
+upgradeCarryLabel.Size = UDim2.new(1, -20, 0, 30)
+upgradeCarryLabel.Position = UDim2.new(0, 10, 0, 190)
+upgradeCarryLabel.BackgroundTransparency = 1
+upgradeCarryLabel.Text = "Auto Upgrade Carry"
+upgradeCarryLabel.TextColor3 = Color3.new(1,1,1)
+upgradeCarryLabel.Font = Enum.Font.GothamBold
+upgradeCarryLabel.TextSize = 16
+upgradeCarryLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local upgradeCarryToggle = Instance.new("TextButton", mainContent)
+upgradeCarryToggle.Size = UDim2.new(0, 50, 0, 24)
+upgradeCarryToggle.Position = UDim2.new(1, -65, 0, 193)
+upgradeCarryToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+upgradeCarryToggle.Text = ""
+upgradeCarryToggle.AutoButtonColor = false
+Instance.new("UICorner", upgradeCarryToggle).CornerRadius = UDim.new(1, 0)
+
+local upgradeCarryCircle = Instance.new("Frame", upgradeCarryToggle)
+upgradeCarryCircle.Size = UDim2.new(0, 18, 0, 18)
+upgradeCarryCircle.Position = UDim2.new(0, 3, 0.5, -9)
+upgradeCarryCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", upgradeCarryCircle).CornerRadius = UDim.new(1, 0)
+
+-- Divider Line 5
+local mainDivider5 = Instance.new("Frame", mainContent)
+mainDivider5.Size = UDim2.new(1, -20, 0, 1)
+mainDivider5.Position = UDim2.new(0, 10, 0, 227)
+mainDivider5.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider5.BorderSizePixel = 0
+
+-- Auto Upgrade Speed Section
+local upgradeSpeedLabel = Instance.new("TextLabel", mainContent)
+upgradeSpeedLabel.Size = UDim2.new(1, -20, 0, 30)
+upgradeSpeedLabel.Position = UDim2.new(0, 10, 0, 235)
+upgradeSpeedLabel.BackgroundTransparency = 1
+upgradeSpeedLabel.Text = "Auto Upgrade Speed"
+upgradeSpeedLabel.TextColor3 = Color3.new(1,1,1)
+upgradeSpeedLabel.Font = Enum.Font.GothamBold
+upgradeSpeedLabel.TextSize = 16
+upgradeSpeedLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local upgradeSpeedToggle = Instance.new("TextButton", mainContent)
+upgradeSpeedToggle.Size = UDim2.new(0, 50, 0, 24)
+upgradeSpeedToggle.Position = UDim2.new(1, -65, 0, 238)
+upgradeSpeedToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+upgradeSpeedToggle.Text = ""
+upgradeSpeedToggle.AutoButtonColor = false
+Instance.new("UICorner", upgradeSpeedToggle).CornerRadius = UDim.new(1, 0)
+
+local upgradeSpeedCircle = Instance.new("Frame", upgradeSpeedToggle)
+upgradeSpeedCircle.Size = UDim2.new(0, 18, 0, 18)
+upgradeSpeedCircle.Position = UDim2.new(0, 3, 0.5, -9)
+upgradeSpeedCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", upgradeSpeedCircle).CornerRadius = UDim.new(1, 0)
+
+-- Speed Amount Dropdown
+local speedAmountLabel = Instance.new("TextLabel", mainContent)
+speedAmountLabel.Size = UDim2.new(0, 70, 0, 18)
+speedAmountLabel.Position = UDim2.new(0, 10, 0, 264)
+speedAmountLabel.BackgroundTransparency = 1
+speedAmountLabel.Text = "Amount:"
+speedAmountLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+speedAmountLabel.Font = Enum.Font.Gotham
+speedAmountLabel.TextSize = 12
+speedAmountLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local speedAmountDropdown = Instance.new("TextButton", mainContent)
+speedAmountDropdown.Size = UDim2.new(0, 60, 0, 22)
+speedAmountDropdown.Position = UDim2.new(0, 80, 0, 262)
+speedAmountDropdown.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+speedAmountDropdown.Text = "1"
+speedAmountDropdown.TextColor3 = Color3.new(1,1,1)
+speedAmountDropdown.Font = Enum.Font.Gotham
+speedAmountDropdown.TextSize = 12
+speedAmountDropdown.AutoButtonColor = false
+Instance.new("UICorner", speedAmountDropdown).CornerRadius = UDim.new(0, 5)
+
+-- Dropdown Menu for Speed Amount
+local speedDropdownMenu = Instance.new("Frame", mainContent)
+speedDropdownMenu.Size = UDim2.new(0, 60, 0, 66)
+speedDropdownMenu.Position = UDim2.new(0, 80, 0, 284)
+speedDropdownMenu.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+speedDropdownMenu.BorderSizePixel = 0
+speedDropdownMenu.Visible = false
+speedDropdownMenu.ZIndex = 10
+Instance.new("UICorner", speedDropdownMenu).CornerRadius = UDim.new(0, 5)
+
+local speedOption1 = Instance.new("TextButton", speedDropdownMenu)
+speedOption1.Size = UDim2.new(1, 0, 0, 22)
+speedOption1.Position = UDim2.new(0, 0, 0, 0)
+speedOption1.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+speedOption1.Text = "1"
+speedOption1.TextColor3 = Color3.new(1,1,1)
+speedOption1.Font = Enum.Font.Gotham
+speedOption1.TextSize = 12
+speedOption1.AutoButtonColor = false
+speedOption1.ZIndex = 11
+
+local speedOption5 = Instance.new("TextButton", speedDropdownMenu)
+speedOption5.Size = UDim2.new(1, 0, 0, 22)
+speedOption5.Position = UDim2.new(0, 0, 0, 22)
+speedOption5.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+speedOption5.Text = "5"
+speedOption5.TextColor3 = Color3.new(1,1,1)
+speedOption5.Font = Enum.Font.Gotham
+speedOption5.TextSize = 12
+speedOption5.AutoButtonColor = false
+speedOption5.ZIndex = 11
+
+local speedOption10 = Instance.new("TextButton", speedDropdownMenu)
+speedOption10.Size = UDim2.new(1, 0, 0, 22)
+speedOption10.Position = UDim2.new(0, 0, 0, 44)
+speedOption10.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+speedOption10.Text = "10"
+speedOption10.TextColor3 = Color3.new(1,1,1)
+speedOption10.Font = Enum.Font.Gotham
+speedOption10.TextSize = 12
+speedOption10.AutoButtonColor = false
+speedOption10.ZIndex = 11
+
+-- Divider Line 6
+local mainDivider6 = Instance.new("Frame", mainContent)
+mainDivider6.Size = UDim2.new(1, -20, 0, 1)
+mainDivider6.Position = UDim2.new(0, 10, 0, 294)
+mainDivider6.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+mainDivider6.BorderSizePixel = 0
+
+-- Auto Rebirth Section
+local rebirthLabel = Instance.new("TextLabel", mainContent)
+rebirthLabel.Size = UDim2.new(1, -20, 0, 30)
+rebirthLabel.Position = UDim2.new(0, 10, 0, 302)
+rebirthLabel.BackgroundTransparency = 1
+rebirthLabel.Text = "Auto Rebirth"
+rebirthLabel.TextColor3 = Color3.new(1,1,1)
+rebirthLabel.Font = Enum.Font.GothamBold
+rebirthLabel.TextSize = 16
+rebirthLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local rebirthToggle = Instance.new("TextButton", mainContent)
+rebirthToggle.Size = UDim2.new(0, 50, 0, 24)
+rebirthToggle.Position = UDim2.new(1, -65, 0, 305)
+rebirthToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+rebirthToggle.Text = ""
+rebirthToggle.AutoButtonColor = false
+Instance.new("UICorner", rebirthToggle).CornerRadius = UDim.new(1, 0)
+
+local rebirthCircle = Instance.new("Frame", rebirthToggle)
+rebirthCircle.Size = UDim2.new(0, 18, 0, 18)
+rebirthCircle.Position = UDim2.new(0, 3, 0.5, -9)
+rebirthCircle.BackgroundColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", rebirthCircle).CornerRadius = UDim.new(1, 0)
 
 -- Confirmation Dialog for Sell All
 local confirmDialog = Instance.new("Frame", gui)
@@ -989,6 +1154,9 @@ closeBtn.MouseButton1Click:Connect(function()
 	spinning = false
 	collectingMoney = false
 	autoUpgradeBase = false
+	autoUpgradeCarry = false
+	autoUpgradeSpeed = false
+	autoRebirth = false
 	
 	-- Destroy GUI
 	gui:Destroy()
@@ -1009,6 +1177,10 @@ local spinning = false
 local autoObby = false
 local collectingMoney = false
 local autoUpgradeBase = false
+local autoUpgradeCarry = false
+local autoUpgradeSpeed = false
+local upgradeSpeedAmount = 1
+local autoRebirth = false
 
 -- Character handler (safe)
 local function setupCharacter(char)
@@ -1214,6 +1386,123 @@ task.spawn(function()
 	end
 end)
 
+-- Auto Upgrade Carry Toggle logic
+upgradeCarryToggle.MouseButton1Click:Connect(function()
+	autoUpgradeCarry = not autoUpgradeCarry
+	if autoUpgradeCarry then
+		upgradeCarryToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeCarryCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		upgradeCarryToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		upgradeCarryCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+	-- Save the new state
+	savedSettings.autoUpgradeCarry = autoUpgradeCarry
+	saveSettings(savedSettings)
+end)
+
+-- Auto Upgrade Carry Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeCarry then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("UpgradeCarry"):InvokeServer()
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Speed Amount Dropdown Toggle
+speedAmountDropdown.MouseButton1Click:Connect(function()
+	speedDropdownMenu.Visible = not speedDropdownMenu.Visible
+end)
+
+speedOption1.MouseButton1Click:Connect(function()
+	speedAmountDropdown.Text = "1"
+	upgradeSpeedAmount = 1
+	speedDropdownMenu.Visible = false
+	savedSettings.upgradeSpeedAmount = 1
+	saveSettings(savedSettings)
+end)
+
+speedOption5.MouseButton1Click:Connect(function()
+	speedAmountDropdown.Text = "5"
+	upgradeSpeedAmount = 5
+	speedDropdownMenu.Visible = false
+	savedSettings.upgradeSpeedAmount = 5
+	saveSettings(savedSettings)
+end)
+
+speedOption10.MouseButton1Click:Connect(function()
+	speedAmountDropdown.Text = "10"
+	upgradeSpeedAmount = 10
+	speedDropdownMenu.Visible = false
+	savedSettings.upgradeSpeedAmount = 10
+	saveSettings(savedSettings)
+end)
+
+-- Auto Upgrade Speed Toggle logic
+upgradeSpeedToggle.MouseButton1Click:Connect(function()
+	autoUpgradeSpeed = not autoUpgradeSpeed
+	if autoUpgradeSpeed then
+		upgradeSpeedToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeSpeedCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		upgradeSpeedToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		upgradeSpeedCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+	-- Save the new state
+	savedSettings.autoUpgradeSpeed = autoUpgradeSpeed
+	saveSettings(savedSettings)
+end)
+
+-- Auto Upgrade Speed Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeSpeed then
+			pcall(function()
+				local args = { upgradeSpeedAmount }
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("UpgradeSpeed"):InvokeServer(unpack(args))
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Auto Rebirth Toggle logic
+rebirthToggle.MouseButton1Click:Connect(function()
+	autoRebirth = not autoRebirth
+	if autoRebirth then
+		rebirthToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		rebirthCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	else
+		rebirthToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+		rebirthCircle.Position = UDim2.new(0, 3, 0.5, -9)
+	end
+	-- Save the new state
+	savedSettings.autoRebirth = autoRebirth
+	saveSettings(savedSettings)
+end)
+
+-- Auto Rebirth Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoRebirth then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()
+			end)
+			task.wait(1)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
 -- Money Button logic
 moneyToggle.MouseButton1Click:Connect(function()
 	collectingMoney = not collectingMoney
@@ -1375,6 +1664,33 @@ task.spawn(function()
 		autoUpgradeBase = true
 		upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		upgradeBaseCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Upgrade Carry
+	if savedSettings.autoUpgradeCarry then
+		autoUpgradeCarry = true
+		upgradeCarryToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeCarryCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Auto Upgrade Speed
+	if savedSettings.autoUpgradeSpeed then
+		autoUpgradeSpeed = true
+		upgradeSpeedToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		upgradeSpeedCircle.Position = UDim2.new(1, -21, 0.5, -9)
+	end
+	
+	-- Apply Upgrade Speed Amount
+	if savedSettings.upgradeSpeedAmount then
+		upgradeSpeedAmount = savedSettings.upgradeSpeedAmount
+		speedAmountDropdown.Text = tostring(savedSettings.upgradeSpeedAmount)
+	end
+	
+	-- Apply Auto Rebirth
+	if savedSettings.autoRebirth then
+		autoRebirth = true
+		rebirthToggle.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		rebirthCircle.Position = UDim2.new(1, -21, 0.5, -9)
 	end
 	
 	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
