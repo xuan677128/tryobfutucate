@@ -347,16 +347,40 @@ userName.TextXAlignment = Enum.TextXAlignment.Left
 userName.TextTruncate = Enum.TextTruncate.AtEnd
 
 -- Main Content Area
-local mainContent = Instance.new("Frame", mainFrame)
+local mainContent = Instance.new("ScrollingFrame", mainFrame)
 mainContent.Size = UDim2.new(1, -150, 1, -60)
 mainContent.Position = UDim2.new(0, 145, 0, 55)
 mainContent.BackgroundTransparency = 1
+mainContent.BorderSizePixel = 0
+mainContent.ScrollBarThickness = 6
+mainContent.ScrollBarImageColor3 = Color3.fromRGB(255, 105, 180)
+mainContent.CanvasSize = UDim2.new(0, 0, 0, 350)
 mainContent.Visible = true
 
+local mainListLayout = Instance.new("UIListLayout", mainContent)
+mainListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+mainListLayout.Padding = UDim.new(0, 5)
+
+local mainPaddingLayout = Instance.new("UIPadding", mainContent)
+mainPaddingLayout.PaddingLeft = UDim.new(0, 10)
+mainPaddingLayout.PaddingRight = UDim.new(0, 10)
+mainPaddingLayout.PaddingTop = UDim.new(0, 10)
+mainPaddingLayout.PaddingBottom = UDim.new(0, 10)
+
+-- Update canvas size when layout changes
+mainListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	mainContent.CanvasSize = UDim2.new(0, 0, 0, mainListLayout.AbsoluteContentSize.Y + 20)
+end)
+
 -- Auto Collect Money Section
-local moneyLabel = Instance.new("TextLabel", mainContent)
-moneyLabel.Size = UDim2.new(1, -20, 0, 30)
-moneyLabel.Position = UDim2.new(0, 10, 0, 10)
+local moneyContainer = Instance.new("Frame", mainContent)
+moneyContainer.Size = UDim2.new(1, -20, 0, 35)
+moneyContainer.BackgroundTransparency = 1
+moneyContainer.LayoutOrder = 1
+
+local moneyLabel = Instance.new("TextLabel", moneyContainer)
+moneyLabel.Size = UDim2.new(1, -60, 1, 0)
+moneyLabel.Position = UDim2.new(0, 0, 0, 0)
 moneyLabel.BackgroundTransparency = 1
 moneyLabel.Text = "Auto Collect Money"
 moneyLabel.TextColor3 = Color3.new(1,1,1)
@@ -364,9 +388,9 @@ moneyLabel.Font = Enum.Font.GothamBold
 moneyLabel.TextSize = 16
 moneyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local moneyToggle = Instance.new("TextButton", mainContent)
+local moneyToggle = Instance.new("TextButton", moneyContainer)
 moneyToggle.Size = UDim2.new(0, 50, 0, 24)
-moneyToggle.Position = UDim2.new(1, -65, 0, 13)
+moneyToggle.Position = UDim2.new(1, -55, 0.5, -12)
 moneyToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 moneyToggle.Text = ""
 moneyToggle.AutoButtonColor = false
@@ -381,14 +405,22 @@ Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
 -- Divider Line 1
 local mainDivider1 = Instance.new("Frame", mainContent)
 mainDivider1.Size = UDim2.new(1, -20, 0, 1)
-mainDivider1.Position = UDim2.new(0, 10, 0, 47)
 mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider1.BorderSizePixel = 0
+mainDivider1.LayoutOrder = 2
 
 -- Sell All Button Section
-local sellAllLabel = Instance.new("TextLabel", mainContent)
-sellAllLabel.Size = UDim2.new(1, -100, 0, 30)
-sellAllLabel.Position = UDim2.new(0, 10, 0, 55)
+local sellAllContainer = Instance.new("Frame", mainContent)
+sellAllContainer.Size = UDim2.new(1, -20, 0, 35)
+sellAllContainer.BackgroundTransparency = 1
+sellAllContainer.LayoutOrder = 3
+
+local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
+sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
+sellAllLabel.Position = UDim2.new(0, 0, 0, 0)
+local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
+sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
+sellAllLabel.Position = UDim2.new(0, 0, 0, 0)
 sellAllLabel.BackgroundTransparency = 1
 sellAllLabel.Text = "Sell All Pets"
 sellAllLabel.TextColor3 = Color3.new(1,1,1)
@@ -396,9 +428,9 @@ sellAllLabel.Font = Enum.Font.GothamBold
 sellAllLabel.TextSize = 16
 sellAllLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local sellAllButton = Instance.new("TextButton", mainContent)
+local sellAllButton = Instance.new("TextButton", sellAllContainer)
 sellAllButton.Size = UDim2.new(0, 80, 0, 28)
-sellAllButton.Position = UDim2.new(1, -90, 0, 56)
+sellAllButton.Position = UDim2.new(1, -85, 0.5, -14)
 sellAllButton.BackgroundColor3 = Color3.fromRGB(200, 50, 80)
 sellAllButton.Text = "Sell All"
 sellAllButton.TextColor3 = Color3.new(1,1,1)
@@ -410,14 +442,19 @@ Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
 -- Divider Line 2
 local mainDivider2 = Instance.new("Frame", mainContent)
 mainDivider2.Size = UDim2.new(1, -20, 0, 1)
-mainDivider2.Position = UDim2.new(0, 10, 0, 92)
 mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider2.BorderSizePixel = 0
+mainDivider2.LayoutOrder = 4
 
 -- Sell Held Tool Button Section
-local sellHeldLabel = Instance.new("TextLabel", mainContent)
-sellHeldLabel.Size = UDim2.new(1, -100, 0, 30)
-sellHeldLabel.Position = UDim2.new(0, 10, 0, 100)
+local sellHeldContainer = Instance.new("Frame", mainContent)
+sellHeldContainer.Size = UDim2.new(1, -20, 0, 35)
+sellHeldContainer.BackgroundTransparency = 1
+sellHeldContainer.LayoutOrder = 5
+
+local sellHeldLabel = Instance.new("TextLabel", sellHeldContainer)
+sellHeldLabel.Size = UDim2.new(1, -90, 1, 0)
+sellHeldLabel.Position = UDim2.new(0, 0, 0, 0)
 sellHeldLabel.BackgroundTransparency = 1
 sellHeldLabel.Text = "Sell Held Tool"
 sellHeldLabel.TextColor3 = Color3.new(1,1,1)
@@ -425,9 +462,9 @@ sellHeldLabel.Font = Enum.Font.GothamBold
 sellHeldLabel.TextSize = 16
 sellHeldLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local sellHeldButton = Instance.new("TextButton", mainContent)
+local sellHeldButton = Instance.new("TextButton", sellHeldContainer)
 sellHeldButton.Size = UDim2.new(0, 80, 0, 28)
-sellHeldButton.Position = UDim2.new(1, -90, 0, 101)
+sellHeldButton.Position = UDim2.new(1, -85, 0.5, -14)
 sellHeldButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 sellHeldButton.Text = "Sell"
 sellHeldButton.TextColor3 = Color3.new(1,1,1)
@@ -439,14 +476,19 @@ Instance.new("UICorner", sellHeldButton).CornerRadius = UDim.new(0, 6)
 -- Divider Line 3
 local mainDivider3 = Instance.new("Frame", mainContent)
 mainDivider3.Size = UDim2.new(1, -20, 0, 1)
-mainDivider3.Position = UDim2.new(0, 10, 0, 137)
 mainDivider3.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider3.BorderSizePixel = 0
+mainDivider3.LayoutOrder = 6
 
 -- Auto Upgrade Base Section
-local upgradeBaseLabel = Instance.new("TextLabel", mainContent)
-upgradeBaseLabel.Size = UDim2.new(1, -20, 0, 30)
-upgradeBaseLabel.Position = UDim2.new(0, 10, 0, 145)
+local upgradeBaseContainer = Instance.new("Frame", mainContent)
+upgradeBaseContainer.Size = UDim2.new(1, -20, 0, 35)
+upgradeBaseContainer.BackgroundTransparency = 1
+upgradeBaseContainer.LayoutOrder = 7
+
+local upgradeBaseLabel = Instance.new("TextLabel", upgradeBaseContainer)
+upgradeBaseLabel.Size = UDim2.new(1, -60, 1, 0)
+upgradeBaseLabel.Position = UDim2.new(0, 0, 0, 0)
 upgradeBaseLabel.BackgroundTransparency = 1
 upgradeBaseLabel.Text = "Auto Upgrade Base"
 upgradeBaseLabel.TextColor3 = Color3.new(1,1,1)
@@ -454,9 +496,9 @@ upgradeBaseLabel.Font = Enum.Font.GothamBold
 upgradeBaseLabel.TextSize = 16
 upgradeBaseLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local upgradeBaseToggle = Instance.new("TextButton", mainContent)
+local upgradeBaseToggle = Instance.new("TextButton", upgradeBaseContainer)
 upgradeBaseToggle.Size = UDim2.new(0, 50, 0, 24)
-upgradeBaseToggle.Position = UDim2.new(1, -65, 0, 148)
+upgradeBaseToggle.Position = UDim2.new(1, -55, 0.5, -12)
 upgradeBaseToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 upgradeBaseToggle.Text = ""
 upgradeBaseToggle.AutoButtonColor = false
@@ -471,14 +513,19 @@ Instance.new("UICorner", upgradeBaseCircle).CornerRadius = UDim.new(1, 0)
 -- Divider Line 4
 local mainDivider4 = Instance.new("Frame", mainContent)
 mainDivider4.Size = UDim2.new(1, -20, 0, 1)
-mainDivider4.Position = UDim2.new(0, 10, 0, 182)
 mainDivider4.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider4.BorderSizePixel = 0
+mainDivider4.LayoutOrder = 8
 
 -- Auto Upgrade Carry Section
-local upgradeCarryLabel = Instance.new("TextLabel", mainContent)
-upgradeCarryLabel.Size = UDim2.new(1, -20, 0, 30)
-upgradeCarryLabel.Position = UDim2.new(0, 10, 0, 190)
+local upgradeCarryContainer = Instance.new("Frame", mainContent)
+upgradeCarryContainer.Size = UDim2.new(1, -20, 0, 35)
+upgradeCarryContainer.BackgroundTransparency = 1
+upgradeCarryContainer.LayoutOrder = 9
+
+local upgradeCarryLabel = Instance.new("TextLabel", upgradeCarryContainer)
+upgradeCarryLabel.Size = UDim2.new(1, -60, 1, 0)
+upgradeCarryLabel.Position = UDim2.new(0, 0, 0, 0)
 upgradeCarryLabel.BackgroundTransparency = 1
 upgradeCarryLabel.Text = "Auto Upgrade Carry"
 upgradeCarryLabel.TextColor3 = Color3.new(1,1,1)
@@ -486,9 +533,9 @@ upgradeCarryLabel.Font = Enum.Font.GothamBold
 upgradeCarryLabel.TextSize = 16
 upgradeCarryLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local upgradeCarryToggle = Instance.new("TextButton", mainContent)
+local upgradeCarryToggle = Instance.new("TextButton", upgradeCarryContainer)
 upgradeCarryToggle.Size = UDim2.new(0, 50, 0, 24)
-upgradeCarryToggle.Position = UDim2.new(1, -65, 0, 193)
+upgradeCarryToggle.Position = UDim2.new(1, -55, 0.5, -12)
 upgradeCarryToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 upgradeCarryToggle.Text = ""
 upgradeCarryToggle.AutoButtonColor = false
@@ -503,14 +550,19 @@ Instance.new("UICorner", upgradeCarryCircle).CornerRadius = UDim.new(1, 0)
 -- Divider Line 5
 local mainDivider5 = Instance.new("Frame", mainContent)
 mainDivider5.Size = UDim2.new(1, -20, 0, 1)
-mainDivider5.Position = UDim2.new(0, 10, 0, 227)
 mainDivider5.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider5.BorderSizePixel = 0
+mainDivider5.LayoutOrder = 10
 
 -- Auto Upgrade Speed Section
-local upgradeSpeedLabel = Instance.new("TextLabel", mainContent)
-upgradeSpeedLabel.Size = UDim2.new(1, -20, 0, 30)
-upgradeSpeedLabel.Position = UDim2.new(0, 10, 0, 235)
+local upgradeSpeedContainer = Instance.new("Frame", mainContent)
+upgradeSpeedContainer.Size = UDim2.new(1, -20, 0, 60)
+upgradeSpeedContainer.BackgroundTransparency = 1
+upgradeSpeedContainer.LayoutOrder = 11
+
+local upgradeSpeedLabel = Instance.new("TextLabel", upgradeSpeedContainer)
+upgradeSpeedLabel.Size = UDim2.new(1, -60, 0, 30)
+upgradeSpeedLabel.Position = UDim2.new(0, 0, 0, 0)
 upgradeSpeedLabel.BackgroundTransparency = 1
 upgradeSpeedLabel.Text = "Auto Upgrade Speed"
 upgradeSpeedLabel.TextColor3 = Color3.new(1,1,1)
@@ -518,9 +570,9 @@ upgradeSpeedLabel.Font = Enum.Font.GothamBold
 upgradeSpeedLabel.TextSize = 16
 upgradeSpeedLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local upgradeSpeedToggle = Instance.new("TextButton", mainContent)
+local upgradeSpeedToggle = Instance.new("TextButton", upgradeSpeedContainer)
 upgradeSpeedToggle.Size = UDim2.new(0, 50, 0, 24)
-upgradeSpeedToggle.Position = UDim2.new(1, -65, 0, 238)
+upgradeSpeedToggle.Position = UDim2.new(1, -55, 0, 3)
 upgradeSpeedToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 upgradeSpeedToggle.Text = ""
 upgradeSpeedToggle.AutoButtonColor = false
@@ -533,9 +585,9 @@ upgradeSpeedCircle.BackgroundColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", upgradeSpeedCircle).CornerRadius = UDim.new(1, 0)
 
 -- Speed Amount Dropdown
-local speedAmountLabel = Instance.new("TextLabel", mainContent)
+local speedAmountLabel = Instance.new("TextLabel", upgradeSpeedContainer)
 speedAmountLabel.Size = UDim2.new(0, 70, 0, 18)
-speedAmountLabel.Position = UDim2.new(0, 10, 0, 264)
+speedAmountLabel.Position = UDim2.new(0, 0, 0, 34)
 speedAmountLabel.BackgroundTransparency = 1
 speedAmountLabel.Text = "Amount:"
 speedAmountLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -543,9 +595,9 @@ speedAmountLabel.Font = Enum.Font.Gotham
 speedAmountLabel.TextSize = 12
 speedAmountLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local speedAmountDropdown = Instance.new("TextButton", mainContent)
+local speedAmountDropdown = Instance.new("TextButton", upgradeSpeedContainer)
 speedAmountDropdown.Size = UDim2.new(0, 60, 0, 22)
-speedAmountDropdown.Position = UDim2.new(0, 80, 0, 262)
+speedAmountDropdown.Position = UDim2.new(0, 70, 0, 32)
 speedAmountDropdown.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 speedAmountDropdown.Text = "1"
 speedAmountDropdown.TextColor3 = Color3.new(1,1,1)
@@ -555,13 +607,13 @@ speedAmountDropdown.AutoButtonColor = false
 Instance.new("UICorner", speedAmountDropdown).CornerRadius = UDim.new(0, 5)
 
 -- Dropdown Menu for Speed Amount
-local speedDropdownMenu = Instance.new("Frame", mainContent)
+local speedDropdownMenu = Instance.new("Frame", gui)
 speedDropdownMenu.Size = UDim2.new(0, 60, 0, 66)
-speedDropdownMenu.Position = UDim2.new(0, 80, 0, 284)
+speedDropdownMenu.Position = UDim2.new(0, 0, 0, 0)
 speedDropdownMenu.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 speedDropdownMenu.BorderSizePixel = 0
 speedDropdownMenu.Visible = false
-speedDropdownMenu.ZIndex = 10
+speedDropdownMenu.ZIndex = 100
 Instance.new("UICorner", speedDropdownMenu).CornerRadius = UDim.new(0, 5)
 
 local speedOption1 = Instance.new("TextButton", speedDropdownMenu)
@@ -573,7 +625,7 @@ speedOption1.TextColor3 = Color3.new(1,1,1)
 speedOption1.Font = Enum.Font.Gotham
 speedOption1.TextSize = 12
 speedOption1.AutoButtonColor = false
-speedOption1.ZIndex = 11
+speedOption1.ZIndex = 101
 
 local speedOption5 = Instance.new("TextButton", speedDropdownMenu)
 speedOption5.Size = UDim2.new(1, 0, 0, 22)
@@ -584,7 +636,7 @@ speedOption5.TextColor3 = Color3.new(1,1,1)
 speedOption5.Font = Enum.Font.Gotham
 speedOption5.TextSize = 12
 speedOption5.AutoButtonColor = false
-speedOption5.ZIndex = 11
+speedOption5.ZIndex = 101
 
 local speedOption10 = Instance.new("TextButton", speedDropdownMenu)
 speedOption10.Size = UDim2.new(1, 0, 0, 22)
@@ -595,19 +647,24 @@ speedOption10.TextColor3 = Color3.new(1,1,1)
 speedOption10.Font = Enum.Font.Gotham
 speedOption10.TextSize = 12
 speedOption10.AutoButtonColor = false
-speedOption10.ZIndex = 11
+speedOption10.ZIndex = 101
 
 -- Divider Line 6
 local mainDivider6 = Instance.new("Frame", mainContent)
 mainDivider6.Size = UDim2.new(1, -20, 0, 1)
-mainDivider6.Position = UDim2.new(0, 10, 0, 294)
 mainDivider6.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
 mainDivider6.BorderSizePixel = 0
+mainDivider6.LayoutOrder = 12
 
 -- Auto Rebirth Section
-local rebirthLabel = Instance.new("TextLabel", mainContent)
-rebirthLabel.Size = UDim2.new(1, -20, 0, 30)
-rebirthLabel.Position = UDim2.new(0, 10, 0, 302)
+local rebirthContainer = Instance.new("Frame", mainContent)
+rebirthContainer.Size = UDim2.new(1, -20, 0, 35)
+rebirthContainer.BackgroundTransparency = 1
+rebirthContainer.LayoutOrder = 13
+
+local rebirthLabel = Instance.new("TextLabel", rebirthContainer)
+rebirthLabel.Size = UDim2.new(1, -60, 1, 0)
+rebirthLabel.Position = UDim2.new(0, 0, 0, 0)
 rebirthLabel.BackgroundTransparency = 1
 rebirthLabel.Text = "Auto Rebirth"
 rebirthLabel.TextColor3 = Color3.new(1,1,1)
@@ -615,9 +672,9 @@ rebirthLabel.Font = Enum.Font.GothamBold
 rebirthLabel.TextSize = 16
 rebirthLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local rebirthToggle = Instance.new("TextButton", mainContent)
+local rebirthToggle = Instance.new("TextButton", rebirthContainer)
 rebirthToggle.Size = UDim2.new(0, 50, 0, 24)
-rebirthToggle.Position = UDim2.new(1, -65, 0, 305)
+rebirthToggle.Position = UDim2.new(1, -55, 0.5, -12)
 rebirthToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 rebirthToggle.Text = ""
 rebirthToggle.AutoButtonColor = false
@@ -1417,7 +1474,13 @@ end)
 
 -- Speed Amount Dropdown Toggle
 speedAmountDropdown.MouseButton1Click:Connect(function()
-	speedDropdownMenu.Visible = not speedDropdownMenu.Visible
+	local isVisible = not speedDropdownMenu.Visible
+	speedDropdownMenu.Visible = isVisible
+	if isVisible then
+		-- Position dropdown below the button
+		local btnPos = speedAmountDropdown.AbsolutePosition
+		speedDropdownMenu.Position = UDim2.new(0, btnPos.X, 0, btnPos.Y + 22)
+	end
 end)
 
 speedOption1.MouseButton1Click:Connect(function()
