@@ -71,8 +71,8 @@
 
 		-- Main Frame (Full UI)
 		local mainFrame = Instance.new("Frame")
-		mainFrame.Size = UDim2.new(0, 0, 0, 0)  -- Start small for zoom in
-		mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+		mainFrame.Size = UDim2.new(0, 520, 0, 340)
+		mainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
 		mainFrame.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
 		mainFrame.BorderSizePixel = 0
 		mainFrame.Active = true
@@ -373,12 +373,8 @@
 		moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 1
-		local mainDivider1 = Instance.new("Frame", mainContent)
-		mainDivider1.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider1.BorderSizePixel = 0
-		mainDivider1.LayoutOrder = 2
+		-- Divider Line 1 Removed
+
 
 		-- Sell All Button Section
 		local sellAllContainer = Instance.new("Frame", mainContent)
@@ -407,12 +403,8 @@
 		sellAllButton.AutoButtonColor = false
 		Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
 
-		-- Divider Line 2
-		local mainDivider2 = Instance.new("Frame", mainContent)
-		mainDivider2.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider2.BorderSizePixel = 0
-		mainDivider2.LayoutOrder = 4
+		-- Divider Line 2 Removed
+
 
 		-- Sell Held Tool Button Section
 		local sellHeldContainer = Instance.new("Frame", mainContent)
