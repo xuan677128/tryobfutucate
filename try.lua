@@ -1,25 +1,3 @@
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-
-local Window = WindUI:CreateWindow({
-    Title = "Xuan Hub",
-    Icon = "rbxassetid://103326199885496",
-    Author = "by Xuan",
-    KeySystem = {
-        Note = "Key System for Xuan Hub.",
-        API = {
-            {
-                Title = "Platoboost",
-                Desc = "Click to copy.",
-                Type = "platoboost",
-                ServiceId = 19150,
-                Secret = "de1c7213-1259-48ec-a052-9ad313dc3f79",
-            },
-        },
-    },
-})
-Window:Destroy()
-		task.spawn(function()
-			local success, err = pcall(function()
 		-- ================= XUAN HUB GUI =================
 		if game.PlaceId ~= 131623223084840 then
 			game:GetService("Players").LocalPlayer:Kick("Xuan Hub not supported this game!")
@@ -91,51 +69,16 @@ Window:Destroy()
 		gui.IgnoreGuiInset = true
 		gui.Parent = player:WaitForChild("PlayerGui")
 
-		-- ================= LOADING SCREEN =================
-		local loadingFrame = Instance.new("Frame")
-		loadingFrame.Size = UDim2.new(0, 300, 0, 200)
-		loadingFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-		loadingFrame.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
-		loadingFrame.BorderSizePixel = 0
-		loadingFrame.Parent = gui
-		loadingFrame.ZIndex = 10
-		Instance.new("UICorner", loadingFrame).CornerRadius = UDim.new(0, 12)
-
-		local loadingStroke = Instance.new("UIStroke", loadingFrame)
-		loadingStroke.Color = Color3.fromRGB(255, 105, 180)
-		loadingStroke.Thickness = 2
-
-		local loadingIcon = Instance.new("ImageLabel", loadingFrame)
-		loadingIcon.Size = UDim2.new(0, 100, 0, 100)
-		loadingIcon.Position = UDim2.new(0.5, -50, 0, 30)
-		loadingIcon.BackgroundTransparency = 1
-		loadingIcon.Image = "rbxassetid://103326199885496"
-		loadingIcon.ScaleType = Enum.ScaleType.Fit
-		loadingIcon.ImageTransparency = 1
-		loadingIcon.ZIndex = 11
-		Instance.new("UICorner", loadingIcon).CornerRadius = UDim.new(1, 0)
-
-		local loadingTitle = Instance.new("TextLabel", loadingFrame)
-		loadingTitle.Size = UDim2.new(1, -20, 0, 40)
-		loadingTitle.Position = UDim2.new(0, 10, 0, 140)
-		loadingTitle.BackgroundTransparency = 1
-		loadingTitle.Text = "Xuan Hub"
-		loadingTitle.TextColor3 = Color3.fromRGB(255, 105, 180)
-		loadingTitle.Font = Enum.Font.GothamBold
-		loadingTitle.TextSize = 28
-		loadingTitle.TextTransparency = 1
-		loadingTitle.ZIndex = 11
-
 		-- Main Frame (Full UI)
 		local mainFrame = Instance.new("Frame")
-		mainFrame.Size = UDim2.new(0, 520, 0, 340)
-		mainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
+		mainFrame.Size = UDim2.new(0, 0, 0, 0)  -- Start small for zoom in
+		mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 		mainFrame.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
 		mainFrame.BorderSizePixel = 0
 		mainFrame.Active = true
 		mainFrame.Draggable = true
 		mainFrame.Parent = gui
-		mainFrame.Visible = false
+		mainFrame.Visible = true
 		Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
 
 		local mainStroke = Instance.new("UIStroke", mainFrame)
@@ -1699,55 +1642,67 @@ Window:Destroy()
 			end)
 		end)
 
-		-- ================= LOADING ANIMATION & SETTINGS APPLY =================
+		-- ================= ANIMATIONS & BUTTON LOGICS =================
 
-		-- Animate loading screen
+		-- Zoom in animation for main frame
 		task.spawn(function()
-			-- Fade in frame
-			TweenService:Create(loadingFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				BackgroundTransparency = 0
+			TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+				Size = UDim2.new(0, 520, 0, 340),
+				Position = UDim2.new(0.5, -260, 0.5, -170)
 			}):Play()
-			TweenService:Create(loadingStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				Transparency = 0
-			}):Play()
-			
-			-- Fade in icon
-			task.wait(0.1)
-			TweenService:Create(loadingIcon, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				ImageTransparency = 0
-			}):Play()
-			
-			-- Fade in title
-			task.wait(0.2)
-			TweenService:Create(loadingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				TextTransparency = 0
-			}):Play()
-			
-			-- Wait 5 seconds total (including fade in time)
-			task.wait(4.3)
-			
-			-- Fade out loading screen
-			local fadeOut = TweenService:Create(loadingFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				BackgroundTransparency = 1
+		end)
+
+		-- Minimize Button logic
+		minimizeBtn.MouseButton1Click:Connect(function()
+			-- Animate main frame out
+			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 0, 0, 0),
+				Position = UDim2.new(0.5, 0, 0.5, 0)
 			})
-			TweenService:Create(loadingStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				Transparency = 1
-			}):Play()
-			TweenService:Create(loadingIcon, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				ImageTransparency = 1
-			}):Play()
-			TweenService:Create(loadingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				TextTransparency = 1
-			}):Play()
-			fadeOut:Play()
-			
-			fadeOut.Completed:Connect(function()
-				loadingFrame:Destroy()
-				mainFrame.Visible = true
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
+				mainFrame.Visible = false
+				miniFrame.Visible = true
+				-- Animate mini frame in
+				TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+					Position = UDim2.new(0.5, -90, 0.1, 0)
+				}):Play()
 			end)
 		end)
 
-		-- Apply saved settings
+		-- Expand Button logic (on mini frame)
+		expandBtn.MouseButton1Click:Connect(function()
+			-- Animate mini frame out
+			local tweenOut = TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Position = UDim2.new(0.5, -90, -0.1, 0)
+			})
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
+				miniFrame.Visible = false
+				mainFrame.Visible = true
+				-- Zoom in main frame
+				TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+					Size = UDim2.new(0, 520, 0, 340),
+					Position = UDim2.new(0.5, -260, 0.5, -170)
+				}):Play()
+			end)
+		end)
+
+		-- Close Button logic
+		closeBtn.MouseButton1Click:Connect(function()
+			-- Animate out and destroy
+			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 0, 0, 0),
+				Position = UDim2.new(0.5, 0, 0.5, 0)
+			})
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
+				gui:Destroy()
+				scriptRunning = false
+			end)
+		end)
+
+		-- ================= SETTINGS APPLY =================
 		task.spawn(function()
 			task.wait(0.5) -- Wait for GUI to fully load
 			
@@ -1842,8 +1797,4 @@ Window:Destroy()
 			savedSettings.spinDelay = delayValue
 			saveSettings(savedSettings)
 		end)
-    end)
-    if not success then
-        warn("Script error:", err)
-    end
-end)
+    
