@@ -343,11 +343,14 @@
 			mainContent.CanvasSize = UDim2.new(0, 0, 0, mainListLayout.AbsoluteContentSize.Y + 20)
 		end)
 
-		-- Auto Collect Money Section
+		-- Auto Collect Money Section (Boxed)
 		local moneyContainer = Instance.new("Frame", mainContent)
-		moneyContainer.Size = UDim2.new(1, -20, 0, 35)
-		moneyContainer.BackgroundTransparency = 1
+		moneyContainer.Size = UDim2.new(1, -20, 0, 40)
+		moneyContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		moneyContainer.BorderSizePixel = 0
 		moneyContainer.LayoutOrder = 1
+		Instance.new("UICorner", moneyContainer).CornerRadius = UDim.new(0, 8)
+
 
 		local moneyLabel = Instance.new("TextLabel", moneyContainer)
 		moneyLabel.Size = UDim2.new(1, -60, 1, 0)
@@ -373,18 +376,17 @@
 		moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 1
-		local mainDivider1 = Instance.new("Frame", mainContent)
-		mainDivider1.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider1.BorderSizePixel = 0
-		mainDivider1.LayoutOrder = 2
+		-- Divider Line 1 Removed
 
-		-- Sell All Button Section
+
+		-- Sell All Button Section (Boxed)
 		local sellAllContainer = Instance.new("Frame", mainContent)
-		sellAllContainer.Size = UDim2.new(1, -20, 0, 35)
-		sellAllContainer.BackgroundTransparency = 1
+		sellAllContainer.Size = UDim2.new(1, -20, 0, 40)
+		sellAllContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		sellAllContainer.BorderSizePixel = 0
 		sellAllContainer.LayoutOrder = 3
+		Instance.new("UICorner", sellAllContainer).CornerRadius = UDim.new(0, 8)
+
 
 		local sellAllLabel = Instance.new("TextLabel", sellAllContainer)
 		sellAllLabel.Size = UDim2.new(1, -90, 1, 0)
@@ -407,15 +409,14 @@
 		sellAllButton.AutoButtonColor = false
 		Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
 
-		-- Divider Line 2
-		local mainDivider2 = Instance.new("Frame", mainContent)
-		mainDivider2.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider2.BorderSizePixel = 0
-		mainDivider2.LayoutOrder = 4
-
-		-- Sell Held Tool Button Section
+		-- Divider Line 2 Removed (Boxed)
 		local sellHeldContainer = Instance.new("Frame", mainContent)
+		sellHeldContainer.Size = UDim2.new(1, -20, 0, 40)
+		sellHeldContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		sellHeldContainer.BorderSizePixel = 0
+		sellHeldContainer.LayoutOrder = 5
+		Instance.new("UICorner", sellHeldContainer).CornerRadius = UDim.new(0, 8)
+e.new("Frame", mainContent)
 		sellHeldContainer.Size = UDim2.new(1, -20, 0, 35)
 		sellHeldContainer.BackgroundTransparency = 1
 		sellHeldContainer.LayoutOrder = 5
@@ -441,18 +442,13 @@
 		sellHeldButton.AutoButtonColor = false
 		Instance.new("UICorner", sellHeldButton).CornerRadius = UDim.new(0, 6)
 
-		-- Divider Line 3
-		local mainDivider3 = Instance.new("Frame", mainContent)
-		mainDivider3.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider3.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider3.BorderSizePixel = 0
-		mainDivider3.LayoutOrder = 6
-
-		-- Auto Upgrade Base Section
+		-- Auto Upgrade Base Section (Boxed)
 		local upgradeBaseContainer = Instance.new("Frame", mainContent)
-		upgradeBaseContainer.Size = UDim2.new(1, -20, 0, 35)
-		upgradeBaseContainer.BackgroundTransparency = 1
+		upgradeBaseContainer.Size = UDim2.new(1, -20, 0, 40)
+		upgradeBaseContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		upgradeBaseContainer.BorderSizePixel = 0
 		upgradeBaseContainer.LayoutOrder = 7
+		Instance.new("UICorner", upgradeBaseContainer).CornerRadius = UDim.new(0, 8)
 
 		local upgradeBaseLabel = Instance.new("TextLabel", upgradeBaseContainer)
 		upgradeBaseLabel.Size = UDim2.new(1, -60, 1, 0)
@@ -478,18 +474,13 @@
 		upgradeBaseCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", upgradeBaseCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 4
-		local mainDivider4 = Instance.new("Frame", mainContent)
-		mainDivider4.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider4.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider4.BorderSizePixel = 0
-		mainDivider4.LayoutOrder = 8
-
-		-- Auto Upgrade Carry Section
+		-- Auto Upgrade Carry Section (Boxed)
 		local upgradeCarryContainer = Instance.new("Frame", mainContent)
-		upgradeCarryContainer.Size = UDim2.new(1, -20, 0, 35)
-		upgradeCarryContainer.BackgroundTransparency = 1
+		upgradeCarryContainer.Size = UDim2.new(1, -20, 0, 40)
+		upgradeCarryContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		upgradeCarryContainer.BorderSizePixel = 0
 		upgradeCarryContainer.LayoutOrder = 9
+		Instance.new("UICorner", upgradeCarryContainer).CornerRadius = UDim.new(0, 8)
 
 		local upgradeCarryLabel = Instance.new("TextLabel", upgradeCarryContainer)
 		upgradeCarryLabel.Size = UDim2.new(1, -60, 1, 0)
@@ -515,18 +506,13 @@
 		upgradeCarryCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", upgradeCarryCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 5
-		local mainDivider5 = Instance.new("Frame", mainContent)
-		mainDivider5.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider5.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider5.BorderSizePixel = 0
-		mainDivider5.LayoutOrder = 10
-
-		-- Auto Upgrade Speed Section
+		-- Auto Upgrade Speed Section (Boxed)
 		local upgradeSpeedContainer = Instance.new("Frame", mainContent)
-		upgradeSpeedContainer.Size = UDim2.new(1, -20, 0, 60)
-		upgradeSpeedContainer.BackgroundTransparency = 1
+		upgradeSpeedContainer.Size = UDim2.new(1, -20, 0, 65)
+		upgradeSpeedContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		upgradeSpeedContainer.BorderSizePixel = 0
 		upgradeSpeedContainer.LayoutOrder = 11
+		Instance.new("UICorner", upgradeSpeedContainer).CornerRadius = UDim.new(0, 8)
 
 		local upgradeSpeedLabel = Instance.new("TextLabel", upgradeSpeedContainer)
 		upgradeSpeedLabel.Size = UDim2.new(1, -60, 0, 30)
@@ -536,6 +522,7 @@
 		upgradeSpeedLabel.TextColor3 = Color3.new(1,1,1)
 		upgradeSpeedLabel.Font = Enum.Font.GothamBold
 		upgradeSpeedLabel.TextSize = 16
+
 		upgradeSpeedLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 		local upgradeSpeedToggle = Instance.new("TextButton", upgradeSpeedContainer)
@@ -636,17 +623,14 @@
 		mainFrame:GetPropertyChangedSignal("Position"):Connect(function()
 			speedDropdownMenu.Visible = false
 		end)
-		local mainDivider6 = Instance.new("Frame", mainContent)
-		mainDivider6.Size = UDim2.new(1, -20, 0, 1)
-		mainDivider6.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		mainDivider6.BorderSizePixel = 0
-		mainDivider6.LayoutOrder = 12
 
-		-- Auto Rebirth Section
+		-- Auto Rebirth Section (Boxed)
 		local rebirthContainer = Instance.new("Frame", mainContent)
-		rebirthContainer.Size = UDim2.new(1, -20, 0, 35)
-		rebirthContainer.BackgroundTransparency = 1
+		rebirthContainer.Size = UDim2.new(1, -20, 0, 40)
+		rebirthContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		rebirthContainer.BorderSizePixel = 0
 		rebirthContainer.LayoutOrder = 13
+		Instance.new("UICorner", rebirthContainer).CornerRadius = UDim.new(0, 8)
 
 		local rebirthLabel = Instance.new("TextLabel", rebirthContainer)
 		rebirthLabel.Size = UDim2.new(1, -60, 1, 0)
@@ -659,6 +643,7 @@
 		rebirthLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 		local rebirthToggle = Instance.new("TextButton", rebirthContainer)
+
 		rebirthToggle.Size = UDim2.new(0, 50, 0, 24)
 		rebirthToggle.Position = UDim2.new(1, -55, 0.5, -12)
 		rebirthToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
@@ -740,7 +725,18 @@
 		eventContent.BackgroundTransparency = 1
 		eventContent.Visible = false
 
+		local eventListLayout = Instance.new("UIListLayout", eventContent)
+		eventListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		eventListLayout.Padding = UDim.new(0, 5)
+
+		local eventPadding = Instance.new("UIPadding", eventContent)
+		eventPadding.PaddingLeft = UDim.new(0, 10)
+		eventPadding.PaddingRight = UDim.new(0, 10)
+		eventPadding.PaddingTop = UDim.new(0, 10)
+		eventPadding.PaddingBottom = UDim.new(0, 10)
+
 		-- Auto Collect Section
+
 		local collectLabel = Instance.new("TextLabel", eventContent)
 		collectLabel.Size = UDim2.new(1, -20, 0, 30)
 		collectLabel.Position = UDim2.new(0, 10, 0, 10)
@@ -775,17 +771,19 @@
 		collectCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", collectCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 1
-		local divider1 = Instance.new("Frame", eventContent)
-		divider1.Size = UDim2.new(1, -20, 0, 1)
-		divider1.Position = UDim2.new(0, 10, 0, 62)
-		divider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		divider1.BorderSizePixel = 0
+		-- Divider Line 1 Removed
 
-		-- Auto Spin Section
-		local spinLabel = Instance.new("TextLabel", eventContent)
+		-- Auto Spin Section (Boxed)
+		local spinContainer = Instance.new("Frame", eventContent)
+		spinContainer.Size = UDim2.new(1, -20, 0, 65)
+		spinContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		spinContainer.BorderSizePixel = 0
+		spinContainer.LayoutOrder = 2
+		Instance.new("UICorner", spinContainer).CornerRadius = UDim.new(0, 8)
+
+		local spinLabel = Instance.new("TextLabel", spinContainer)
 		spinLabel.Size = UDim2.new(1, -20, 0, 30)
-		spinLabel.Position = UDim2.new(0, 10, 0, 70)
+		spinLabel.Position = UDim2.new(0, 10, 0, 5)
 		spinLabel.BackgroundTransparency = 1
 		spinLabel.Text = "Auto Spin Radioactive Wheel"
 		spinLabel.TextColor3 = Color3.new(1,1,1)
@@ -793,9 +791,9 @@
 		spinLabel.TextSize = 16
 		spinLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-		local spinToggle = Instance.new("TextButton", eventContent)
+		local spinToggle = Instance.new("TextButton", spinContainer)
 		spinToggle.Size = UDim2.new(0, 50, 0, 24)
-		spinToggle.Position = UDim2.new(1, -65, 0, 73)
+		spinToggle.Position = UDim2.new(1, -55, 0, 8)
 		spinToggle.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
 		spinToggle.Text = ""
 		spinToggle.AutoButtonColor = false
@@ -808,9 +806,9 @@
 		Instance.new("UICorner", spinCircle).CornerRadius = UDim.new(1, 0)
 
 		-- Spin Delay Input
-		local spinDelayLabel = Instance.new("TextLabel", eventContent)
+		local spinDelayLabel = Instance.new("TextLabel", spinContainer)
 		spinDelayLabel.Size = UDim2.new(0, 80, 0, 18)
-		spinDelayLabel.Position = UDim2.new(0, 10, 0, 99)
+		spinDelayLabel.Position = UDim2.new(0, 10, 0, 34)
 		spinDelayLabel.BackgroundTransparency = 1
 		spinDelayLabel.Text = "Spin Delay:"
 		spinDelayLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -818,9 +816,9 @@
 		spinDelayLabel.TextSize = 12
 		spinDelayLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-		local spinDelayBox = Instance.new("TextBox", eventContent)
+		local spinDelayBox = Instance.new("TextBox", spinContainer)
 		spinDelayBox.Size = UDim2.new(0, 60, 0, 22)
-		spinDelayBox.Position = UDim2.new(0, 90, 0, 97)
+		spinDelayBox.Position = UDim2.new(0, 90, 0, 32)
 		spinDelayBox.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
 		spinDelayBox.BorderSizePixel = 0
 		spinDelayBox.Text = "0.5"
@@ -831,12 +829,8 @@
 		spinDelayBox.ClearTextOnFocus = false
 		Instance.new("UICorner", spinDelayBox).CornerRadius = UDim.new(0, 5)
 
-		-- Divider Line 2
-		local divider2 = Instance.new("Frame", eventContent)
-		divider2.Size = UDim2.new(1, -20, 0, 1)
-		divider2.Position = UDim2.new(0, 10, 0, 130)
-		divider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		divider2.BorderSizePixel = 0
+		-- Divider Line 2 Removed
+
 
 		-- Auto Obby Section
 		local obbyLabel = Instance.new("TextLabel", eventContent)
@@ -889,11 +883,14 @@
 			afkContent.CanvasSize = UDim2.new(0, 0, 0, afkListLayout.AbsoluteContentSize.Y + 20)
 		end)
 
-		-- Anti-AFK Section
+		-- Anti-AFK Section (Boxed)
 		local antiAfkContainer = Instance.new("Frame", afkContent)
-		antiAfkContainer.Size = UDim2.new(1, -20, 0, 35)
-		antiAfkContainer.BackgroundTransparency = 1
+		antiAfkContainer.Size = UDim2.new(1, -20, 0, 40)
+		antiAfkContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		antiAfkContainer.BorderSizePixel = 0
 		antiAfkContainer.LayoutOrder = 1
+		Instance.new("UICorner", antiAfkContainer).CornerRadius = UDim.new(0, 8)
+
 
 		local antiAfkLabel = Instance.new("TextLabel", antiAfkContainer)
 		antiAfkLabel.Size = UDim2.new(1, -150, 1, 0)
@@ -973,18 +970,17 @@
 			end
 		end)
 
-		-- Divider Line
-		local afkDivider = Instance.new("Frame", afkContent)
-		afkDivider.Size = UDim2.new(1, -20, 0, 1)
-		afkDivider.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		afkDivider.BorderSizePixel = 0
-		afkDivider.LayoutOrder = 3
+		-- Divider Line Removed
 
-		-- Auto Reconnect Section
+
+		-- Auto Reconnect Section (Boxed)
 		local reconnectContainer = Instance.new("Frame", afkContent)
-		reconnectContainer.Size = UDim2.new(1, -20, 0, 35)
-		reconnectContainer.BackgroundTransparency = 1
+		reconnectContainer.Size = UDim2.new(1, -20, 0, 40)
+		reconnectContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		reconnectContainer.BorderSizePixel = 0
 		reconnectContainer.LayoutOrder = 4
+		Instance.new("UICorner", reconnectContainer).CornerRadius = UDim.new(0, 8)
+
 
 		local reconnectLabel = Instance.new("TextLabel", reconnectContainer)
 		reconnectLabel.Size = UDim2.new(1, -150, 1, 0)
@@ -1064,22 +1060,17 @@
 			end
 		end)
 
-		-- Divider Line 2
-		local afkDivider2 = Instance.new("Frame", afkContent)
-		afkDivider2.Size = UDim2.new(1, -20, 0, 1)
-		afkDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
-		afkDivider2.BorderSizePixel = 0
-		afkDivider2.LayoutOrder = 6
-
-		-- Server Actions Section
+		-- Divider Line 2 Removed (Boxed)
 		local serverActionsContainer = Instance.new("Frame", afkContent)
-		serverActionsContainer.Size = UDim2.new(1, -20, 0, 70)
-		serverActionsContainer.BackgroundTransparency = 1
+		serverActionsContainer.Size = UDim2.new(1, -20, 0, 75)
+		serverActionsContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		serverActionsContainer.BorderSizePixel = 0
 		serverActionsContainer.LayoutOrder = 7
+		Instance.new("UICorner", serverActionsContainer).CornerRadius = UDim.new(0, 8)
 
 		local serverActionsLabel = Instance.new("TextLabel", serverActionsContainer)
 		serverActionsLabel.Size = UDim2.new(1, 0, 0, 25)
-		serverActionsLabel.Position = UDim2.new(0, 0, 0, 0)
+		serverActionsLabel.Position = UDim2.new(0, 10, 0, 5)
 		serverActionsLabel.BackgroundTransparency = 1
 		serverActionsLabel.Text = "Server Actions"
 		serverActionsLabel.TextColor3 = Color3.new(1,1,1)
@@ -1090,7 +1081,7 @@
 		-- Server Hop Button
 		local serverHopButton = Instance.new("TextButton", serverActionsContainer)
 		serverHopButton.Size = UDim2.new(0, 155, 0, 32)
-		serverHopButton.Position = UDim2.new(0, 0, 0, 30)
+		serverHopButton.Position = UDim2.new(0, 10, 0, 35)
 		serverHopButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		serverHopButton.Text = "Server Hop"
 		serverHopButton.TextColor3 = Color3.new(1,1,1)
@@ -1102,6 +1093,10 @@
 		-- Rejoin Button
 		local rejoinButton = Instance.new("TextButton", serverActionsContainer)
 		rejoinButton.Size = UDim2.new(0, 155, 0, 32)
+		rejoinButton.Position = UDim2.new(1, -165, 0, 35)
+		rejoinButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+		rejoinButton.Text = "Rejoin"
+w(0, 155, 0, 32)
 		rejoinButton.Position = UDim2.new(1, -155, 0, 30)
 		rejoinButton.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
 		rejoinButton.Text = "Rejoin"
