@@ -71,8 +71,8 @@
 
 		-- Main Frame (Full UI)
 		local mainFrame = Instance.new("Frame")
-		mainFrame.Size = UDim2.new(0, 520, 0, 340)
-		mainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
+		mainFrame.Size = UDim2.new(0, 0, 0, 0)  -- Start small for zoom in
+		mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 		mainFrame.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
 		mainFrame.BorderSizePixel = 0
 		mainFrame.Active = true
@@ -373,8 +373,12 @@
 		moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 1 Removed
-
+		-- Divider Line 1
+		local mainDivider1 = Instance.new("Frame", mainContent)
+		mainDivider1.Size = UDim2.new(1, -20, 0, 1)
+		mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+		mainDivider1.BorderSizePixel = 0
+		mainDivider1.LayoutOrder = 2
 
 		-- Sell All Button Section
 		local sellAllContainer = Instance.new("Frame", mainContent)
@@ -403,8 +407,12 @@
 		sellAllButton.AutoButtonColor = false
 		Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
 
-		-- Divider Line 2 Removed
-
+		-- Divider Line 2
+		local mainDivider2 = Instance.new("Frame", mainContent)
+		mainDivider2.Size = UDim2.new(1, -20, 0, 1)
+		mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+		mainDivider2.BorderSizePixel = 0
+		mainDivider2.LayoutOrder = 4
 
 		-- Sell Held Tool Button Section
 		local sellHeldContainer = Instance.new("Frame", mainContent)
@@ -1634,7 +1642,21 @@
 			end)
 		end)
 
-		-- ================= BUTTON LOGICS =================
+		-- ================= ANIMATIONS & BUTTON LOGICS =================
+
+		-- Zoom in animation for main frame
+		task.spawn(function()
+			mainFrame.BackgroundTransparency = 1
+			mainStroke.Transparency = 1
+			TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+				Size = UDim2.new(0, 520, 0, 340),
+				Position = UDim2.new(0.5, -260, 0.5, -170),
+				BackgroundTransparency = 0
+			}):Play()
+			TweenService:Create(mainStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+				Transparency = 0
+			}):Play()
+		end)
 
 		-- Minimize Button logic
 		minimizeBtn.MouseButton1Click:Connect(function()
@@ -1650,8 +1672,22 @@
 
 		-- Close Button logic
 		closeBtn.MouseButton1Click:Connect(function()
-			gui:Destroy()
-			scriptRunning = false
+			-- Shrink and fade out
+			local tweenOut1 = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 0, 0, 0),
+				Position = UDim2.new(0.5, 0, 0.5, 0),
+				BackgroundTransparency = 1
+			})
+			local tweenOut2 = TweenService:Create(mainStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Transparency = 1
+			})
+			tweenOut1:Play()
+			tweenOut2:Play()
+			
+			tweenOut1.Completed:Connect(function()
+				gui:Destroy()
+				scriptRunning = false
+			end)
 		end)
 
 		-- ================= SETTINGS APPLY =================
