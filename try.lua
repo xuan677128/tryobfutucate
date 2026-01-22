@@ -1646,45 +1646,57 @@
 
 		-- Zoom in animation for main frame
 		task.spawn(function()
-			mainFrame.BackgroundTransparency = 1
-			mainStroke.Transparency = 1
-			TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
 				Size = UDim2.new(0, 520, 0, 340),
-				Position = UDim2.new(0.5, -260, 0.5, -170),
-				BackgroundTransparency = 0
-			}):Play()
-			TweenService:Create(mainStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				Transparency = 0
+				Position = UDim2.new(0.5, -260, 0.5, -170)
 			}):Play()
 		end)
 
 		-- Minimize Button logic
 		minimizeBtn.MouseButton1Click:Connect(function()
-			mainFrame.Visible = false
-			miniFrame.Visible = true
+			-- Animate main frame out
+			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 0, 0, 0),
+				Position = UDim2.new(0.5, 0, 0.5, 0)
+			})
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
+				mainFrame.Visible = false
+				miniFrame.Visible = true
+				-- Animate mini frame in
+				TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+					Position = UDim2.new(0.5, -90, 0.1, 0)
+				}):Play()
+			end)
 		end)
 
 		-- Expand Button logic (on mini frame)
 		expandBtn.MouseButton1Click:Connect(function()
-			miniFrame.Visible = false
-			mainFrame.Visible = true
+			-- Animate mini frame out
+			local tweenOut = TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Position = UDim2.new(0.5, -90, -0.1, 0)
+			})
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
+				miniFrame.Visible = false
+				mainFrame.Visible = true
+				-- Zoom in main frame
+				TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+					Size = UDim2.new(0, 520, 0, 340),
+					Position = UDim2.new(0.5, -260, 0.5, -170)
+				}):Play()
+			end)
 		end)
 
 		-- Close Button logic
 		closeBtn.MouseButton1Click:Connect(function()
-			-- Shrink and fade out
-			local tweenOut1 = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+			-- Animate out and destroy
+			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
 				Size = UDim2.new(0, 0, 0, 0),
-				Position = UDim2.new(0.5, 0, 0.5, 0),
-				BackgroundTransparency = 1
+				Position = UDim2.new(0.5, 0, 0.5, 0)
 			})
-			local tweenOut2 = TweenService:Create(mainStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				Transparency = 1
-			})
-			tweenOut1:Play()
-			tweenOut2:Play()
-			
-			tweenOut1.Completed:Connect(function()
+			tweenOut:Play()
+			tweenOut.Completed:Connect(function()
 				gui:Destroy()
 				scriptRunning = false
 			end)
