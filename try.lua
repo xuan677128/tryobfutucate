@@ -1646,57 +1646,97 @@
 
 		-- Zoom in animation for main frame
 		task.spawn(function()
-			TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			mainFrame.BackgroundTransparency = 1
+			mainStroke.Transparency = 1
+			TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
 				Size = UDim2.new(0, 520, 0, 340),
-				Position = UDim2.new(0.5, -260, 0.5, -170)
+				Position = UDim2.new(0.5, -260, 0.5, -170),
+				BackgroundTransparency = 0
+			}):Play()
+			TweenService:Create(mainStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+				Transparency = 0
 			}):Play()
 		end)
 
 		-- Minimize Button logic
 		minimizeBtn.MouseButton1Click:Connect(function()
-			-- Animate main frame out
-			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				Size = UDim2.new(0, 0, 0, 0),
-				Position = UDim2.new(0.5, 0, 0.5, 0)
+			-- Fade and shrink main frame
+			local tweenOut1 = TweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 180, 0, 50),
+				Position = UDim2.new(0.5, -90, 0.5, -25),
+				BackgroundTransparency = 1
 			})
-			tweenOut:Play()
-			tweenOut.Completed:Connect(function()
+			local tweenOut2 = TweenService:Create(mainStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Transparency = 1
+			})
+			tweenOut1:Play()
+			tweenOut2:Play()
+			
+			tweenOut1.Completed:Connect(function()
 				mainFrame.Visible = false
 				miniFrame.Visible = true
-				-- Animate mini frame in
-				TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-					Position = UDim2.new(0.5, -90, 0.1, 0)
+				miniFrame.Position = UDim2.new(0.5, -90, 0.5, -25)
+				miniFrame.BackgroundTransparency = 1
+				miniStroke.Transparency = 1
+				
+				-- Slide and fade in mini frame
+				TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+					Position = UDim2.new(0.5, -90, 0.1, 0),
+					BackgroundTransparency = 0
+				}):Play()
+				TweenService:Create(miniStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+					Transparency = 0.5
 				}):Play()
 			end)
 		end)
 
 		-- Expand Button logic (on mini frame)
 		expandBtn.MouseButton1Click:Connect(function()
-			-- Animate mini frame out
-			local tweenOut = TweenService:Create(miniFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-				Position = UDim2.new(0.5, -90, -0.1, 0)
+			-- Fade out mini frame
+			local tweenOut1 = TweenService:Create(miniFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				BackgroundTransparency = 1
 			})
-			tweenOut:Play()
-			tweenOut.Completed:Connect(function()
+			local tweenOut2 = TweenService:Create(miniStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Transparency = 1
+			})
+			tweenOut1:Play()
+			tweenOut2:Play()
+			
+			tweenOut1.Completed:Connect(function()
 				miniFrame.Visible = false
 				mainFrame.Visible = true
-				-- Zoom in main frame
-				TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+				mainFrame.Size = UDim2.new(0, 180, 0, 50)
+				mainFrame.Position = UDim2.new(0.5, -90, 0.1, 0)
+				mainFrame.BackgroundTransparency = 1
+				mainStroke.Transparency = 1
+				
+				-- Zoom and fade in main frame
+				TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
 					Size = UDim2.new(0, 520, 0, 340),
-					Position = UDim2.new(0.5, -260, 0.5, -170)
+					Position = UDim2.new(0.5, -260, 0.5, -170),
+					BackgroundTransparency = 0
+				}):Play()
+				TweenService:Create(mainStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+					Transparency = 0
 				}):Play()
 			end)
 		end)
 
 		-- Close Button logic
 		closeBtn.MouseButton1Click:Connect(function()
-			-- Animate out and destroy
-			local tweenOut = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			-- Shrink and fade out
+			local tweenOut1 = TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
 				Size = UDim2.new(0, 0, 0, 0),
-				Position = UDim2.new(0.5, 0, 0.5, 0)
+				Position = UDim2.new(0.5, 0, 0.5, 0),
+				BackgroundTransparency = 1
 			})
-			tweenOut:Play()
-			tweenOut.Completed:Connect(function()
+			local tweenOut2 = TweenService:Create(mainStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+				Transparency = 1
+			})
+			tweenOut1:Play()
+			tweenOut2:Play()
+			
+			tweenOut1.Completed:Connect(function()
 				gui:Destroy()
 				scriptRunning = false
 			end)
