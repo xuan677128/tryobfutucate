@@ -373,8 +373,12 @@
 		moneyCircle.BackgroundColor3 = Color3.new(1,1,1)
 		Instance.new("UICorner", moneyCircle).CornerRadius = UDim.new(1, 0)
 
-		-- Divider Line 1 Removed
-
+		-- Divider Line 1
+		local mainDivider1 = Instance.new("Frame", mainContent)
+		mainDivider1.Size = UDim2.new(1, -20, 0, 1)
+		mainDivider1.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+		mainDivider1.BorderSizePixel = 0
+		mainDivider1.LayoutOrder = 2
 
 		-- Sell All Button Section
 		local sellAllContainer = Instance.new("Frame", mainContent)
@@ -403,14 +407,20 @@
 		sellAllButton.AutoButtonColor = false
 		Instance.new("UICorner", sellAllButton).CornerRadius = UDim.new(0, 6)
 
-		-- Divider Line 2 Removed
+		-- Divider Line 2
+		local mainDivider2 = Instance.new("Frame", mainContent)
+		mainDivider2.Size = UDim2.new(1, -20, 0, 1)
+		mainDivider2.BackgroundColor3 = Color3.fromRGB(80, 75, 90)
+		mainDivider2.BorderSizePixel = 0
+		mainDivider2.LayoutOrder = 4
 
-
-		-- Sell Held Tool Button Section
+		-- Sell Held Tool Button Section (Boxed)
 		local sellHeldContainer = Instance.new("Frame", mainContent)
-		sellHeldContainer.Size = UDim2.new(1, -20, 0, 35)
-		sellHeldContainer.BackgroundTransparency = 1
+		sellHeldContainer.Size = UDim2.new(1, -20, 0, 40)
+		sellHeldContainer.BackgroundColor3 = Color3.fromRGB(50, 45, 60)
+		sellHeldContainer.BorderSizePixel = 0
 		sellHeldContainer.LayoutOrder = 5
+		Instance.new("UICorner", sellHeldContainer).CornerRadius = UDim.new(0, 8)
 
 		local sellHeldLabel = Instance.new("TextLabel", sellHeldContainer)
 		sellHeldLabel.Size = UDim2.new(1, -90, 1, 0)
