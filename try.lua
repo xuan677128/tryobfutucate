@@ -1330,7 +1330,7 @@
 
 		-- Auto Collect Money logic
 		local function findMyBase()
-			for _, base in ipairs(workspace:WaitForChild("Bases_NEW"):GetChildren()) do
+			for _, base in ipairs(workspace:WaitForChild("Bases"):GetChildren()) do
 				if base:IsA("Model") then
 					local holder = base:GetAttribute("Holder")
 					if holder and holder == player.UserId then
