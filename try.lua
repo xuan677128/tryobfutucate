@@ -484,7 +484,7 @@ EventTab:Toggle({
 local AutoSection = AutoTab:Section({Title = "Auto Features",})
 
 -- Auto Upgrade Base
-local AutoUpgradeBaseToggle = AutoTab:Toggle({
+local AutoUpgradeBaseToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Base",
 	Desc = "Automatically upgrades your base",
 	Default = savedSettings.autoUpgradeBase,
@@ -496,7 +496,7 @@ local AutoUpgradeBaseToggle = AutoTab:Toggle({
 })
 
 -- Auto Collect Money
-local AutoCollectMoneyToggle = AutoTab:Toggle({
+local AutoCollectMoneyToggle = AutoSection:Toggle({
 	Title = "Auto Collect Money",
 	Desc = "Automatically collects money from your base",
 	Default = savedSettings.autoCollectMoney,
@@ -508,7 +508,7 @@ local AutoCollectMoneyToggle = AutoTab:Toggle({
 })
 
 -- Auto Upgrade Carry
-local AutoUpgradeCarryToggle = AutoTab:Toggle({
+local AutoUpgradeCarryToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Carry",
 	Desc = "Automatically upgrades carry capacity",
 	Default = savedSettings.autoUpgradeCarry,
@@ -520,7 +520,7 @@ local AutoUpgradeCarryToggle = AutoTab:Toggle({
 })
 
 -- Auto Upgrade Speed
-local AutoUpgradeSpeedToggle = AutoTab:Toggle({
+local AutoUpgradeSpeedToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Speed",
 	Desc = "Automatically upgrades movement speed",
 	Default = savedSettings.autoUpgradeSpeed,
@@ -531,11 +531,11 @@ local AutoUpgradeSpeedToggle = AutoTab:Toggle({
 	end
 })
 
-local SpeedAmountDropdown = AutoTab:Dropdown({
+local SpeedAmountDropdown = AutoSection:Dropdown({
 	Title = "Speed Amount",
 	Desc = "Select upgrade speed amount",
 	Values = { "1", "5", "10" },
-	Value = { tostring(savedSettings.upgradeSpeedAmount) },
+	Value = tostring(savedSettings.upgradeSpeedAmount),
 	Multi = false,
 	AllowNone = false,
 	Callback = function(option)
@@ -547,7 +547,7 @@ local SpeedAmountDropdown = AutoTab:Dropdown({
 })
 
 -- Auto Rebirth
-local AutoRebirthToggle = AutoTab:Toggle({
+local AutoRebirthToggle = AutoSection:Toggle({
 	Title = "Auto Rebirth",
 	Desc = "Automatically rebirths when possible",
 	Default = savedSettings.autoRebirth,
@@ -559,12 +559,12 @@ local AutoRebirthToggle = AutoTab:Toggle({
 })
 
 -- ================= MISC TAB =================
-MiscTab:Section({
+local MiscSettings = MiscTab:Section({
 	Title = "Game Settings",
 })
 
 -- Anti-AFK
-MiscTab:Toggle({
+MiscSettings:Toggle({
 	Title = "Anti-AFK (Always On)",
 	Desc = "Prevents Roblox from kicking you after 20 minutes of inactivity",
 	Default = true,
@@ -573,10 +573,10 @@ MiscTab:Toggle({
 	end
 })
 
-MiscTab:Space()
+MiscSettings:Space()
 
 -- Auto Reconnect
-MiscTab:Toggle({
+MiscSettings:Toggle({
 	Title = "Auto Reconnect (Always On)",
 	Desc = "Automatically rejoins the game when you get disconnected",
 	Default = true,
