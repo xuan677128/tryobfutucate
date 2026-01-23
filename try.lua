@@ -109,6 +109,9 @@ local SettingsTab = Window:Tab({
 	Border = true,
 })
 
+-- Set Main tab as default
+MainTab:Select()
+
 -- ================= FUNCTIONALITY LOGIC =================
 
 -- Script running flag (to stop all loops when GUI is closed)
