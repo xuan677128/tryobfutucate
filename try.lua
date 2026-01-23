@@ -68,7 +68,7 @@ local Window = WindUI:CreateWindow({
 	Folder = "XuanHub",
 	Title = "XUAN HUB",
 	Author = "by discord.gg/kaydensdens",
-	Icon = "lucide:bird",
+	Icon = "rbxassetid://103326199885496",
 	Theme = "Midnight",
 	Size = UDim2.fromOffset(640, 480),
 	Draggable = true,
@@ -377,10 +377,11 @@ end
 
 
 -- ================= BASE TAB =================
-local UpgBase = BaseTab:Section({Title = "Upgrade Base", Opened = true,})
+local UpgBase = BaseTab:Section({Title = "Main", Opened = true,})
 
 local UpgBaseOnce = BaseTab:Button({
 	Title = "Upgrade Base",
+	Desc = "Purchase one base upgrade",
 	Locked = false,
 	Callback = function()
 		pcall(function()
@@ -395,9 +396,28 @@ local UpgBaseOnce = BaseTab:Button({
 	end
 })
 
+-- Upgrade Carry (manual)
+local UpgCarryOnce = BaseTab:Button({
+	Title = "Upgrade Carry",
+	Desc = "Purchase one carry upgrade",
+	Locked = false,
+	Callback = function()
+		pcall(function()
+			game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("UpgradeCarry"):InvokeServer()
+		end)
+		WindUI:Notify({
+			Title = "Upgraded",
+			Content = "Carry upgrade purchased!",
+			Icon = "check",
+			Duration = 3,
+		})
+	end
+})
+
 -- Buttons moved from Main (simplified)
 local SellAllBtn = BaseTab:Button({
 	Title = "Sell All Inventory",
+	Desc = "Double-click within 0.5s to confirm sell all",
 	Locked = false,
 	Callback = function()
 		local currentTime = tick()
@@ -420,6 +440,7 @@ local SellAllBtn = BaseTab:Button({
 
 local SellHeldBtn = BaseTab:Button({
 	Title = "Sell Held Tool",
+	Desc = "Sells the brainrot you are currently holding",
 	Locked = false,
 	Callback = function()
 		pcall(function()
@@ -434,7 +455,7 @@ local SellHeldBtn = BaseTab:Button({
 	end
 })
 
-local CollectMoney = BaseTab:Section({Title = "Collect Money", Opened = true,})
+
 
 -- ================= EVENT TAB =================
 EventTab:Section({
