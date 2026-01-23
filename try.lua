@@ -446,7 +446,7 @@ EventTab:Section({
 EventTab:Toggle({
 	Title = "Auto Collect Radioactive Coins",
 	Desc = "(Patched, it will still collect but not many)",
-	Default = savedSettings.autoCollectRadioactive,
+	Value = savedSettings.autoCollectRadioactive,
 	Callback = function(state)
 		active = state
 		savedSettings.autoCollectRadioactive = state
@@ -460,7 +460,7 @@ EventTab:Space()
 EventTab:Toggle({
 	Title = "Auto Spin Radioactive Wheel",
 	Desc = "Automatically spins the radioactive wheel",
-	Default = savedSettings.autoSpin,
+	Value = savedSettings.autoSpin,
 	Callback = function(state)
 		spinning = state
 		savedSettings.autoSpin = state
@@ -487,7 +487,7 @@ EventTab:Space()
 EventTab:Toggle({
 	Title = "Auto Obby",
 	Desc = "Automatically completes the obby",
-	Default = savedSettings.autoObby,
+	Value = savedSettings.autoObby,
 	Callback = function(state)
 		autoObby = state
 		savedSettings.autoObby = state
@@ -502,7 +502,7 @@ local AutoSection = AutoTab:Section({Title = "Auto Features", Opened = true,})
 local AutoUpgradeBaseToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Base",
 	Desc = "Automatically upgrades your base",
-	Default = savedSettings.autoUpgradeBase,
+	Value = savedSettings.autoUpgradeBase,
 	Callback = function(state)
 		autoUpgradeBase = state
 		savedSettings.autoUpgradeBase = state
@@ -514,7 +514,7 @@ local AutoUpgradeBaseToggle = AutoSection:Toggle({
 local AutoCollectMoneyToggle = AutoSection:Toggle({
 	Title = "Auto Collect Money",
 	Desc = "Automatically collects money from your base",
-	Default = savedSettings.autoCollectMoney,
+	Value = savedSettings.autoCollectMoney,
 	Callback = function(state)
 		collectingMoney = state
 		savedSettings.autoCollectMoney = state
@@ -526,7 +526,7 @@ local AutoCollectMoneyToggle = AutoSection:Toggle({
 local AutoUpgradeCarryToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Carry",
 	Desc = "Automatically upgrades carry capacity",
-	Default = savedSettings.autoUpgradeCarry,
+	Value = savedSettings.autoUpgradeCarry,
 	Callback = function(state)
 		autoUpgradeCarry = state
 		savedSettings.autoUpgradeCarry = state
@@ -538,7 +538,7 @@ local AutoUpgradeCarryToggle = AutoSection:Toggle({
 local AutoUpgradeSpeedToggle = AutoSection:Toggle({
 	Title = "Auto Upgrade Speed",
 	Desc = "Automatically upgrades movement speed",
-	Default = savedSettings.autoUpgradeSpeed,
+	Value = savedSettings.autoUpgradeSpeed,
 	Callback = function(state)
 		autoUpgradeSpeed = state
 		savedSettings.autoUpgradeSpeed = state
@@ -565,7 +565,7 @@ local SpeedAmountDropdown = AutoSection:Dropdown({
 local AutoRebirthToggle = AutoSection:Toggle({
 	Title = "Auto Rebirth",
 	Desc = "Automatically rebirths when possible",
-	Default = savedSettings.autoRebirth,
+	Value = savedSettings.autoRebirth,
 	Callback = function(state)
 		autoRebirth = state
 		savedSettings.autoRebirth = state
@@ -583,7 +583,7 @@ local MiscSettings = MiscTab:Section({
 MiscSettings:Toggle({
 	Title = "Anti-AFK",
 	Desc = "Prevents Roblox from kicking you after 20 minutes of inactivity",
-	Default = savedSettings.antiAfk,
+	Value = savedSettings.antiAfk,
 	Callback = function(state)
 		antiAfkEnabled = state
 		savedSettings.antiAfk = state
@@ -602,7 +602,7 @@ MiscSettings:Space()
 MiscSettings:Toggle({
 	Title = "Auto Reconnect",
 	Desc = "Automatically rejoins the game when you get disconnected",
-	Default = savedSettings.autoReconnect,
+	Value = savedSettings.autoReconnect,
 	Callback = function(state)
 		autoReconnectEnabled = state
 		savedSettings.autoReconnect = state
