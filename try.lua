@@ -77,6 +77,7 @@ local Window = WindUI:CreateWindow({
     Resizable = true,
     KeySystem = {
         Note = "Key System for Xuan Hub.",
+		SaveKey = true,
         API = {
             {
                 Title = "Platoboost",
