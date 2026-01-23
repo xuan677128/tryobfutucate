@@ -71,6 +71,7 @@ local Window = WindUI:CreateWindow({
 	Icon = "rbxassetid://103326199885496",
 	Theme = "Midnight",
 	Size = UDim2.fromOffset(640, 480),
+    NewElements=true,
 	Draggable = true,
 	HasOutline = true,
 	OutlineThickness = 3
