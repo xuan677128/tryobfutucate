@@ -136,50 +136,196 @@ if player.Character then
 end
 player.CharacterAdded:Connect(setupCharacter)
 
--- Global Auto Obby logic
+-- Global Auto Obby logic (runs whenever obby activates and toggle is on)
 task.spawn(function()
-	local runOnce = function()
-		if not autoObby then return end
-		if not character or not humanoidRootPart then return end
-		
-		local radioactiveFolder = workspace.MapVariants:FindFirstChild("Radioactive")
-		if not radioactiveFolder then return end
-		
-		local orb = radioactiveFolder:FindFirstChild("Orb")
-		if not orb then return end
-		
-		local hrp = orb:FindFirstChild("HumanoidRootPart")
-		if not hrp then return end
-		
-		wait(0.5)
-		
-		for i = 1, 30 do
-			if not autoObby or not scriptRunning then break end
-			
-			local parts = radioactiveFolder:GetDescendants()
-			for _, obj in pairs(parts) do
-				if obj:IsA("BasePart") and obj.CanCollide and obj.Name ~= "HumanoidRootPart" then
-					pcall(function()
-						firetouchinterest(humanoidRootPart, obj, 0)
-						wait()
-						firetouchinterest(humanoidRootPart, obj, 1)
-					end)
-				end
-			end
-			wait(0.1)
+	local mapVariants = workspace:WaitForChild("MapVariants")
+	
+	local function runOnce(radioactive)
+		if not autoObby or not humanoidRootPart then return end
+		local obbyEnd = radioactive:WaitForChild("ObbyEnd", 5)
+		if obbyEnd then
+			firetouchinterest(humanoidRootPart, obbyEnd, 0)
+			task.wait()
+			firetouchinterest(humanoidRootPart, obbyEnd, 1)
 		end
 	end
-
-	workspace.MapVariants.ChildAdded:Connect(function(child)
-		if child.Name == "Radioactive" then
-			wait(0.5)
-			runOnce()
+	
+	-- Check for existing on script start
+	local existing = mapVariants:FindFirstChild("Radioactive")
+	if existing and autoObby then
+		runOnce(existing)
+	end
+	
+	-- Listen for new activations
+	mapVariants.ChildAdded:Connect(function(child)
+		if child.Name == "Radioactive" and autoObby then
+			runOnce(child)
 		end
 	end)
-	
-	if workspace.MapVariants:FindFirstChild("Radioactive") then
-		runOnce()
+end)
+
+-- Find EventParts WITHOUT BLOCKING GUI
+task.spawn(function()
+	while not EventFolder and scriptRunning do
+		EventFolder = workspace:FindFirstChild("EventParts")
+		task.wait(1)
 	end
+end)
+
+-- Model part
+local function getModelPart(model)
+	if model.PrimaryPart then return model.PrimaryPart end
+	for _, v in ipairs(model:GetDescendants()) do
+		if v:IsA("BasePart") then
+			model.PrimaryPart = v
+			return v
+		end
+	end
+end
+
+-- Loop to pull models
+task.spawn(function()
+	while scriptRunning do
+		if active and humanoidRootPart and EventFolder then
+			for _, model in ipairs(EventFolder:GetChildren()) do
+				if model:IsA("Model") then
+					local part = getModelPart(model)
+					if part then
+						model:SetPrimaryPartCFrame(
+							CFrame.new(humanoidRootPart.Position + Vector3.new(0, HeightOffset, 0))
+						)
+					end
+				end
+			end
+		end
+		task.wait(PullDelay)
+	end
+end)
+
+-- Auto Spin loop
+task.spawn(function()
+	while scriptRunning do
+		if spinning then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/WheelSpin.Roll"):InvokeServer()
+			end)
+			task.wait(savedSettings.spinDelay)
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Auto Collect Money logic
+local function findMyBase()
+	for _, base in ipairs(workspace:WaitForChild("Bases"):GetChildren()) do
+		if base:IsA("Model") then
+			local holder = base:GetAttribute("Holder")
+			if holder and holder == player.UserId then
+				return base
+			end
+		end
+	end
+	return nil
+end
+
+task.spawn(function()
+	while scriptRunning do
+		if collectingMoney then
+			local myBase = findMyBase()
+			if myBase then
+				for i = 1, 30 do
+					pcall(function()
+						local args = {
+							"Collect Money",
+							myBase.Name,
+							tostring(i)
+						}
+						local PlotAction = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/Plot.PlotAction")
+						PlotAction:InvokeServer(unpack(args))
+					end)
+					task.wait(0.01)
+				end
+			end
+			task.wait(0.1)
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Auto Upgrade Base Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeBase then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/Plot.UpgradeBase"):FireServer()
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Auto Upgrade Carry Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeCarry then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("UpgradeCarry"):InvokeServer()
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Auto Upgrade Speed Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoUpgradeSpeed then
+			pcall(function()
+				local args = { upgradeSpeedAmount }
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("UpgradeSpeed"):InvokeServer(unpack(args))
+			end)
+			task.wait(0.5)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Auto Rebirth Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoRebirth then
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()
+			end)
+			task.wait(1)
+		else
+			task.wait(1)
+		end
+	end
+end)
+
+-- Anti-AFK (Always Enabled)
+local vu = game:GetService("VirtualUser")
+player.Idled:Connect(function()
+	vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+	task.wait(1)
+	vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+end)
+
+-- Auto Reconnect (Always Enabled)
+pcall(function()
+	game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+		if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+			game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+		end
+	end)
 end)
 
 -- ================= MAIN TAB =================
