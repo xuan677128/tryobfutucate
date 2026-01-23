@@ -73,7 +73,20 @@ local Window = WindUI:CreateWindow({
 	Size = UDim2.fromOffset(640, 480),
 	Draggable = true,
 	HasOutline = true,
-	OutlineThickness = 3
+	OutlineThickness = 3,
+    Resizable = true,
+    KeySystem = {
+        Note = "Key System for Xuan Hub.",
+        API = {
+            {
+                Title = "Platoboost",
+                Desc = "Click to copy.",
+                Type = "platoboost",
+                ServiceId = 19150,
+                Secret = "de1c7213-1259-48ec-a052-9ad313dc3f79",
+            },
+        },
+    },
 })
 
 -- Add version tag
