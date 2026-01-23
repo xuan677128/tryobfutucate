@@ -85,11 +85,7 @@ Window:Tag({
 })
 
 -- ================= TABS =================
-local MainTab = Window:Tab({
-	Title = "Main",
-	Icon = "home",
-	Locked = false,
-})
+
 
 local BaseTab = Window:Tab({
 	Title = "Base",
@@ -115,8 +111,8 @@ local MiscTab = Window:Tab({
 	Locked = false,
 })
 
--- Set Main tab as default
-MainTab:Select()
+-- Set Base tab as default
+BaseTab:Select()
 
 -- ================= FUNCTIONALITY LOGIC =================
 
@@ -349,60 +345,10 @@ pcall(function()
 	end)
 end)
 
--- ================= MAIN TAB =================
-MainTab:Section({
-	Title = "Farming",
-})
 
--- Sell All Button
-MainTab:Button({
-	Title = "Sell All Inventory",
-	Icon = "solar:trash-bin-trash-bold",
-	Color = Color3.fromRGB(200, 50, 80),
-	Justify = "Center",
-	Callback = function()
-		local currentTime = tick()
-		if currentTime - lastSellAllClick < 0.5 then
-			-- Double click: sell
-			pcall(function()
-				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
-			end)
-			WindUI:Notify({
-				Title = "Sold",
-				Content = "All inventory items sold!",
-				Icon = "check",
-				Duration = 3,
-			})
-		else
-			-- Single click: do nothing, just record time
-			lastSellAllClick = currentTime
-		end
-	end
-})
-
-MainTab:Space()
-
--- Sell Held Tool
-MainTab:Button({
-	Title = "Sell Held Tool",
-	Icon = "solar:hand-money-bold",
-	Color = Color3.fromRGB(255, 105, 180),
-	Justify = "Center",
-	Callback = function()
-		pcall(function()
-			game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellTool"):InvokeServer()
-		end)
-		WindUI:Notify({
-			Title = "Sold",
-			Content = "Held tool sold!",
-			Icon = "check",
-			Duration = 3,
-		})
-	end
-})
 
 -- ================= BASE TAB =================
-local UpgBase = BaseTab:Section({Title = "Upgrade Base",})
+local UpgBase = BaseTab:Section({Title = "Upgrade Base", Opened = true,})
 
 local UpgBaseOnce = BaseTab:Button({
 	Title = "Upgrade Base",
@@ -420,11 +366,51 @@ local UpgBaseOnce = BaseTab:Button({
 	end
 })
 
-local CollectMoney = BaseTab:Section({Title = "Collect Money",})
+-- Buttons moved from Main (simplified)
+local SellAllBtn = BaseTab:Button({
+	Title = "Sell All Inventory",
+	Locked = false,
+	Callback = function()
+		local currentTime = tick()
+		if currentTime - lastSellAllClick < 0.5 then
+			-- Double click: sell
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
+			end)
+			WindUI:Notify({
+				Title = "Sold",
+				Content = "All inventory items sold!",
+				Icon = "check",
+				Duration = 3,
+			})
+		else
+			lastSellAllClick = currentTime
+		end
+	end
+})
+
+local SellHeldBtn = BaseTab:Button({
+	Title = "Sell Held Tool",
+	Locked = false,
+	Callback = function()
+		pcall(function()
+			game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellTool"):InvokeServer()
+		end)
+		WindUI:Notify({
+			Title = "Sold",
+			Content = "Held tool sold!",
+			Icon = "check",
+			Duration = 3,
+		})
+	end
+})
+
+local CollectMoney = BaseTab:Section({Title = "Collect Money", Opened = true,})
 
 -- ================= EVENT TAB =================
 EventTab:Section({
 	Title = "Radioactive Event",
+	Opened = true,
 })
 
 -- Auto Collect Radioactive
@@ -481,7 +467,7 @@ EventTab:Toggle({
 })
 
 -- ================= AUTO TAB =================
-local AutoSection = AutoTab:Section({Title = "Auto Features",})
+local AutoSection = AutoTab:Section({Title = "Auto Features", Opened = true,})
 
 -- Auto Upgrade Base
 local AutoUpgradeBaseToggle = AutoSection:Toggle({
@@ -561,6 +547,7 @@ local AutoRebirthToggle = AutoSection:Toggle({
 -- ================= MISC TAB =================
 local MiscSettings = MiscTab:Section({
 	Title = "Game Settings",
+	Opened = true,
 })
 
 -- Anti-AFK
@@ -590,6 +577,7 @@ MiscTab:Space()
 
 MiscTab:Section({
 	Title = "Server Actions",
+	Opened = true,
 })
 
 local ServerGroup = MiscTab:Group()
