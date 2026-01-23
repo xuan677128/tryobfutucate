@@ -71,6 +71,7 @@ local Window = WindUI:CreateWindow({
 	Icon = "rbxassetid://103326199885496",
 	Theme = "Midnight",
 	Size = UDim2.fromOffset(640, 480),
+	Draggable = true,
 	HasOutline = true,
 	OutlineThickness = 3
 })
@@ -342,23 +343,6 @@ MainTab:Toggle({
 		collectingMoney = state
 		savedSettings.autoCollectMoney = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while collectingMoney and scriptRunning do
-					pcall(function()
-						if character and humanoidRootPart then
-							for _, v in pairs(workspace.Debris:GetChildren()) do
-								if v.Name == "Money" and v:FindFirstChild("Mesh") then
-									v.CFrame = humanoidRootPart.CFrame
-								end
-							end
-						end
-					end)
-					wait(PullDelay)
-				end
-			end)
-		end
 	end
 })
 
@@ -371,25 +355,47 @@ MainTab:Button({
 	Color = Color3.fromRGB(200, 50, 80),
 	Justify = "Center",
 	Callback = function()
-		pcall(function()
-			for _, tool in pairs(player.Backpack:GetChildren()) do
-				if tool:IsA("Tool") then
-					game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
-				end
-			end
-			if character then
-				for _, tool in pairs(character:GetChildren()) do
-					if tool:IsA("Tool") then
-						game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+		WindUI:Dialog({
+			Title = "Confirm Sale",
+			Content = "Are you sure you want to sell all inventory items?",
+			Buttons = {
+				{
+					Title = "Confirm",
+					Callback = function()
+						pcall(function()
+							for _, tool in pairs(player.Backpack:GetChildren()) do
+								if tool:IsA("Tool") then
+									game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+								end
+							end
+							if character then
+								for _, tool in pairs(character:GetChildren()) do
+									if tool:IsA("Tool") then
+										game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+									end
+								end
+							end
+						end)
+						WindUI:Notify({
+							Title = "Sold",
+							Content = "All inventory items sold!",
+							Icon = "check",
+							Duration = 3,
+						})
 					end
-				end
-			end
-		end)
-		WindUI:Notify({
-			Title = "Sold",
-			Content = "All inventory items sold!",
-			Icon = "check",
-			Duration = 3,
+				},
+				{
+					Title = "Cancel",
+					Callback = function()
+						WindUI:Notify({
+							Title = "Cancelled",
+							Content = "Sale cancelled",
+							Icon = "x",
+							Duration = 2,
+						})
+					end
+				}
+			}
 		})
 	end
 })
@@ -443,17 +449,6 @@ MainTab:Toggle({
 		autoUpgradeBase = state
 		savedSettings.autoUpgradeBase = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while autoUpgradeBase and scriptRunning do
-					pcall(function()
-						game:GetService("ReplicatedStorage").Events.UpgradeBase:FireServer()
-					end)
-					wait(0.5)
-				end
-			end)
-		end
 	end
 })
 
@@ -468,17 +463,6 @@ MainTab:Toggle({
 		autoUpgradeCarry = state
 		savedSettings.autoUpgradeCarry = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while autoUpgradeCarry and scriptRunning do
-					pcall(function()
-						game:GetService("ReplicatedStorage").Events.UpgradeCarry:FireServer()
-					end)
-					wait(0.5)
-				end
-			end)
-		end
 	end
 })
 
@@ -493,20 +477,6 @@ MainTab:Toggle({
 		autoUpgradeSpeed = state
 		savedSettings.autoUpgradeSpeed = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while autoUpgradeSpeed and scriptRunning do
-					pcall(function()
-						for i = 1, upgradeSpeedAmount do
-							game:GetService("ReplicatedStorage").Events.UpgradeSpeed:FireServer()
-							wait(0.1)
-						end
-					end)
-					wait(0.5)
-				end
-			end)
-		end
 	end
 })
 
@@ -532,17 +502,6 @@ MainTab:Toggle({
 		autoRebirth = state
 		savedSettings.autoRebirth = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while autoRebirth and scriptRunning do
-					pcall(function()
-						game:GetService("ReplicatedStorage").Events.Rebirth:FireServer()
-					end)
-					wait(1)
-				end
-			end)
-		end
 	end
 })
 
@@ -561,29 +520,6 @@ EventTab:Toggle({
 		active = state
 		savedSettings.autoCollectRadioactive = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while active and scriptRunning do
-					pcall(function()
-						if character and humanoidRootPart then
-							EventFolder = workspace:FindFirstChild("EventFolder")
-							if EventFolder then
-								for _, coin in pairs(EventFolder:GetChildren()) do
-									if coin.Name == "Coin" and coin:IsA("Model") and coin:FindFirstChild("Coin") then
-										local coinPart = coin.Coin
-										if (coinPart.Position - humanoidRootPart.Position).Magnitude < 200 then
-											coinPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, HeightOffset, 0)
-										end
-									end
-								end
-							end
-						end
-					end)
-					wait(PullDelay)
-				end
-			end)
-		end
 	end
 })
 
@@ -598,17 +534,6 @@ EventTab:Toggle({
 		spinning = state
 		savedSettings.autoSpin = state
 		saveSettings(savedSettings)
-		
-		if state then
-			task.spawn(function()
-				while spinning and scriptRunning do
-					pcall(function()
-						game:GetService("ReplicatedStorage").Events.Spin:FireServer()
-					end)
-					wait(savedSettings.spinDelay)
-				end
-			end)
-		end
 	end
 })
 
@@ -647,23 +572,11 @@ SettingsTab:Section({
 -- Anti-AFK
 SettingsTab:Toggle({
 	Flag = "AntiAFK",
-	Title = "Anti-AFK",
+	Title = "Anti-AFK (Always On)",
 	Desc = "Prevents Roblox from kicking you after 20 minutes of inactivity",
-	Value = savedSettings.antiAfk,
+	Value = true,
 	Callback = function(state)
-		savedSettings.antiAfk = state
-		saveSettings(savedSettings)
-		
-		if state then
-			local vu = game:GetService("VirtualUser")
-			player.Idled:Connect(function()
-				if savedSettings.antiAfk then
-					vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-					wait(1)
-					vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-				end
-			end)
-		end
+		-- Always enabled
 	end
 })
 
@@ -672,21 +585,11 @@ SettingsTab:Space()
 -- Auto Reconnect
 SettingsTab:Toggle({
 	Flag = "AutoReconnect",
-	Title = "Auto Reconnect",
+	Title = "Auto Reconnect (Always On)",
 	Desc = "Automatically rejoins the game when you get disconnected",
-	Value = savedSettings.autoReconnect,
+	Value = true,
 	Callback = function(state)
-		savedSettings.autoReconnect = state
-		saveSettings(savedSettings)
-		
-		if state then
-			game:GetService("CoreGui").DescendantAdded:Connect(function(descendant)
-				if savedSettings.autoReconnect and descendant.Name == "ErrorPrompt" then
-					wait(0.1)
-					game:GetService("TeleportService"):Teleport(game.PlaceId, player)
-				end
-			end)
-		end
+		-- Always enabled
 	end
 })
 
