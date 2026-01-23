@@ -68,10 +68,9 @@ local Window = WindUI:CreateWindow({
 	Folder = "XuanHub",
 	Title = "XUAN HUB",
 	Author = "by discord.gg/kaydensdens",
-	Icon = "rbxassetid://103326199885496",
+	Icon = "lucide:bird",
 	Theme = "Midnight",
 	Size = UDim2.fromOffset(640, 480),
-    NewElements=true,
 	Draggable = true,
 	HasOutline = true,
 	OutlineThickness = 3
@@ -88,26 +87,32 @@ Window:Tag({
 -- ================= TABS =================
 local MainTab = Window:Tab({
 	Title = "Main",
-	Icon = "solar:home-2-bold",
-	IconColor = Color3.fromRGB(255, 105, 180),
-	IconShape = "Square",
-	Border = true,
+	Icon = "home",
+	Locked = false,
+})
+
+local BaseTab = Window:Tab({
+	Title = "Base",
+	Icon = "layers-2",
+	Locked = false,
 })
 
 local EventTab = Window:Tab({
 	Title = "Event",
-	Icon = "solar:star-bold",
-	IconColor = Color3.fromRGB(255, 215, 0),
-	IconShape = "Square",
-	Border = true,
+	Icon = "star",
+	Locked = false,
 })
 
-local SettingsTab = Window:Tab({
-	Title = "Settings",
-	Icon = "solar:settings-bold",
-	IconColor = Color3.fromRGB(150, 150, 150),
-	IconShape = "Square",
-	Border = true,
+local AutoTab = Window:Tab({
+	Title = "Auto",
+	Icon = "refresh-cw",
+	Locked = false,
+})
+
+local MiscTab = Window:Tab({
+	Title = "Misc",
+	Icon = "settings",
+	Locked = false,
 })
 
 -- Set Main tab as default
@@ -349,20 +354,6 @@ MainTab:Section({
 	Title = "Farming",
 })
 
--- Auto Collect Money
-MainTab:Toggle({
-	Flag = "AutoCollectMoney",
-	Title = "Auto Collect Money",
-	Value = savedSettings.autoCollectMoney,
-	Callback = function(state)
-		collectingMoney = state
-		savedSettings.autoCollectMoney = state
-		saveSettings(savedSettings)
-	end
-})
-
-MainTab:Space()
-
 -- Sell All Button
 MainTab:Button({
 	Title = "Sell All Inventory",
@@ -410,77 +401,26 @@ MainTab:Button({
 	end
 })
 
-MainTab:Space()
-MainTab:Space()
+-- ================= BASE TAB =================
+local UpgBase = BaseTab:Section({Title = "Upgrade Base",})
 
-MainTab:Section({
-	Title = "Upgrades",
-})
-
--- Auto Upgrade Base
-MainTab:Toggle({
-	Flag = "AutoUpgradeBase",
-	Title = "Auto Upgrade Base",
-	Value = savedSettings.autoUpgradeBase,
-	Callback = function(state)
-		autoUpgradeBase = state
-		savedSettings.autoUpgradeBase = state
-		saveSettings(savedSettings)
+local UpgBaseOnce = BaseTab:Button({
+	Title = "Upgrade Base",
+	Locked = false,
+	Callback = function()
+		pcall(function()
+			game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/Plot.UpgradeBase"):FireServer()
+		end)
+		WindUI:Notify({
+			Title = "Upgraded",
+			Content = "Base upgrade purchased!",
+			Icon = "check",
+			Duration = 3,
+		})
 	end
 })
 
-MainTab:Space()
-
--- Auto Upgrade Carry
-MainTab:Toggle({
-	Flag = "AutoUpgradeCarry",
-	Title = "Auto Upgrade Carry",
-	Value = savedSettings.autoUpgradeCarry,
-	Callback = function(state)
-		autoUpgradeCarry = state
-		savedSettings.autoUpgradeCarry = state
-		saveSettings(savedSettings)
-	end
-})
-
-MainTab:Space()
-
--- Auto Upgrade Speed
-MainTab:Toggle({
-	Flag = "AutoUpgradeSpeed",
-	Title = "Auto Upgrade Speed",
-	Value = savedSettings.autoUpgradeSpeed,
-	Callback = function(state)
-		autoUpgradeSpeed = state
-		savedSettings.autoUpgradeSpeed = state
-		saveSettings(savedSettings)
-	end
-})
-
-MainTab:Dropdown({
-	Title = "Speed Amount",
-	Values = { "1", "5", "10" },
-	Value = tostring(savedSettings.upgradeSpeedAmount),
-	Callback = function(value)
-		upgradeSpeedAmount = tonumber(value)
-		savedSettings.upgradeSpeedAmount = upgradeSpeedAmount
-		saveSettings(savedSettings)
-	end
-})
-
-MainTab:Space()
-
--- Auto Rebirth
-MainTab:Toggle({
-	Flag = "AutoRebirth",
-	Title = "Auto Rebirth",
-	Value = savedSettings.autoRebirth,
-	Callback = function(state)
-		autoRebirth = state
-		savedSettings.autoRebirth = state
-		saveSettings(savedSettings)
-	end
-})
+local CollectMoney = BaseTab:Section({Title = "Collect Money",})
 
 -- ================= EVENT TAB =================
 EventTab:Section({
@@ -489,10 +429,9 @@ EventTab:Section({
 
 -- Auto Collect Radioactive
 EventTab:Toggle({
-	Flag = "AutoCollectRadioactive",
 	Title = "Auto Collect Radioactive Coins",
 	Desc = "(Patched, it will still collect but not many)",
-	Value = savedSettings.autoCollectRadioactive,
+	Default = savedSettings.autoCollectRadioactive,
 	Callback = function(state)
 		active = state
 		savedSettings.autoCollectRadioactive = state
@@ -504,9 +443,9 @@ EventTab:Space()
 
 -- Auto Spin
 EventTab:Toggle({
-	Flag = "AutoSpin",
 	Title = "Auto Spin Radioactive Wheel",
-	Value = savedSettings.autoSpin,
+	Desc = "Automatically spins the radioactive wheel",
+	Default = savedSettings.autoSpin,
 	Callback = function(state)
 		spinning = state
 		savedSettings.autoSpin = state
@@ -531,9 +470,9 @@ EventTab:Space()
 
 -- Auto Obby
 EventTab:Toggle({
-	Flag = "AutoObby",
 	Title = "Auto Obby",
-	Value = savedSettings.autoObby,
+	Desc = "Automatically completes the obby",
+	Default = savedSettings.autoObby,
 	Callback = function(state)
 		autoObby = state
 		savedSettings.autoObby = state
@@ -541,43 +480,119 @@ EventTab:Toggle({
 	end
 })
 
--- ================= SETTINGS TAB =================
-SettingsTab:Section({
+-- ================= AUTO TAB =================
+local AutoSection = AutoTab:Section({Title = "Auto Features",})
+
+-- Auto Upgrade Base
+local AutoUpgradeBaseToggle = AutoTab:Toggle({
+	Title = "Auto Upgrade Base",
+	Desc = "Automatically upgrades your base",
+	Default = savedSettings.autoUpgradeBase,
+	Callback = function(state)
+		autoUpgradeBase = state
+		savedSettings.autoUpgradeBase = state
+		saveSettings(savedSettings)
+	end
+})
+
+-- Auto Collect Money
+local AutoCollectMoneyToggle = AutoTab:Toggle({
+	Title = "Auto Collect Money",
+	Desc = "Automatically collects money from your base",
+	Default = savedSettings.autoCollectMoney,
+	Callback = function(state)
+		collectingMoney = state
+		savedSettings.autoCollectMoney = state
+		saveSettings(savedSettings)
+	end
+})
+
+-- Auto Upgrade Carry
+local AutoUpgradeCarryToggle = AutoTab:Toggle({
+	Title = "Auto Upgrade Carry",
+	Desc = "Automatically upgrades carry capacity",
+	Default = savedSettings.autoUpgradeCarry,
+	Callback = function(state)
+		autoUpgradeCarry = state
+		savedSettings.autoUpgradeCarry = state
+		saveSettings(savedSettings)
+	end
+})
+
+-- Auto Upgrade Speed
+local AutoUpgradeSpeedToggle = AutoTab:Toggle({
+	Title = "Auto Upgrade Speed",
+	Desc = "Automatically upgrades movement speed",
+	Default = savedSettings.autoUpgradeSpeed,
+	Callback = function(state)
+		autoUpgradeSpeed = state
+		savedSettings.autoUpgradeSpeed = state
+		saveSettings(savedSettings)
+	end
+})
+
+local SpeedAmountDropdown = AutoTab:Dropdown({
+	Title = "Speed Amount",
+	Desc = "Select upgrade speed amount",
+	Values = { "1", "5", "10" },
+	Value = { tostring(savedSettings.upgradeSpeedAmount) },
+	Multi = false,
+	AllowNone = false,
+	Callback = function(option)
+		upgradeSpeedAmount = tonumber(option)
+		savedSettings.upgradeSpeedAmount = upgradeSpeedAmount
+		saveSettings(savedSettings)
+		print("Speed amount set to: " .. tostring(option))
+	end
+})
+
+-- Auto Rebirth
+local AutoRebirthToggle = AutoTab:Toggle({
+	Title = "Auto Rebirth",
+	Desc = "Automatically rebirths when possible",
+	Default = savedSettings.autoRebirth,
+	Callback = function(state)
+		autoRebirth = state
+		savedSettings.autoRebirth = state
+		saveSettings(savedSettings)
+	end
+})
+
+-- ================= MISC TAB =================
+MiscTab:Section({
 	Title = "Game Settings",
 })
 
 -- Anti-AFK
-SettingsTab:Toggle({
-	Flag = "AntiAFK",
+MiscTab:Toggle({
 	Title = "Anti-AFK (Always On)",
 	Desc = "Prevents Roblox from kicking you after 20 minutes of inactivity",
-	Value = true,
+	Default = true,
 	Callback = function(state)
 		-- Always enabled
 	end
 })
 
-SettingsTab:Space()
+MiscTab:Space()
 
 -- Auto Reconnect
-SettingsTab:Toggle({
-	Flag = "AutoReconnect",
+MiscTab:Toggle({
 	Title = "Auto Reconnect (Always On)",
 	Desc = "Automatically rejoins the game when you get disconnected",
-	Value = true,
+	Default = true,
 	Callback = function(state)
 		-- Always enabled
 	end
 })
 
-SettingsTab:Space()
-SettingsTab:Space()
+MiscTab:Space()
+MiscTab:Space()
 
-SettingsTab:Section({
+MiscTab:Section({
 	Title = "Server Actions",
 })
 
-local ServerGroup = SettingsTab:Group()
+local ServerGroup = MiscTab:Group()
 
 ServerGroup:Button({
 	Title = "Server Hop",
