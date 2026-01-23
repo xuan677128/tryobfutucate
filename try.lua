@@ -129,6 +129,9 @@ local autoUpgradeSpeed = false
 local upgradeSpeedAmount = 1
 local autoRebirth = false
 
+-- Sell All confirmation
+local lastSellAllClick = 0
+
 -- Character handler (safe)
 local function setupCharacter(char)
 	character = char
@@ -363,37 +366,22 @@ MainTab:Button({
 	Color = Color3.fromRGB(200, 50, 80),
 	Justify = "Center",
 	Callback = function()
-		WindUI:Dialog({
-			Title = "Confirm Sale",
-			Content = "Are you sure you want to sell all inventory items?",
-			Buttons = {
-				{
-					Title = "Confirm",
-					Callback = function()
-						pcall(function()
-							game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
-						end)
-						WindUI:Notify({
-							Title = "Sold",
-							Content = "All inventory items sold!",
-							Icon = "check",
-							Duration = 3,
-						})
-					end
-				},
-				{
-					Title = "Cancel",
-					Callback = function()
-						WindUI:Notify({
-							Title = "Cancelled",
-							Content = "Sale cancelled",
-							Icon = "x",
-							Duration = 2,
-						})
-					end
-				}
-			}
-		})
+		local currentTime = tick()
+		if currentTime - lastSellAllClick < 0.5 then
+			-- Double click: sell
+			pcall(function()
+				game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
+			end)
+			WindUI:Notify({
+				Title = "Sold",
+				Content = "All inventory items sold!",
+				Icon = "check",
+				Duration = 3,
+			})
+		else
+			-- Single click: do nothing, just record time
+			lastSellAllClick = currentTime
+		end
 	end
 })
 
