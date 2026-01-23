@@ -326,24 +326,53 @@ task.spawn(function()
 	end
 end)
 
--- Anti-AFK (Always Enabled - Prevents 20 min AFK kick)
-local antiAfkEnabled = true
+-- Anti-AFK (toggleable)
+local antiAfkEnabled = savedSettings.antiAfk or false
+local antiAfkConn = nil
 local vu = game:GetService("VirtualUser")
-player.Idled:Connect(function()
-	vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-	task.wait(1)
-	vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-end)
-
--- Auto Reconnect (Always Enabled)
-local autoReconnectEnabled = true
-pcall(function()
-	game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
-		if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
-			game:GetService("TeleportService"):Teleport(game.PlaceId, player)
-		end
+local function enableAntiAfk()
+	if antiAfkConn then return end
+	antiAfkConn = player.Idled:Connect(function()
+		vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+		task.wait(1)
+		vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
 	end)
-end)
+end
+local function disableAntiAfk()
+	if antiAfkConn then
+		antiAfkConn:Disconnect()
+		antiAfkConn = nil
+	end
+end
+if antiAfkEnabled then
+	enableAntiAfk()
+end
+
+-- Auto Reconnect (toggleable)
+local autoReconnectEnabled = savedSettings.autoReconnect or false
+local autoReconnectConn = nil
+local function enableAutoReconnect()
+	if autoReconnectConn then return end
+	local success, conn = pcall(function()
+		return game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+			if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+				game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+			end
+		end)
+	end)
+	if success and conn then
+		autoReconnectConn = conn
+	end
+end
+local function disableAutoReconnect()
+	if autoReconnectConn then
+		autoReconnectConn:Disconnect()
+		autoReconnectConn = nil
+	end
+end
+if autoReconnectEnabled then
+	enableAutoReconnect()
+end
 
 
 
@@ -552,11 +581,18 @@ local MiscSettings = MiscTab:Section({
 
 -- Anti-AFK
 MiscSettings:Toggle({
-	Title = "Anti-AFK (Always On)",
+	Title = "Anti-AFK",
 	Desc = "Prevents Roblox from kicking you after 20 minutes of inactivity",
-	Default = true,
+	Default = savedSettings.antiAfk,
 	Callback = function(state)
-		-- Always enabled
+		antiAfkEnabled = state
+		savedSettings.antiAfk = state
+		saveSettings(savedSettings)
+		if state then
+			enableAntiAfk()
+		else
+			disableAntiAfk()
+		end
 	end
 })
 
@@ -564,11 +600,18 @@ MiscSettings:Space()
 
 -- Auto Reconnect
 MiscSettings:Toggle({
-	Title = "Auto Reconnect (Always On)",
+	Title = "Auto Reconnect",
 	Desc = "Automatically rejoins the game when you get disconnected",
-	Default = true,
+	Default = savedSettings.autoReconnect,
 	Callback = function(state)
-		-- Always enabled
+		autoReconnectEnabled = state
+		savedSettings.autoReconnect = state
+		saveSettings(savedSettings)
+		if state then
+			enableAutoReconnect()
+		else
+			disableAutoReconnect()
+		end
 	end
 })
 
@@ -684,7 +727,23 @@ task.spawn(function()
 		end)
 	end
 	
-	-- Anti-AFK and Auto Reconnect are always enabled (no settings to apply)
+	-- Apply Anti-AFK
+	if savedSettings.antiAfk then
+		antiAfkEnabled = true
+		enableAntiAfk()
+	else
+		antiAfkEnabled = false
+		disableAntiAfk()
+	end
+
+	-- Apply Auto Reconnect
+	if savedSettings.autoReconnect then
+		autoReconnectEnabled = true
+		enableAutoReconnect()
+	else
+		autoReconnectEnabled = false
+		disableAutoReconnect()
+	end
 end)
 
 -- ================= FINALIZE =================
