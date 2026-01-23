@@ -382,13 +382,13 @@ MainTab:Button({
 						pcall(function()
 							for _, tool in pairs(player.Backpack:GetChildren()) do
 								if tool:IsA("Tool") then
-									game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+								game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellAll"):InvokeServer()
 								end
 							end
 							if character then
 								for _, tool in pairs(character:GetChildren()) do
 									if tool:IsA("Tool") then
-										game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+										game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellTool"):InvokeServer()
 									end
 								end
 							end
@@ -430,7 +430,7 @@ MainTab:Button({
 			if character then
 				local tool = character:FindFirstChildOfClass("Tool")
 				if tool then
-					game:GetService("ReplicatedStorage").Events.SellTool:FireServer(tool)
+					game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SellTool"):InvokeServer()
 					WindUI:Notify({
 						Title = "Sold",
 						Content = "Held tool sold!",
