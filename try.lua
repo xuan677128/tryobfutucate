@@ -77,7 +77,7 @@ local Window = WindUI:CreateWindow({
 	HasOutline = true,
 	OutlineThickness = 3,
     Resizable = true,
-   
+    
 })
 
 -- Add version tag
@@ -466,7 +466,7 @@ local function createTsunamiGui()
     tsunamiText.Position = UDim2.fromOffset(8, 1)
     tsunamiText.BackgroundTransparency = 1
     tsunamiText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tsunamiText.Text = "Safe"
+    tsunamiText.Text = "Tsunami: Safe (>1500m)"
     tsunamiText.Font = Enum.Font.Gotham
     tsunamiText.TextSize = 13
     tsunamiText.TextXAlignment = Enum.TextXAlignment.Left
@@ -476,24 +476,23 @@ local function createTsunamiGui()
     tsunamiHeartbeatConn = RunService.Heartbeat:Connect(function()
         local dist = getTsunamiDistance()
         if dist < 1500 then
-            local d = math.floor(dist)
             if dist <= 500 then
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
                 tsunamiText.TextColor3 = Color3.new(1, 1, 1)
-                tsunamiText.Text = "⚠️ " .. d .. "m"
+                tsunamiText.Text = "⚠️ Tsunami: " .. math.floor(dist) .. "m (DANGER)"
             elseif dist <= 1000 then
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 150, 50)
                 tsunamiText.TextColor3 = Color3.new(0, 0, 0)
-                tsunamiText.Text = "⚠ " .. d .. "m"
+                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (WARNING)"
             else
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
                 tsunamiText.TextColor3 = Color3.new(0, 0, 0)
-                tsunamiText.Text = d .. "m"
+                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (SAFE)"
             end
         else
             tsunamiBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
             tsunamiText.TextColor3 = Color3.new(1, 1, 1)
-            tsunamiText.Text = "Safe"
+            tsunamiText.Text = "Tsunami: Safe (>1500m)"
         end
     end)
 end
