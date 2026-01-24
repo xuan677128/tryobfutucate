@@ -36,6 +36,8 @@ local defaultSettings = {
 	autoObby = false,
 	-- UFO Event
 	autoCollectUFO = false,
+	-- UFO Spin
+	autoSpinUFO = false,
 	-- Tsunami tracker
 	autoTsunamiTracker = false
 }
@@ -79,6 +81,18 @@ local Window = WindUI:CreateWindow({
 	HasOutline = true,
 	OutlineThickness = 3,
     Resizable = true,
+    KeySystem = {
+        Note = "Key System for Xuan Hub.",
+        API = {
+            {
+                Title = "Platoboost",
+                Desc = "Click to copy.",
+                Type = "platoboost",
+                ServiceId = 19150,
+                Secret = "de1c7213-1259-48ec-a052-9ad313dc3f79",
+            },
+        },
+    },
 })
 
 -- Add version tag
@@ -140,6 +154,7 @@ local spinning = false
 local autoObby = false
 local collectingMoney = false
 local autoCollectUFO = false
+local autoSpinUFO = false
 local autoUpgradeBase = false
 local autoUpgradeCarry = false
 local autoUpgradeSpeed = false
@@ -303,6 +318,29 @@ task.spawn(function()
 				end
 			end)
 			task.wait(0.2)
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Auto Spin UFO Wheel Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoSpinUFO then
+			pcall(function()
+				local success, args = pcall(function()
+					return {"UFO", false}
+				end)
+				if success and args then
+					pcall(function()
+						game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RF/WheelSpin.Roll"):InvokeServer(unpack(args))
+					end)
+				end
+			end)
+			local delayValue = tonumber(savedSettings.spinDelay) or 0.5
+			if delayValue <= 0 then delayValue = 0.5 end
+			task.wait(delayValue)
 		else
 			task.wait(0.5)
 		end
@@ -754,7 +792,7 @@ local SellHeldBtn = BaseTab:Button({
 -- ================= EVENT TAB =================
 EventTab:Section({
 	Title = "Radioactive Event",
-	Opened = true,
+	Opened = false,
 })
 
 -- Auto Collect Radioactive
@@ -813,7 +851,7 @@ EventTab:Toggle({
 -- UFO Event
 EventTab:Section({
 	Title = "UFO Event",
-	Opened = true,
+	Opened = false,
 })
 
 EventTab:Toggle({
@@ -823,6 +861,17 @@ EventTab:Toggle({
 	Callback = function(state)
 		autoCollectUFO = state
 		savedSettings.autoCollectUFO = state
+		saveSettings(savedSettings)
+	end
+})
+
+EventTab:Toggle({
+	Title = "Auto Spin UFO Wheel",
+	Desc = "Automatically spins the UFO wheel",
+	Value = savedSettings.autoSpinUFO,
+	Callback = function(state)
+		autoSpinUFO = state
+		savedSettings.autoSpinUFO = state
 		saveSettings(savedSettings)
 	end
 })
@@ -1062,6 +1111,11 @@ task.spawn(function()
 	-- Apply Auto Collect UFO
 	if savedSettings.autoCollectUFO then
 		autoCollectUFO = true
+	end
+
+	-- Apply Auto Spin UFO Wheel
+	if savedSettings.autoSpinUFO then
+		autoSpinUFO = true
 	end
 	
 	-- Apply Anti-AFK
