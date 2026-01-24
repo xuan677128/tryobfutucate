@@ -77,7 +77,18 @@ local Window = WindUI:CreateWindow({
 	HasOutline = true,
 	OutlineThickness = 3,
     Resizable = true,
-    
+    KeySystem = {
+        Note = "Key System for Xuan Hub.",
+        API = {
+            {
+                Title = "Platoboost",
+                Desc = "Click to copy.",
+                Type = "platoboost",
+                ServiceId = 19150,
+                Secret = "de1c7213-1259-48ec-a052-9ad313dc3f79",
+            },
+        },
+    },
 })
 
 -- Add version tag
@@ -548,6 +559,94 @@ TsunamiSection:Toggle({
 		end
 		savedSettings.autoTsunamiTracker = state
 		saveSettings(savedSettings)
+	end
+})
+
+-- Teleport to next gap (in front of player)
+TsunamiSection:Button({
+	Title = "TP Next Gap",
+	Desc = "Teleport to the next gap ahead of you",
+	Locked = false,
+	Callback = function()
+		local misc = workspace:FindFirstChild("Misc")
+		local gapsFolder = misc and misc:FindFirstChild("Gaps")
+		if not gapsFolder then
+			WindUI:Notify({Title = "Tsunami", Content = "Gaps not found", Icon = "alert-triangle", Duration = 3})
+			return
+		end
+
+		local gaps = gapsFolder:GetChildren()
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if not root then
+			WindUI:Notify({Title = "Tsunami", Content = "Character not ready", Icon = "alert-triangle", Duration = 3})
+			return
+		end
+
+		local look = root.CFrame.LookVector
+		local pos = root.Position
+		local best, bestScore = nil, math.huge
+
+		for _, g in ipairs(gaps) do
+			local part = (g:IsA("BasePart") and g) or (g:IsA("Model") and (g.PrimaryPart or g:FindFirstChildWhichIsA("BasePart")))
+			if part then
+				local rel = part.Position - pos
+				local proj = rel:Dot(look)
+				if proj > 0 and proj < bestScore then
+					bestScore = proj
+					best = part
+				end
+			end
+		end
+
+		if best then
+			root.CFrame = CFrame.new(best.Position + Vector3.new(0, 5, 0))
+		else
+			WindUI:Notify({Title = "Tsunami", Content = "No gap ahead", Icon = "alert-triangle", Duration = 3})
+		end
+	end
+})
+
+-- Teleport to previous gap (behind player)
+TsunamiSection:Button({
+	Title = "TP Previous Gap",
+	Desc = "Teleport to the previous gap behind you",
+	Locked = false,
+	Callback = function()
+		local misc = workspace:FindFirstChild("Misc")
+		local gapsFolder = misc and misc:FindFirstChild("Gaps")
+		if not gapsFolder then
+			WindUI:Notify({Title = "Tsunami", Content = "Gaps not found", Icon = "alert-triangle", Duration = 3})
+			return
+		end
+
+		local gaps = gapsFolder:GetChildren()
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if not root then
+			WindUI:Notify({Title = "Tsunami", Content = "Character not ready", Icon = "alert-triangle", Duration = 3})
+			return
+		end
+
+		local look = root.CFrame.LookVector
+		local pos = root.Position
+		local best, bestScore = nil, -math.huge
+
+		for _, g in ipairs(gaps) do
+			local part = (g:IsA("BasePart") and g) or (g:IsA("Model") and (g.PrimaryPart or g:FindFirstChildWhichIsA("BasePart")))
+			if part then
+				local rel = part.Position - pos
+				local proj = rel:Dot(look)
+				if proj < 0 and proj > bestScore then
+					bestScore = proj
+					best = part
+				end
+			end
+		end
+
+		if best then
+			root.CFrame = CFrame.new(best.Position + Vector3.new(0, 5, 0))
+		else
+			WindUI:Notify({Title = "Tsunami", Content = "No gap behind", Icon = "alert-triangle", Duration = 3})
+		end
 	end
 })
 
