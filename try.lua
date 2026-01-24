@@ -33,7 +33,9 @@ local defaultSettings = {
 	autoUpgradeSpeed = false,
 	upgradeSpeedAmount = 1,
 	autoRebirth = false,
-	autoObby = false
+	autoObby = false,
+	-- Tsunami tracker
+	autoTsunamiTracker = false
 }
 
 local function loadSettings()
@@ -77,7 +79,6 @@ local Window = WindUI:CreateWindow({
     Resizable = true,
     KeySystem = {
         Note = "Key System for Xuan Hub.",
-		SaveKey = true,
         API = {
             {
                 Title = "Platoboost",
@@ -116,6 +117,12 @@ local EventTab = Window:Tab({
 local AutoTab = Window:Tab({
 	Title = "Auto",
 	Icon = "refresh-cw",
+	Locked = false,
+})
+
+local TsunamiTab = Window:Tab({
+	Title = "Tsunami",
+	Icon = "cloud-lightning",
 	Locked = false,
 })
 
@@ -388,9 +395,175 @@ if autoReconnectEnabled then
 	enableAutoReconnect()
 end
 
+-- ================= TSUNAMI TRACKER =================
+-- Creates a small ScreenGui that shows distance & color-coded status for nearby tsunamis
+local RunService = game:GetService("RunService")
+local tsunamiGui = nil
+local tsunamiBox = nil
+local tsunamiText = nil
+local tsunamiHeartbeatConn = nil
+local tsunamiEnabled = false
+
+local function getTsunamiDistance()
+    local character = player.Character
+    if not character then return math.huge end
+    local root = character:FindFirstChild("HumanoidRootPart")
+    if not root then return math.huge end
+
+    local closest = math.huge
+    local activeTsunamis = workspace:FindFirstChild("ActiveTsunamis")
+    if activeTsunamis then
+        for i = 1, 6 do
+            local wave = activeTsunamis:FindFirstChild("Wave" .. i)
+            if wave then
+                local hitbox = wave:FindFirstChild("Hitbox")
+                if hitbox and hitbox:IsA("BasePart") then
+                    local dist = (hitbox.Position - root.Position).Magnitude
+                    if dist < closest then
+                        closest = dist
+                    end
+                end
+            end
+        end
+    end
+
+    if closest == math.huge then
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Model") then
+                if obj.Name:lower():find("tsunami") or obj.Name:lower():find("wave") then
+                    for _, part in pairs(obj:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            local dist = (part.Position - root.Position).Magnitude
+                            if dist < closest then
+                                closest = dist
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return closest
+end
+
+local function createTsunamiGui()
+    if tsunamiGui then return end
+    tsunamiGui = Instance.new("ScreenGui")
+    tsunamiGui.Name = "XuanTsunamiTracker"
+    tsunamiGui.ResetOnSpawn = false
+    tsunamiGui.Parent = player:WaitForChild("PlayerGui")
+
+    tsunamiBox = Instance.new("Frame")
+    tsunamiBox.Name = "TsunamiBox"
+    tsunamiBox.Size = UDim2.fromOffset(360, 32)
+    tsunamiBox.Position = UDim2.fromOffset(10, 10)
+    tsunamiBox.BackgroundColor3 = Color3.fromRGB(30, 34, 45)
+    tsunamiBox.BorderSizePixel = 0
+    tsunamiBox.Parent = tsunamiGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = tsunamiBox
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(80, 80, 100)
+    stroke.LineJoinMode = Enum.LineJoinMode.Round
+    stroke.Parent = tsunamiBox
+
+    tsunamiText = Instance.new("TextLabel")
+    tsunamiText.Name = "TsunamiText"
+    tsunamiText.Size = UDim2.new(1, -12, 1, -6)
+    tsunamiText.Position = UDim2.fromOffset(6, 2)
+    tsunamiText.BackgroundTransparency = 1
+    tsunamiText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tsunamiText.Text = "Tsunami: Safe (>1500m)"
+    tsunamiText.Font = Enum.Font.Gotham
+    tsunamiText.TextSize = 14
+    tsunamiText.TextXAlignment = Enum.TextXAlignment.Left
+    tsunamiText.TextYAlignment = Enum.TextYAlignment.Center
+    tsunamiText.Parent = tsunamiBox
+
+    tsunamiHeartbeatConn = RunService.Heartbeat:Connect(function()
+        local dist = getTsunamiDistance()
+        if dist < 1500 then
+            if dist <= 500 then
+                tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+                tsunamiText.TextColor3 = Color3.new(1, 1, 1)
+                tsunamiText.Text = "⚠️ Tsunami: " .. math.floor(dist) .. "m (DANGER)"
+            elseif dist <= 1000 then
+                tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 150, 50)
+                tsunamiText.TextColor3 = Color3.new(0, 0, 0)
+                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (WARNING)"
+            else
+                tsunamiBox.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+                tsunamiText.TextColor3 = Color3.new(0, 0, 0)
+                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (SAFE)"
+            end
+        else
+            tsunamiBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+            tsunamiText.TextColor3 = Color3.new(1, 1, 1)
+            tsunamiText.Text = "Tsunami: Safe (>1500m)"
+        end
+    end)
+end
+
+local function destroyTsunamiGui()
+    if tsunamiHeartbeatConn then
+        tsunamiHeartbeatConn:Disconnect()
+        tsunamiHeartbeatConn = nil
+    end
+    if tsunamiGui then
+        tsunamiGui:Destroy()
+        tsunamiGui = nil
+        tsunamiBox = nil
+        tsunamiText = nil
+    end
+end
+
+local function enableTsunamiTracker()
+    if tsunamiEnabled then return end
+    tsunamiEnabled = true
+    createTsunamiGui()
+    WindUI:Notify({
+        Title = "Tsunami",
+        Content = "Tsunami tracker enabled",
+        Icon = "check",
+        Duration = 3,
+    })
+end
+
+local function disableTsunamiTracker()
+    if not tsunamiEnabled then return end
+    tsunamiEnabled = false
+    destroyTsunamiGui()
+    WindUI:Notify({
+        Title = "Tsunami",
+        Content = "Tsunami tracker disabled",
+        Icon = "check",
+        Duration = 3,
+    })
+end
+
+-- Add a section + toggle in the Tsunami tab
+local TsunamiSection = TsunamiTab:Section({Title = "Tsunami Tracker", Opened = true,})
+TsunamiSection:Toggle({
+	Title = "Tsunami Tracker",
+	Desc = "Toggle tsunami tracker display",
+	Value = savedSettings.autoTsunamiTracker,
+	Callback = function(state)
+		if state then
+			enableTsunamiTracker()
+		else
+			disableTsunamiTracker()
+		end
+		savedSettings.autoTsunamiTracker = state
+		saveSettings(savedSettings)
+	end
+})
 
 
--- ================= BASE TAB =================
+-- ================= BASE TAB ================= 
 local UpgBase = BaseTab:Section({Title = "Main", Opened = true,})
 
 local UpgBaseOnce = BaseTab:Button({
@@ -778,6 +951,13 @@ task.spawn(function()
 	else
 		autoReconnectEnabled = false
 		disableAutoReconnect()
+	end
+
+	-- Apply Tsunami Tracker
+	if savedSettings.autoTsunamiTracker then
+		enableTsunamiTracker()
+	else
+		disableTsunamiTracker()
 	end
 end)
 
