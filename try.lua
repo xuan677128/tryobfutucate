@@ -34,6 +34,8 @@ local defaultSettings = {
 	upgradeSpeedAmount = 1,
 	autoRebirth = false,
 	autoObby = false,
+	-- UFO Event
+	autoCollectUFO = false,
 	-- Tsunami tracker
 	autoTsunamiTracker = false
 }
@@ -137,6 +139,7 @@ local active = false
 local spinning = false
 local autoObby = false
 local collectingMoney = false
+local autoCollectUFO = false
 local autoUpgradeBase = false
 local autoUpgradeCarry = false
 local autoUpgradeSpeed = false
@@ -272,6 +275,34 @@ task.spawn(function()
 				end
 			end
 			task.wait(0.1)
+		else
+			task.wait(0.5)
+		end
+	end
+end)
+
+-- Auto Collect UFO Coins Loop
+task.spawn(function()
+	while scriptRunning do
+		if autoCollectUFO then
+			pcall(function()
+				local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+				local folder = workspace:FindFirstChild("UFOEventParts") or workspace:FindFirstChild("UFOEventParts")
+				if not root or not folder then return end
+				for _, coin in ipairs(folder:GetChildren()) do
+					local name = coin.Name and coin.Name:lower() or ""
+					if name:find("UFO coin") or name:find("ufo") then
+						local hitbox = coin:FindFirstChild("Hitbox") or coin:FindFirstChildWhichIsA("BasePart")
+						if hitbox and hitbox:IsA("BasePart") then
+							firetouchinterest(root, hitbox, 0)
+							task.wait()
+							firetouchinterest(root, hitbox, 1)
+							task.wait(0.05)
+						end
+					end
+				end
+			end)
+			task.wait(0.2)
 		else
 			task.wait(0.5)
 		end
@@ -779,6 +810,23 @@ EventTab:Toggle({
 	end
 })
 
+-- UFO Event
+EventTab:Section({
+	Title = "UFO Event",
+	Opened = true,
+})
+
+EventTab:Toggle({
+	Title = "Auto Collect UFO Coins",
+	Desc = "Automatically collects UFO coins",
+	Value = savedSettings.autoCollectUFO,
+	Callback = function(state)
+		autoCollectUFO = state
+		savedSettings.autoCollectUFO = state
+		saveSettings(savedSettings)
+	end
+})
+
 -- ================= AUTO TAB =================
 local AutoSection = AutoTab:Section({Title = "Auto Features", Opened = true,})
 
@@ -1009,6 +1057,11 @@ task.spawn(function()
 				end
 			end
 		end)
+	end
+
+	-- Apply Auto Collect UFO
+	if savedSettings.autoCollectUFO then
+		autoCollectUFO = true
 	end
 	
 	-- Apply Anti-AFK
