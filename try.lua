@@ -291,7 +291,7 @@ task.spawn(function()
 				if not root or not folder then return end
 				for _, coin in ipairs(folder:GetChildren()) do
 					local name = coin.Name and coin.Name:lower() or ""
-					if name:find("UFO coin") or name:find("ufo") then
+					if name:find("UFO Coin") or name:find("ufo") then
 						local hitbox = coin:FindFirstChild("Hitbox") or coin:FindFirstChildWhichIsA("BasePart")
 						if hitbox and hitbox:IsA("BasePart") then
 							firetouchinterest(root, hitbox, 0)
