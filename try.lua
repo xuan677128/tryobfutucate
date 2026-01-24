@@ -445,8 +445,8 @@ local function createTsunamiGui()
 
     tsunamiBox = Instance.new("Frame")
     tsunamiBox.Name = "TsunamiBox"
-    tsunamiBox.Size = UDim2.fromOffset(360, 32)
-    tsunamiBox.Position = UDim2.fromOffset(10, 10)
+    tsunamiBox.Size = UDim2.fromOffset(220, 26)
+    tsunamiBox.Position = UDim2.fromOffset(12, 12)
     tsunamiBox.BackgroundColor3 = Color3.fromRGB(30, 34, 45)
     tsunamiBox.BorderSizePixel = 0
     tsunamiBox.Parent = tsunamiGui
@@ -462,13 +462,13 @@ local function createTsunamiGui()
 
     tsunamiText = Instance.new("TextLabel")
     tsunamiText.Name = "TsunamiText"
-    tsunamiText.Size = UDim2.new(1, -12, 1, -6)
-    tsunamiText.Position = UDim2.fromOffset(6, 2)
+    tsunamiText.Size = UDim2.new(1, -10, 1, -4)
+    tsunamiText.Position = UDim2.fromOffset(8, 1)
     tsunamiText.BackgroundTransparency = 1
     tsunamiText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tsunamiText.Text = "Tsunami: Safe (>1500m)"
+    tsunamiText.Text = "Safe"
     tsunamiText.Font = Enum.Font.Gotham
-    tsunamiText.TextSize = 14
+    tsunamiText.TextSize = 13
     tsunamiText.TextXAlignment = Enum.TextXAlignment.Left
     tsunamiText.TextYAlignment = Enum.TextYAlignment.Center
     tsunamiText.Parent = tsunamiBox
@@ -476,23 +476,24 @@ local function createTsunamiGui()
     tsunamiHeartbeatConn = RunService.Heartbeat:Connect(function()
         local dist = getTsunamiDistance()
         if dist < 1500 then
+            local d = math.floor(dist)
             if dist <= 500 then
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
                 tsunamiText.TextColor3 = Color3.new(1, 1, 1)
-                tsunamiText.Text = "⚠️ Tsunami: " .. math.floor(dist) .. "m (DANGER)"
+                tsunamiText.Text = "⚠️ " .. d .. "m"
             elseif dist <= 1000 then
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(255, 150, 50)
                 tsunamiText.TextColor3 = Color3.new(0, 0, 0)
-                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (WARNING)"
+                tsunamiText.Text = "⚠ " .. d .. "m"
             else
                 tsunamiBox.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
                 tsunamiText.TextColor3 = Color3.new(0, 0, 0)
-                tsunamiText.Text = "Tsunami: " .. math.floor(dist) .. "m (SAFE)"
+                tsunamiText.Text = d .. "m"
             end
         else
             tsunamiBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
             tsunamiText.TextColor3 = Color3.new(1, 1, 1)
-            tsunamiText.Text = "Tsunami: Safe (>1500m)"
+            tsunamiText.Text = "Safe"
         end
     end)
 end
