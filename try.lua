@@ -783,9 +783,9 @@ TsunamiSection:Button({
 			local home = base:FindFirstChild("Home")
 			if home and home:IsA("BasePart") then
 				root.CFrame = home.CFrame
-				WindUI:Notify({Title = "Teleport", Content = "Teleported to base Home", Icon = "check", Duration = 3})
+				WindUI:Notify({Title = "Teleport", Content = "Teleported to base", Icon = "check", Duration = 3})
 			else
-				WindUI:Notify({Title = "Teleport", Content = "Base Home not found or invalid", Icon = "alert-triangle", Duration = 3})
+				WindUI:Notify({Title = "Teleport", Content = "Base not found or invalid", Icon = "alert-triangle", Duration = 3})
 			end
 		else
 			WindUI:Notify({Title = "Teleport", Content = "No base found", Icon = "alert-triangle", Duration = 3})
