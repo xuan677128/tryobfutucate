@@ -41,6 +41,8 @@ local defaultSettings = {
 	autoSpinUFO = false,
 	-- Unlock Zoom
 	unlockZoom = false,
+	-- God Mode
+	godMode = false,
 	-- Tsunami tracker
 	autoTsunamiTracker = false
 }
@@ -162,6 +164,11 @@ local autoRebirth = false
 local unlockZoomEnabled = false
 local prevCameraMin = nil
 local prevCameraMax = nil
+
+-- God Mode state
+local godModeEnabled = false
+local godModeCharConn = nil
+local godModeConns = {} -- map character -> {conns = {...}, modified = {...} }
 
 -- Sell All confirmation
 local lastSellAllClick = 0
@@ -572,6 +579,87 @@ local function disableUnlockZoom()
 	else
 		WindUI:Notify({Title = "Main", Content = "Zoom restore attempted", Icon = "check", Duration = 3})
 	end
+end
+
+-- ================= GOD MODE HELPERS =================
+local function applyGodModeToCharacter(char)
+	if not char then return end
+	-- run async to wait for the character to be ready
+	task.spawn(function()
+		task.wait(0.25)
+		local humanoid = char:FindFirstChild("Humanoid")
+		local root = char:FindFirstChild("HumanoidRootPart")
+		local conns = {}
+		local modified = {}
+
+		if humanoid then
+			pcall(function()
+				humanoid.MaxHealth = 1e9
+				humanoid.Health = 1e9
+			end)
+			local c = humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+				if humanoid.Health < 1000000 then
+					humanoid.Health = 1000000
+				end
+			end)
+			table.insert(conns, c)
+		end
+
+		for _, part in ipairs(char:GetChildren()) do
+			if part:IsA("BasePart") then
+				local ok, prevTrans = pcall(function() return part.Transparency end)
+				local ok2, prevCanTouch = pcall(function() return part.CanTouch end)
+				table.insert(modified, {part = part, transp = (ok and prevTrans) or nil, canTouch = (ok2 and prevCanTouch) or nil})
+				pcall(function() part.Transparency = 0.3 end)
+				pcall(function() part.CanTouch = false end)
+			end
+		end
+
+		if root then
+			local hb = RunService.Heartbeat:Connect(function()
+				pcall(function()
+					root.Velocity = Vector3.new(0,0,0)
+					root.AssemblyLinearVelocity = Vector3.new(0,0,0)
+				end)
+			end)
+			table.insert(conns, hb)
+		end
+
+		godModeConns[char] = {conns = conns, modified = modified}
+	end)
+end
+
+local function enableGodMode()
+	if godModeEnabled then return end
+	godModeEnabled = true
+	if player.Character then
+		applyGodModeToCharacter(player.Character)
+	end
+	godModeCharConn = player.CharacterAdded:Connect(function(char)
+		applyGodModeToCharacter(char)
+	end)
+	WindUI:Notify({Title = "Main", Content = "God Mode enabled", Icon = "check", Duration = 3})
+end
+
+local function disableGodMode()
+	if not godModeEnabled then return end
+	godModeEnabled = false
+	if godModeCharConn then godModeCharConn:Disconnect(); godModeCharConn = nil end
+	for char, data in pairs(godModeConns) do
+		if data and data.conns then
+			for _, c in ipairs(data.conns) do pcall(function() c:Disconnect() end) end
+		end
+		if data and data.modified then
+			for _, m in ipairs(data.modified) do
+				pcall(function()
+					if m.part and m.transp ~= nil then m.part.Transparency = m.transp end
+					if m.part and m.canTouch ~= nil then m.part.CanTouch = m.canTouch end
+				end)
+			end
+		end
+		godModeConns[char] = nil
+	end
+	WindUI:Notify({Title = "Main", Content = "God Mode disabled", Icon = "check", Duration = 3})
 end
 
 -- ================= TSUNAMI TRACKER =================
