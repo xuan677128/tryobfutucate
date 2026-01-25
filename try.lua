@@ -771,6 +771,27 @@ TsunamiSection:Button({
 	end
 })
 
+-- Teleport to your base
+TsunamiSection:Button({
+	Title = "Teleport to Base",
+	Desc = "Teleport to your base",
+	Locked = false,
+	Callback = function()
+		local base = findMyBase()
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if base and base:FindFirstChild("Home") and root then
+			local home = base:FindFirstChild("Home")
+			if home and home:IsA("BasePart") then
+				root.CFrame = home.CFrame
+				WindUI:Notify({Title = "Teleport", Content = "Teleported to base Home", Icon = "check", Duration = 3})
+			else
+				WindUI:Notify({Title = "Teleport", Content = "Base Home not found or invalid", Icon = "alert-triangle", Duration = 3})
+			end
+		else
+			WindUI:Notify({Title = "Teleport", Content = "No base found", Icon = "alert-triangle", Duration = 3})
+		end
+	end
+})
 
 -- ================= BASE TAB ================= 
 local UpgBase = BaseTab:Section({Title = "Main", Opened = true,})
