@@ -453,6 +453,69 @@ if autoReconnectEnabled then
 	enableAutoReconnect()
 end
 
+-- Unlock Zoom handlers
+local function enableUnlockZoom()
+	if unlockZoomEnabled then return end
+	unlockZoomEnabled = true
+	-- store previous values if present
+	pcall(function()
+		prevCameraMin = player.CameraMinZoomDistance
+		prevCameraMax = player.CameraMaxZoomDistance
+	end)
+
+	local applied = false
+	-- Try to set on Player
+	pcall(function()
+		player.CameraMinZoomDistance = 0.5
+		player.CameraMaxZoomDistance = 500
+		applied = true
+	end)
+
+	-- Also try CurrentCamera in case of alternate API
+	pcall(function()
+		local cam = workspace and workspace.CurrentCamera
+		if cam then
+			pcall(function()
+				cam.CameraMinZoomDistance = 0.5
+				cam.CameraMaxZoomDistance = 500
+				applied = true
+			end)
+		end
+	end)
+
+	if applied then
+		WindUI:Notify({Title = "Main", Content = "Zoom limits unlocked", Icon = "check", Duration = 3})
+	else
+		WindUI:Notify({Title = "Main", Content = "Failed to change zoom limits", Icon = "alert-triangle", Duration = 4})
+	end
+end
+
+local function disableUnlockZoom()
+	if not unlockZoomEnabled then return end
+	unlockZoomEnabled = false
+	local restored = false
+	pcall(function()
+		if prevCameraMin then player.CameraMinZoomDistance = prevCameraMin restored = true end
+		if prevCameraMax then player.CameraMaxZoomDistance = prevCameraMax restored = true end
+	end)
+	pcall(function()
+		local cam = workspace and workspace.CurrentCamera
+		if cam then
+			pcall(function()
+				if prevCameraMin then cam.CameraMinZoomDistance = prevCameraMin end
+				if prevCameraMax then cam.CameraMaxZoomDistance = prevCameraMax end
+				restored = true
+			end)
+		end
+	end)
+
+	if restored then
+		WindUI:Notify({Title = "Main", Content = "Zoom limits restored", Icon = "check", Duration = 3})
+	else
+		WindUI:Notify({Title = "Main", Content = "Zoom restore attempted", Icon = "check", Duration = 3})
+	end
+end
+
 -- ================= TSUNAMI TRACKER =================
 -- Creates a small ScreenGui that shows distance & color-coded status for nearby tsunamis
 local RunService = game:GetService("RunService")
