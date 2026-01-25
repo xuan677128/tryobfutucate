@@ -560,8 +560,8 @@ local function disableUnlockZoom()
 	unlockZoomEnabled = false
 	local restored = false
 	pcall(function()
-		if prevCameraMin then player.CameraMinZoomDistance = prevCameraMin restored = true end
-		if prevCameraMax then player.CameraMaxZoomDistance = prevCameraMax restored = true end
+		if prevCameraMin then player.CameraMinZoomDistance = prevCameraMin; restored = true end
+		if prevCameraMax then player.CameraMaxZoomDistance = prevCameraMax; restored = true end
 	end)
 	pcall(function()
 		local cam = workspace and workspace.CurrentCamera
@@ -930,6 +930,9 @@ TsunamiSection:Button({
 -- ================= BASE TAB ================= 
 local UpgBase = BaseTab:Section({Title = "Main", Opened = true,})
 
+-- Utilities section (visible)
+local UtilitiesSection = BaseTab:Section({Title = "Utilities", Opened = true,})
+
 local UpgBaseOnce = UpgBase:Button({
 	Title = "Upgrade Base",
 	Desc = "Purchase one base upgrade",
@@ -966,7 +969,7 @@ local UpgCarryOnce = UpgBase:Button({
 })
 
 -- Unlock Zoom Limit
-UpgBase:Toggle({
+UtilitiesSection:Toggle({
 	Title = "Unlock Zoom Limit",
 	Desc = "Unlock camera zoom limits",
 	Value = savedSettings.unlockZoom,
@@ -977,6 +980,22 @@ UpgBase:Toggle({
 			disableUnlockZoom()
 		end
 		savedSettings.unlockZoom = state
+		saveSettings(savedSettings)
+	end
+})
+
+-- God Mode
+UtilitiesSection:Toggle({
+	Title = "God Mode",
+	Desc = "Make your character invulnerable and immobile for safe teleporting",
+	Value = savedSettings.godMode,
+	Callback = function(state)
+		if state then
+			enableGodMode()
+		else
+			disableGodMode()
+		end
+		savedSettings.godMode = state
 		saveSettings(savedSettings)
 	end
 })
@@ -1351,6 +1370,12 @@ task.spawn(function()
 	-- Apply Auto Spin UFO Wheel
 	if savedSettings.autoSpinUFO then
 		autoSpinUFO = true
+	end
+
+	-- Apply God Mode
+	if savedSettings.godMode then
+		godModeEnabled = true
+		enableGodMode()
 	end
 
 	-- Apply Unlock Zoom
