@@ -38,6 +38,8 @@ local defaultSettings = {
 	autoCollectUFO = false,
 	-- UFO Spin
 	autoSpinUFO = false,
+	-- Unlock Zoom
+	unlockZoom = false,
 	-- Tsunami tracker
 	autoTsunamiTracker = false
 }
@@ -101,7 +103,7 @@ Window:Tag({
 
 
 local BaseTab = Window:Tab({
-	Title = "Base",
+	Title = "Main",
 	Icon = "layers-2",
 	Locked = false,
 })
@@ -154,6 +156,11 @@ local autoUpgradeCarry = false
 local autoUpgradeSpeed = false
 local upgradeSpeedAmount = 1
 local autoRebirth = false
+
+-- Unlock Zoom state
+local unlockZoomEnabled = false
+local prevCameraMin = nil
+local prevCameraMax = nil
 
 -- Sell All confirmation
 local lastSellAllClick = 0
@@ -740,6 +747,22 @@ local UpgCarryOnce = BaseTab:Button({
 	end
 })
 
+-- Unlock Zoom Limit
+UpgBase:Toggle({
+	Title = "Unlock Zoom Limit",
+	Desc = "Unlock camera zoom limits",
+	Value = savedSettings.unlockZoom,
+	Callback = function(state)
+		if state then
+			enableUnlockZoom()
+		else
+			disableUnlockZoom()
+		end
+		savedSettings.unlockZoom = state
+		saveSettings(savedSettings)
+	end
+})
+
 -- Buttons moved from Main (simplified)
 local SellAllBtn = BaseTab:Button({
 	Title = "Sell All Inventory",
@@ -1110,6 +1133,15 @@ task.spawn(function()
 	-- Apply Auto Spin UFO Wheel
 	if savedSettings.autoSpinUFO then
 		autoSpinUFO = true
+	end
+
+	-- Apply Unlock Zoom
+	if savedSettings.unlockZoom then
+		unlockZoomEnabled = true
+		enableUnlockZoom()
+	else
+		unlockZoomEnabled = false
+		disableUnlockZoom()
 	end
 	
 	-- Apply Anti-AFK
