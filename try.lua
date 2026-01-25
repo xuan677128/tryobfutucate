@@ -83,6 +83,12 @@ local Window = WindUI:CreateWindow({
     Resizable = true,
 })
 
+Window:EditOpenButton({
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
 -- Add version tag
 Window:Tag({
 	Title = "Server: " .. tostring(game.PlaceVersion),
@@ -290,11 +296,11 @@ task.spawn(function()
 		if autoCollectUFO then
 			pcall(function()
 				local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-				local folder = workspace:FindFirstChild("UFOEventParts") or workspace:FindFirstChild("UFOEventParts")
+				local folder = workspace:FindFirstChild("UFOEventParts") or workspace:FindFirstChild("UFQEventParts")
 				if not root or not folder then return end
 				for _, coin in ipairs(folder:GetChildren()) do
 					local name = coin.Name and coin.Name:lower() or ""
-					if name:find("UFO Coin") or name:find("ufo") then
+					if name:find("ufo coin") or name:find("ufo") then
 						local hitbox = coin:FindFirstChild("Hitbox") or coin:FindFirstChildWhichIsA("BasePart")
 						if hitbox and hitbox:IsA("BasePart") then
 							firetouchinterest(root, hitbox, 0)
