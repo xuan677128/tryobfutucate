@@ -712,7 +712,7 @@ TsunamiSection:Button({
 -- ================= BASE TAB ================= 
 local UpgBase = BaseTab:Section({Title = "Main", Opened = true,})
 
-local UpgBaseOnce = BaseTab:Button({
+local UpgBaseOnce = UpgBase:Button({
 	Title = "Upgrade Base",
 	Desc = "Purchase one base upgrade",
 	Locked = false,
@@ -730,7 +730,7 @@ local UpgBaseOnce = BaseTab:Button({
 })
 
 -- Upgrade Carry (manual)
-local UpgCarryOnce = BaseTab:Button({
+local UpgCarryOnce = UpgBase:Button({
 	Title = "Upgrade Carry",
 	Desc = "Purchase one carry upgrade",
 	Locked = false,
@@ -764,7 +764,7 @@ UpgBase:Toggle({
 })
 
 -- Buttons moved from Main (simplified)
-local SellAllBtn = BaseTab:Button({
+local SellAllBtn = UpgBase:Button({
 	Title = "Sell All Inventory",
 	Desc = "Double-click within 0.5s to confirm sell all",
 	Locked = false,
@@ -787,7 +787,7 @@ local SellAllBtn = BaseTab:Button({
 	end
 })
 
-local SellHeldBtn = BaseTab:Button({
+local SellHeldBtn = UpgBase:Button({
 	Title = "Sell Held Tool",
 	Desc = "Sells the brainrot you are currently holding",
 	Locked = false,
