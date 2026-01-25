@@ -9,6 +9,7 @@ print("--===== XUAN HUB LOADED (WindUI) =====--")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
+local TweenService = game:GetService("TweenService")
 
 -- ================= LOAD WINDUI =================
 local WindUI = loadstring(game:HttpGet(
@@ -270,6 +271,63 @@ local function findMyBase()
 		end
 	end
 	return nil
+end
+
+-- Improved teleport helpers
+local lastTeleportTime = 0
+local TELEPORT_COOLDOWN = 1 -- seconds
+
+local function getHomePart(base)
+	if not base then return nil end
+	local home = base:FindFirstChild("Home")
+	if home and home:IsA("BasePart") then return home end
+	return nil
+end
+
+local function findSafeCFrame(targetCFrame, upOffset)
+	upOffset = upOffset or 6
+	local origin = targetCFrame.Position + Vector3.new(0, 20, 0)
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = {player.Character}
+	params.FilterType = Enum.RaycastFilterType.Blacklist
+	local result = workspace:Raycast(origin, Vector3.new(0, -80, 0), params)
+	if result and result.Position then
+		return CFrame.new(result.Position + Vector3.new(0, upOffset, 0))
+	end
+	return targetCFrame + Vector3.new(0, upOffset, 0)
+end
+
+local function teleportToBaseSmooth()
+	if tick() - lastTeleportTime < TELEPORT_COOLDOWN then
+		WindUI:Notify({Title = "Teleport", Content = "Teleport cooldown", Icon = "alert-triangle", Duration = 2})
+		return
+	end
+	lastTeleportTime = tick()
+
+	local base = findMyBase()
+	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+	if not hrp then WindUI:Notify({Title = "Teleport", Content = "Character not ready", Icon = "alert-triangle", Duration = 3}); return end
+	if not base then WindUI:Notify({Title = "Teleport", Content = "No base found", Icon = "alert-triangle", Duration = 3}); return end
+	local home = getHomePart(base)
+	if not home then WindUI:Notify({Title = "Teleport", Content = "Base Home not found", Icon = "alert-triangle", Duration = 3}); return end
+
+	local targetCFrame = findSafeCFrame(home.CFrame, 6)
+	local prevCanCollide = hrp.CanCollide
+	pcall(function() hrp.CanCollide = false end)
+
+	local ok, err = pcall(function()
+		local tween = TweenService:Create(hrp, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = targetCFrame})
+		tween:Play()
+		tween.Completed:Wait()
+	end)
+
+	pcall(function() hrp.CanCollide = prevCanCollide end)
+
+	if ok then
+		WindUI:Notify({Title = "Teleport", Content = "Teleported to base", Icon = "check", Duration = 3})
+	else
+		WindUI:Notify({Title = "Teleport", Content = "Teleport failed: " .. tostring(err), Icon = "alert-triangle", Duration = 3})
+	end
 end
 
 task.spawn(function()
@@ -777,19 +835,7 @@ TsunamiSection:Button({
 	Desc = "Teleport to your base",
 	Locked = false,
 	Callback = function()
-		local base = findMyBase()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if base and base:FindFirstChild("Home") and root then
-			local home = base:FindFirstChild("Home")
-			if home and home:IsA("BasePart") then
-				root.CFrame = home.CFrame
-				WindUI:Notify({Title = "Teleport", Content = "Teleported to base", Icon = "check", Duration = 3})
-			else
-				WindUI:Notify({Title = "Teleport", Content = "Base not found or invalid", Icon = "alert-triangle", Duration = 3})
-			end
-		else
-			WindUI:Notify({Title = "Teleport", Content = "No base found", Icon = "alert-triangle", Duration = 3})
-		end
+		teleportToBaseSmooth()
 	end
 })
 
